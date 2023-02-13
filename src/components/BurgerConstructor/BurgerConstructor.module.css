@@ -1,0 +1,42 @@
+.BurgerConstructor {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    width: 568px;
+}
+
+.BurgerSection {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.BurgerConstructorItemList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 440px;
+    overflow-y: auto;
+}
+
+.Item {
+    min-width: 536px;
+    gap: 10px;
+}
+
+.Total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.Price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

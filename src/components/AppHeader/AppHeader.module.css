@@ -1,0 +1,35 @@
+.AppHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1c1c21;
+}
+
+.HeaderButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    max-width: 1240px;
+}
+
+.NavButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.AppHeaderItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.text_color_active {
+    color: #fff;
+}
+
+.Logo {
+    position: absolute;
+}

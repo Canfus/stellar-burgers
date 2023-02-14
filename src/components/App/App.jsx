@@ -42,7 +42,10 @@ const App = () => {
             .then(res => checkResponse(res))
             .then(data => {
                 setState({ ...state, isLoading: false, data: data.data });
-                setConstructorItems([data.data.find(item => item.type === 'bun')]);
+                setConstructorItems([
+                    data.data.find(item => item.type === 'bun'),
+                    data.data.find(item => item.type === 'main')
+                ]);
             });
         }
 

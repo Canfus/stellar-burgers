@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './App.module.css';
-import StellarBurgers from '../../utils/burger-api';
+import { getIngredientData } from '../../utils/burger-api';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -35,27 +35,10 @@ const App = () => {
         setOrderModalState(false);
         setIngredientInfoModalState(false);
     }, []);
-      
-    const getIngredientData = () => {
-        setState({ ...state, isLoading: true, hasError: false });
-        fetch(`${StellarBurgers.BURGER_API_URL}/ingredients`)
-            .then(res => checkResponse(res))
-            .then(data => {
-                setState({ ...state, isLoading: false, data: data.data });
-                setConstructorItems([
-                    data.data.find(item => item.type === 'bun'),
-                    data.data.find(item => item.type === 'main')
-                ]);
-            });
-        }
 
-    const checkResponse = (res) => {
-        return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
-    }
-
-      useEffect(() => {
-        getIngredientData();
-      }, []);
+    useEffect(() => {
+      getIngredientData(state, setState, setConstructorItems);
+    }, []);
 
     const addConstructorItem = useCallback((item) => {
         item.type !== 'bun' && setConstructorItems([...constructorItems, item]);

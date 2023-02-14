@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerIngredients.module.css';
 import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredientsItemList';
@@ -7,10 +7,11 @@ import IngredientItem from '../../utils/types';
 
 const BurgerIngredients = (props) => {
     const { data, constructorItems, onHandleOpenModal } = props;
-    const buns = data.filter(item => item.type === 'bun');
-    const mains = data.filter(item => item.type === 'main');
-    const sauces = data.filter(item => item.type === 'sauce');
 
+    const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
+    const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
+    const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);
+    
     return (
         <div className={`${styles.BurgerIngredients} mt-10`}>
             <p className='text text_type_main-large mb-5'>
@@ -28,7 +29,7 @@ const BurgerIngredients = (props) => {
 
 BurgerIngredients.propTypes = {
     data: PropTypes.array.isRequired,
-    constructorItems: PropTypes.arrayOf(IngredientItem).isRequired,
+    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onHandleOpenModal: PropTypes.func.isRequired
 }
 

@@ -1,16 +1,12 @@
 import { memo } from 'react';
 import styles from './OrderDetails.module.css';
 import PropTypes from 'prop-types';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const OrderDetails = (props) => {
-    const { orderNumber, onClose } = props;
+    const { orderNumber } = props;
 
     return (
         <div className={`${styles.OrderDetails} pt-30 pb-30`}>
-            <section className={`${styles.Close} mt-15 mr-10`}>
-                <CloseIcon type='primary' onClick={onClose} />
-            </section>
             <span className={`${styles.OrderNumber} text text_type_digits-large mb-8`}>
                 {orderNumber}
             </span>
@@ -73,8 +69,7 @@ const OrderDetails = (props) => {
 };
 
 OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired,
-    onClose: PropTypes.func.isRequired
+    orderNumber: PropTypes.number.isRequired
 };
 
 export default memo(OrderDetails);

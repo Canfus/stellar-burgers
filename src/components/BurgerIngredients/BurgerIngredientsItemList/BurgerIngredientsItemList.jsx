@@ -2,7 +2,7 @@ import { memo } from 'react';
 import PropTypes from 'prop-types';
 import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
 import styles from './BurgerIngredientsItemList.module.css';
-import ConstructorItem from '../../../utils/types';
+import IngredientItem from '../../../utils/types';
 
 const BurgerIngredientsItemList = (props) => {
     const { title, data, constructorItems, onHandleOpenModal } = props;
@@ -14,7 +14,7 @@ const BurgerIngredientsItemList = (props) => {
             </p>
             <section className={`${styles.IngredientsContainer} ml-4`}>
                 {
-                    data.map((item) => <BurgerIngredientsItem key={data[data.indexOf(item)]._id} constructorItems={constructorItems} item={item} onHandleOpenModal={onHandleOpenModal} />)
+                    data.map((item) => <BurgerIngredientsItem key={item._id} constructorItems={constructorItems} item={item} onHandleOpenModal={onHandleOpenModal} />)
                 }
             </section>
         </div>
@@ -23,8 +23,8 @@ const BurgerIngredientsItemList = (props) => {
 
 BurgerIngredientsItemList.propTypes = {
     title: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(ConstructorItem).isRequired,
-    constructorItems: PropTypes.arrayOf(ConstructorItem).isRequired,
+    data: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
+    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onHandleOpenModal: PropTypes.func.isRequired
 }
 

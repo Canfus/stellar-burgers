@@ -1,19 +1,16 @@
 import { memo } from 'react';
-import PropTypes from 'prop-types';
 import styles from './IngredientDetails.module.css';
 import IngredientItem from '../../../utils/types';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const IngredientDetails = (props) => {
-    const { ingredientItem, onClose } = props;
+    const { ingredientItem } = props;
 
     return (
         <div className={styles.IngredientDetails}>
-            <header className={`${styles.IngredientHeader} ml-10 mt-10 mr-10`}>
+            <header className={`${styles.IngredientHeader} ml-10 mt-15 mr-10`}>
                 <span className='text text_type_main-large'>
                     Детали ингредиента
                 </span>
-                <CloseIcon type='primary' onClick={onClose} />
             </header>
             <img src={ingredientItem.image_large} alt="ingredient_image" />
             <span className={`text text_type_main-medium ${styles.IngredientTitle} mt-4 mb-8`}>{ingredientItem.name}</span>
@@ -56,8 +53,7 @@ const IngredientDetails = (props) => {
 };
 
 IngredientDetails.propTypes = {
-    ingredientItem: IngredientItem.isRequired,
-    onClose: PropTypes.func.isRequired
+    ingredientItem: IngredientItem.isRequired
 };
 
 export default memo(IngredientDetails);

@@ -1,8 +1,8 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState, memo, useEffect } from 'react';
+import { useState, memo, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerConstructor.module.css';
-import ConstructorItem from '../../utils/types';
+import IngredientItem from '../../utils/types';
  
 const BurgerConstructor = (props) => {
     const { constructorItems, onDeleteItem, onHandleCloseModal } = props;
@@ -12,11 +12,9 @@ const BurgerConstructor = (props) => {
     const [totalPrice, setTotalPrice] = useState(0);
     // Calculating totalPrice when constructorItems will changes
     useEffect(() => {
-        const prices = [];
-        constructorItems.forEach(item => prices.push(item.price));
-
-        setTotalPrice(prices.reduce((acc, price) => acc + price, 0) + bun.price);
+        setTotalPrice(constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price);
     }, [constructorItems, bun.price]);
+
     return (
         <div className={`${styles.BurgerConstructor} ml-10 mt-25`}>
             <section className={styles.BurgerSection}>
@@ -75,7 +73,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-    constructorItems: PropTypes.arrayOf(ConstructorItem).isRequired,
+    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onDeleteItem: PropTypes.func.isRequired,
     onHandleCloseModal: PropTypes.func.isRequired
 }

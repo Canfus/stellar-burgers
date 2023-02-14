@@ -1,13 +1,16 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import ConstructorItem from '../../../utils/types';
+import IngredientItem from '../../../utils/types';
 import styles from './BurgerIngredientsItem.module.css';
 
 const BurgerIngredientsItem = (props) => {
     const { constructorItems, item, onHandleOpenModal } = props;
 
-    const count = constructorItems.filter(i => i === item).length;
+    const count = useMemo(() => {
+        return constructorItems
+            .filter(i => i._id === item._id).length;
+    }, [constructorItems, item._id]);
 
     return (
         <div
@@ -27,16 +30,9 @@ const BurgerIngredientsItem = (props) => {
     );
 };
 
-const BurgerIngredient = PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-});
-
 BurgerIngredientsItem.propTypes = {
-    item: BurgerIngredient.isRequired,
-    constructorItems: PropTypes.arrayOf(ConstructorItem).isRequired,
+    item: IngredientItem.isRequired,
+    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onHandleOpenModal: PropTypes.func.isRequired
 }
 

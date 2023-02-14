@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './App.module.css';
+import StellarBurgers from '../../utils/burger-api';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -19,7 +20,7 @@ const App = () => {
     const [orderModalState, setOrderModalState] = useState(false);
     const [ingredientInfoModalState, setIngredientInfoModalState] = useState({
         isVisible: false,
-        item: {}
+        item: null
     });
 
     const handleOpenOrderModal = useCallback(() => {
@@ -37,27 +38,30 @@ const App = () => {
       
     const getIngredientData = () => {
         setState({ ...state, isLoading: true, hasError: false });
-        fetch('https://norma.nomoreparties.space/api/ingredients')
-            .then(res => res.json())
+        fetch(`${StellarBurgers.BURGER_API_URL}/ingredients`)
+            .then(res => checkResponse(res))
             .then(data => {
                 setState({ ...state, isLoading: false, data: data.data });
-                setConstructorItems([data.data.find((item) => item.type === 'bun')]);
-            })
-            .catch(error => console.log(error));
-      }
+                setConstructorItems([data.data.find(item => item.type === 'bun')]);
+            });
+        }
+
+    const checkResponse = (res) => {
+        return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
+    }
 
       useEffect(() => {
         getIngredientData();
       }, []);
 
-    /* const addConstructorItem = useCallback((item) => {
+    const addConstructorItem = useCallback((item) => {
         item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
         item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
-    }, []); */
+    });
 
     const deleteConstructorItem = useCallback((index) => {
         setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));
-    }, []);
+    });
 
     return (
         <div className={styles.App}>
@@ -71,14 +75,14 @@ const App = () => {
             {orderModalState &&
                 (
                     <Modal onClose={handleCloseModal}>
-                        <OrderDetails orderNumber={123456} onClose={handleCloseModal} />
+                        <OrderDetails orderNumber={Math.floor(Math.random() * 999999)} />
                     </Modal>
                 )
             }
             {ingredientInfoModalState.isVisible &&
                 (
                     <Modal onClose={handleCloseModal}>
-                        <IngredientDetails ingredientItem={ingredientInfoModalState.item} onClose={handleCloseModal} />
+                        <IngredientDetails ingredientItem={ingredientInfoModalState.item} />
                     </Modal>
                 )
             }

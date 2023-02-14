@@ -8,11 +8,9 @@ const BurgerConstructor = (props) => {
     const { constructorItems, onDeleteItem, onHandleCloseModal } = props;
 
     const bun = constructorItems.find(item => item.type === 'bun');
-    // State of total price
-    const [totalPrice, setTotalPrice] = useState(0);
-    // Calculating totalPrice when constructorItems will changes
-    useEffect(() => {
-        setTotalPrice(constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price);
+    
+    const totalPrice = useMemo(() => {
+        return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
     }, [constructorItems, bun.price]);
 
     return (

@@ -40,10 +40,10 @@ const App = () => {
       getIngredientData(state, setState, setConstructorItems);
     }, []);
 
-    const addConstructorItem = useCallback((item) => {
+    /* const addConstructorItem = useCallback((item) => {
         item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
         item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
-    });
+    }); */
 
     const deleteConstructorItem = useCallback((index) => {
         setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));

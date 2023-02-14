@@ -1,5 +1,5 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState, memo, useEffect, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerConstructor.module.css';
 import IngredientItem from '../../utils/types';

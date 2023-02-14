@@ -31,13 +31,23 @@ const App = () => {
         setIngredientInfoModalState({ isVisible: true, item: item });
     }, []);
 
-    const handleCloseModal = useCallback(() => {
+    const handleCloseModal = useCallback((e = undefined) => {
+        if (e !== undefined && e.key === 'Escape') {
+            setOrderModalState(false);
+            setIngredientInfoModalState(false);
+        }
         setOrderModalState(false);
         setIngredientInfoModalState(false);
     }, []);
 
     useEffect(() => {
       getIngredientData(state, setState, setConstructorItems);
+
+      document.addEventListener('keydown', handleCloseModal);
+
+      return () => {
+        document.removeEventListener('keydown', handleCloseModal);
+      }
     }, []);
 
     /* const addConstructorItem = useCallback((item) => {

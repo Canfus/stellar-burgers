@@ -3,6 +3,7 @@ import { memo, useState } from 'react';
 import styles from './BurgerIngredientsTab.module.css';
 
 const BurgerIngredientsTab = () => {
+    // State of current Tab
     const [current, setCurrent] = useState('one');
 
     return (

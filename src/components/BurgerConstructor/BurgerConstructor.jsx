@@ -7,8 +7,12 @@ import IngredientItem from '../../utils/types';
 const BurgerConstructor = (props) => {
     const { constructorItems, onDeleteItem, onHandleCloseModal } = props;
 
-    const bun = constructorItems.find(item => item.type === 'bun');
+    // Get bun from constructorItems array
+    const bun = useMemo(() => {
+        return constructorItems.find(item => item.type === 'bun');
+    }, [constructorItems]);
     
+    // Calculating total price of igredients
     const totalPrice = useMemo(() => {
         return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
     }, [constructorItems, bun.price]);

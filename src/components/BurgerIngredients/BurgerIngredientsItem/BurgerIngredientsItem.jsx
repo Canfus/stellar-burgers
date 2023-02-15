@@ -7,6 +7,7 @@ import styles from './BurgerIngredientsItem.module.css';
 const BurgerIngredientsItem = (props) => {
     const { constructorItems, item, onHandleOpenModal } = props;
 
+    // Calculate count of ingredient
     const count = useMemo(() => {
         return constructorItems
             .filter(i => i._id === item._id).length;

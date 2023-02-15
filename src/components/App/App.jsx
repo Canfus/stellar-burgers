@@ -9,52 +9,65 @@ import OrderDetails from '../Modal/OrderDetails/OrderDetails';
 import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 
 const App = () => {
+    // Application state
     const [state, setState] = useState({
         isLoading: false,
         hasError: false,
         data: []
     });
 
+    // Burger Constructor state
     const [constructorItems, setConstructorItems] = useState([]);
-
+    
+    // Modal popups states
     const [orderModalState, setOrderModalState] = useState(false);
     const [ingredientInfoModalState, setIngredientInfoModalState] = useState({
         isVisible: false,
         item: null
     });
 
+    // Open/Close Order modal popup functions
     const handleOpenOrderModal = useCallback(() => {
         setOrderModalState(true);
     }, []);
 
+    const handleCloseOrderModal = useCallback((e) => {
+        if (e !== undefined && e.key === 'Escape') {
+            setOrderModalState(false);
+            return;
+        }
+        setOrderModalState(false);
+    }, []);
+    
+    // Open/Close Ingredient info modal popup functions
     const handleOpenIgredientInfoModal = useCallback((item) => {
         setIngredientInfoModalState({ isVisible: true, item: item });
     }, []);
 
-    const handleCloseModal = useCallback((e = undefined) => {
+    const handleCloseIgredientInfoModal = useCallback((e = undefined) => {
         if (e !== undefined && e.key === 'Escape') {
-            setOrderModalState(false);
-            setIngredientInfoModalState(false);
+            setIngredientInfoModalState({ isVisible: false, item: null });
+            return;
         }
-        setOrderModalState(false);
-        setIngredientInfoModalState(false);
+        setIngredientInfoModalState({ isVisible: false, item: null });
     }, []);
 
+    // Get ingredients when application starts
     useEffect(() => {
-      getIngredientData(state, setState, setConstructorItems);
-
-      document.addEventListener('keydown', handleCloseModal);
-
-      return () => {
-        document.removeEventListener('keydown', handleCloseModal);
-      }
+        setState({ ...state, isLoading: true, hasError: false });
+        getIngredientData().then(data => {
+            setState({ ...state, isLoading: false, data: data.data });
+            setConstructorItems([data.data.find(item => item.type === 'bun'), data.data.find(item => item.type === 'main')]);
+        });
     }, []);
 
+    // Add ingredient to constructor
     /* const addConstructorItem = useCallback((item) => {
         item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
         item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
     }); */
 
+    // Delete ingredient from constructor
     const deleteConstructorItem = useCallback((index) => {
         setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));
     });
@@ -70,14 +83,14 @@ const App = () => {
             }
             {orderModalState &&
                 (
-                    <Modal onClose={handleCloseModal}>
+                    <Modal onClose={handleCloseOrderModal}>
                         <OrderDetails orderNumber={Math.floor(Math.random() * 999999)} />
                     </Modal>
                 )
             }
             {ingredientInfoModalState.isVisible &&
                 (
-                    <Modal onClose={handleCloseModal}>
+                    <Modal onClose={handleCloseIgredientInfoModal}>
                         <IngredientDetails ingredientItem={ingredientInfoModalState.item} />
                     </Modal>
                 )

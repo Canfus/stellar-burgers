@@ -31,11 +31,7 @@ const App = () => {
         setOrderModalState(true);
     }, []);
 
-    const handleCloseOrderModal = useCallback((e) => {
-        if (e !== undefined && e.key === 'Escape') {
-            setOrderModalState(false);
-            return;
-        }
+    const handleCloseOrderModal = useCallback(() => {
         setOrderModalState(false);
     }, []);
     

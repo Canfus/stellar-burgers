@@ -12,11 +12,17 @@ const Modal = (props) => {
 
     // Add event listener when component did mount
     useEffect(() => {
-        document.addEventListener('keydown', (e) => onClose(e));
+        const handleKeydownModalClose = (e) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        }
+
+        document.addEventListener('keydown', handleKeydownModalClose);
 
         // Remove event listener when component will unmount
         return () => {
-            document.removeEventListener('keydown', onClose);
+            document.removeEventListener('keydown', handleKeydownModalClose);
         }
     }, []);
 

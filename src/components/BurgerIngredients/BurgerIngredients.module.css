@@ -1,0 +1,13 @@
+.BurgerIngredients {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 600px;
+    height: 80vh;
+    max-height: 920px;
+}
+
+.BurgerIngredientsContainer {
+    overflow-y: scroll;
+}

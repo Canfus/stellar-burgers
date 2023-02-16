@@ -1,12 +1,17 @@
-import { memo, useMemo } from 'react';
+import { memo, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerIngredients.module.css';
 import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredientsItemList';
 import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
-import IngredientItem from '../../utils/types';
+import { AppContext } from '../../context/AppContext';
+import { ConstructorContext } from '../../context/ConstructorContext';
 
 const BurgerIngredients = (props) => {
-    const { data, constructorItems, onHandleOpenModal } = props;
+    const { onHandleOpenModal } = props;
+
+    // Import data from context
+    const data = useContext(AppContext);
+    const constructorItems = useContext(ConstructorContext);
 
     // Sort ingredients by type
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
@@ -29,8 +34,6 @@ const BurgerIngredients = (props) => {
 };
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.array.isRequired,
-    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onHandleOpenModal: PropTypes.func.isRequired
 }
 

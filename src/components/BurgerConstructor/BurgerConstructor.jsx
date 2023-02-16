@@ -1,11 +1,20 @@
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { memo, useMemo } from 'react';
+// Import React functions
+import { memo, useContext, useEffect, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerConstructor.module.css';
-import IngredientItem from '../../utils/types';
+
+//Import Burger UI components
+import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+// Import contexts
+import { ConstructorContext } from '../../context/ConstructorContext';
  
+
 const BurgerConstructor = (props) => {
-    const { constructorItems, onDeleteItem, onHandleCloseModal } = props;
+    const { onDeleteItem, onHandleOpenModal } = props;
+
+    // Import data from context
+    const constructorItems = useContext(ConstructorContext);
 
     // Get bun from constructorItems array
     const bun = useMemo(() => {
@@ -13,9 +22,22 @@ const BurgerConstructor = (props) => {
     }, [constructorItems]);
     
     // Calculating total price of igredients
-    const totalPrice = useMemo(() => {
-        return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
-    }, [constructorItems, bun.price]);
+    const initialTotalPrice = { totalPrice: 0 };
+
+    const totalPriceReducer = (state, action) => {
+        switch (action.type) {
+            case 'calc':
+                return { totalPrice: constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price };
+            default:
+                throw new Error(`Wrong type of action: ${action.type}`);
+        }
+    }
+
+    const [totalPriceState, totalPriceDispatcher] = useReducer(totalPriceReducer, initialTotalPrice, undefined);
+
+    useEffect(() => {
+        totalPriceDispatcher({ type: 'calc' });
+    }, [constructorItems]);
 
     return (
         <div className={`${styles.BurgerConstructor} ml-10 mt-25`}>
@@ -56,7 +78,7 @@ const BurgerConstructor = (props) => {
             <section className={`${styles.Total} mt-10`}>
                 <section className={`${styles.Price} mr-10`}>
                     <p className='text text_type_digits-medium'>
-                        {totalPrice}
+                        {totalPriceState.totalPrice}
                     </p>
                     <CurrencyIcon type='primary' />
                 </section>
@@ -65,7 +87,7 @@ const BurgerConstructor = (props) => {
                     type='primary'
                     size='medium'
                     extraClass='mr-4'
-                    onClick={onHandleCloseModal}
+                    onClick={onHandleOpenModal}
                 >
                     Оформить заказ
                 </Button>
@@ -75,9 +97,8 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onDeleteItem: PropTypes.func.isRequired,
-    onHandleCloseModal: PropTypes.func.isRequired
+    onHandleOpenModal: PropTypes.func.isRequired
 }
 
 export default memo(BurgerConstructor);

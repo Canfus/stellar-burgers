@@ -1,14 +1,18 @@
-import { memo } from 'react';
+// Import React functions
+import { memo, useContext } from 'react';
 import styles from './OrderDetails.module.css';
-import PropTypes from 'prop-types';
 
-const OrderDetails = (props) => {
-    const { orderNumber } = props;
+// Import contextx
+import { OrderContext } from '../../../context/OrderContext';
+
+const OrderDetails = () => {
+    // Import data from context
+    const orderState = useContext(OrderContext);
 
     return (
         <div className={`${styles.OrderDetails} pt-30 pb-30`}>
             <span className={`${styles.OrderNumber} text text_type_digits-large mb-8`}>
-                {orderNumber}
+                {orderState}
             </span>
             <span className='text text_type_main-medium'>
                 идентефикатор заказа
@@ -66,10 +70,6 @@ const OrderDetails = (props) => {
             </span>
         </div>
     );
-};
-
-OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired
 };
 
 export default memo(OrderDetails);

@@ -1,17 +1,20 @@
+// Import React functions
 import { memo, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerIngredients.module.css';
+
+// Import Burger UI components
 import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredientsItemList';
 import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
+
+// Import contexts
 import { AppContext } from '../../context/AppContext';
-import { ConstructorContext } from '../../context/ConstructorContext';
 
 const BurgerIngredients = (props) => {
     const { onHandleOpenModal } = props;
 
     // Import data from context
     const data = useContext(AppContext);
-    const constructorItems = useContext(ConstructorContext);
 
     // Sort ingredients by type
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
@@ -25,9 +28,9 @@ const BurgerIngredients = (props) => {
             </p>
             <BurgerIngredientsTab />
             <section className={styles.BurgerIngredientsContainer}>
-                <BurgerIngredientsItemList title='Булки' data={buns} constructorItems={constructorItems} onHandleOpenModal={onHandleOpenModal} />
-                <BurgerIngredientsItemList title='Соусы' data={sauces} constructorItems={constructorItems} onHandleOpenModal={onHandleOpenModal} />
-                <BurgerIngredientsItemList title='Начинки' data={mains} constructorItems={constructorItems} onHandleOpenModal={onHandleOpenModal} />
+                <BurgerIngredientsItemList title='Булки' data={buns} onHandleOpenModal={onHandleOpenModal} />
+                <BurgerIngredientsItemList title='Соусы' data={sauces} onHandleOpenModal={onHandleOpenModal} />
+                <BurgerIngredientsItemList title='Начинки' data={mains} onHandleOpenModal={onHandleOpenModal} />
             </section>
         </div>
     );

@@ -18,6 +18,7 @@ import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 // Import contexts
 import { AppContext } from '../../context/AppContext';
 import { ConstructorContext } from '../../context/ConstructorContext';
+import { OrderContext } from '../../context/OrderContext';
 
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
 
     // Burger Constructor state
     const [constructorItems, setConstructorItems] = useState([]);
-    
+
     // Modal popups states
     const [orderModalState, setOrderModalState] = useState(false);
     const [ingredientInfoModalState, setIngredientInfoModalState] = useState({
@@ -47,7 +48,7 @@ const App = () => {
     const handleCloseOrderModal = useCallback(() => {
         setOrderModalState(false);
     }, []);
-    
+
     // Open/Close Ingredient info modal popup functions
     const handleOpenIgredientInfoModal = useCallback((item) => {
         setIngredientInfoModalState({ isVisible: true, item: item });
@@ -78,14 +79,12 @@ const App = () => {
         setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));
     });
 
+    const [orderState, setOrderState] = useState(0);
+
     const handlePostOrder = () => {
-        let ingredientsId = [];
-        console.log(constructorItems);
-        constructorItems.forEach(item => {
-            ingredientsId.push(item._id);
-        });
+        const ingredientsId = constructorItems.map(item => item._id);
         postIngredients(ingredientsId).then(data => {
-            console.log(data);
+            setOrderState(data.order.number);
         });
     }
 
@@ -105,9 +104,11 @@ const App = () => {
                     }
                     {orderModalState &&
                         (
-                            <Modal onClose={handleCloseOrderModal}>
-                                <OrderDetails orderNumber={123456} />
-                            </Modal>
+                            <OrderContext.Provider value={orderState}>
+                                <Modal onClose={handleCloseOrderModal}>
+                                    <OrderDetails />
+                                </Modal>
+                            </OrderContext.Provider>
                         )
                     }
                     {ingredientInfoModalState.isVisible &&

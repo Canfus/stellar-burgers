@@ -1,11 +1,22 @@
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { memo, useMemo } from 'react';
+// Import React functions
+import { memo, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
-import IngredientItem from '../../../utils/types';
 import styles from './BurgerIngredientsItem.module.css';
 
+// Import PropType
+import IngredientItem from '../../../utils/types';
+
+// Import Burger UI components
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+// Import contexts
+import { ConstructorContext } from '../../../context/ConstructorContext';
+
 const BurgerIngredientsItem = (props) => {
-    const { constructorItems, item, onHandleOpenModal } = props;
+    const { item, onHandleOpenModal } = props;
+
+    // Import data from contexts
+    const constructorItems = useContext(ConstructorContext);
 
     // Calculate count of ingredient
     const count = useMemo(() => {
@@ -33,7 +44,6 @@ const BurgerIngredientsItem = (props) => {
 
 BurgerIngredientsItem.propTypes = {
     item: IngredientItem.isRequired,
-    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
     onHandleOpenModal: PropTypes.func.isRequired
 }
 

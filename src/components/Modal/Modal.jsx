@@ -1,10 +1,16 @@
+// Import React functions
 import { memo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Modal.module.css';
 import PropTypes from 'prop-types';
+
+// Import components
 import ModalOverlay from './ModalOverlay/ModalOverlay';
-import { createPortal } from 'react-dom';
+
+// Import Burger UI components
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+// Create root
 const modalRoot = document.getElementById('modals');
 
 const Modal = (props) => {
@@ -18,6 +24,7 @@ const Modal = (props) => {
             }
         }
 
+        // Add event listener when component did mount
         document.addEventListener('keydown', handleKeydownModalClose);
 
         // Remove event listener when component will unmount

@@ -1,3 +1,4 @@
+// Import React functions
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ModalOverlay.module.css';

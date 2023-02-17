@@ -1,6 +1,9 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+// Import React functions
 import { memo, useState } from 'react';
 import styles from './BurgerIngredientsTab.module.css';
+
+// Import Burger UI components
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const BurgerIngredientsTab = () => {
     // State of current Tab

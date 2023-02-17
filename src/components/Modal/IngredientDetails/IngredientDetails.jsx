@@ -1,5 +1,8 @@
+// Import React functions
 import { memo } from 'react';
 import styles from './IngredientDetails.module.css';
+
+// Import PropType
 import IngredientItem from '../../../utils/types';
 
 const IngredientDetails = (props) => {

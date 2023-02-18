@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './App.module.css';
 
 // Import burger-api functions
-import { getIngredientData, postIngredients } from '../../utils/burger-api';
+import { getIngredientData } from '../../utils/burger-api';
 
 // Import main components
 import AppHeader from '../AppHeader/AppHeader';
@@ -20,7 +20,6 @@ import { AppContext } from '../../context/AppContext';
 import { ConstructorContext } from '../../context/ConstructorContext';
 import { OrderContext } from '../../context/OrderContext';
 
-
 const App = () => {
     // Application state
     const [state, setState] = useState({
@@ -30,79 +29,48 @@ const App = () => {
     });
 
     // Burger Constructor state
-    const [constructorItems, setConstructorItems] = useState([]);
-
-    // Modal popups states
-    const [orderModalState, setOrderModalState] = useState(false);
-    const [ingredientInfoModalState, setIngredientInfoModalState] = useState({
-        isVisible: false,
-        item: null
-    });
-
-    // Open/Close Order modal popup functions
-    const handleOpenOrderModal = useCallback(() => {
-        setOrderModalState(true);
-        handlePostOrder(constructorItems);
-    }, []);
-
-    const handleCloseOrderModal = useCallback(() => {
-        setOrderModalState(false);
-    }, []);
-
-    // Open/Close Ingredient info modal popup functions
-    const handleOpenIgredientInfoModal = useCallback((item) => {
-        setIngredientInfoModalState({ isVisible: true, item: item });
-    }, []);
-
-    const handleCloseIgredientInfoModal = useCallback(() => {
-        setIngredientInfoModalState({ isVisible: false, item: null });
-    }, []);
+    const constructorItemsState = useState([]);
 
     // Get ingredients when application starts
     useEffect(() => {
         setState({ ...state, isLoading: true, hasError: false });
         getIngredientData().then(data => {
             setState({ ...state, isLoading: false, data: data.data });
-            setConstructorItems([data.data.find(item => item.type === 'bun')]);
+            constructorItemsState[1]([data.data.find(item => item.type === 'bun')]);
         });
     }, []);
 
-    // Add ingredient to constructor
-    const addConstructorItem = useCallback((item) => {
-        item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
-        item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
-        console.log(constructorItems);
-    });
-
-    // Delete ingredient from constructor
-    const deleteConstructorItem = useCallback((index) => {
-        setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));
-    });
-
+    // Modal popups 
     const [orderState, setOrderState] = useState(0);
+    const [ingredientInfoModalState, setIngredientInfoModalState] = useState({
+        isVisible: false,
+        item: null
+    });
 
-    const handlePostOrder = () => {
-        const ingredientsId = constructorItems.map(item => item._id);
-        postIngredients(ingredientsId).then(data => {
-            setOrderState(data.order.number);
-        });
-    }
+    // Close Order modal popup functions
+    const handleCloseOrderModal = useCallback(() => {
+        setOrderState(0);
+    }, [setOrderState]);
+
+    // Close Ingredient info modal popup functions
+    const handleCloseIgredientInfoModal = useCallback(() => {
+        setIngredientInfoModalState({ isVisible: false, item: null });
+    }, [setIngredientInfoModalState]);
 
     return (
         <div className={styles.App}>
             <AppContext.Provider value={state.data}>
-                <ConstructorContext.Provider value={constructorItems}>
+                <ConstructorContext.Provider value={constructorItemsState}>
                     <AppHeader />
                     {!state.isLoading && !state.hasError && state.data.length &&
                         <section className={styles.Main}>
-                            <BurgerIngredients onHandleOpenModal={addConstructorItem} />
+                            <BurgerIngredients setIngredientInfoModalState={setIngredientInfoModalState} />
                             <BurgerConstructor
-                                onDeleteItem={deleteConstructorItem}
-                                onHandleOpenModal={handleOpenOrderModal}
+                                setOrderState={setOrderState}
                             />
                         </section>
                     }
-                    {orderModalState &&
+                    {orderState > 0 &&
                         (
                             <OrderContext.Provider value={orderState}>
                                 <Modal onClose={handleCloseOrderModal}>

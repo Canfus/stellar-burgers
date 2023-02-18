@@ -1,9 +1,12 @@
 // Import React functions
-import { memo, useContext, useEffect, useMemo, useReducer } from 'react';
+import { memo, useContext, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerConstructor.module.css';
 
-//Import Burger UI components
+// Import burger-api functions
+import { postIngredients } from '../../utils/burger-api';
+
+// Import Burger UI components
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // Import contexts
@@ -11,10 +14,10 @@ import { ConstructorContext } from '../../context/ConstructorContext';
  
 
 const BurgerConstructor = (props) => {
-    const { onDeleteItem, onHandleOpenModal } = props;
+    const { setOrderState } = props;
 
     // Import data from context
-    const constructorItems = useContext(ConstructorContext);
+    const [constructorItems, setConstructorItems] = useContext(ConstructorContext);
 
     // Get bun from constructorItems array
     const bun = useMemo(() => {
@@ -22,22 +25,26 @@ const BurgerConstructor = (props) => {
     }, [constructorItems]);
     
     // Calculating total price of igredients
-    const initialTotalPrice = { totalPrice: 0 };
+    const totalPrice = useMemo(() => {
+        return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
+    }, [constructorItems]);
 
-    const totalPriceReducer = (state, action) => {
-        switch (action.type) {
-            case 'calc':
-                return { totalPrice: constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price };
-            default:
-                throw new Error(`Wrong type of action: ${action.type}`);
-        }
+    // Open/Close Order modal popup functions
+    const handleSetOrder = useCallback(() => {
+        handlePostOrder(constructorItems);
+    }, [constructorItems]);
+
+    const handlePostOrder = () => {
+        const ingredientsId = constructorItems.map(item => item._id);
+        postIngredients({ ingredients: ingredientsId }).then(data => {
+            setOrderState(data.order.number);
+        });
     }
 
-    const [totalPriceState, totalPriceDispatcher] = useReducer(totalPriceReducer, initialTotalPrice, undefined);
-
-    useEffect(() => {
-        totalPriceDispatcher({ type: 'calc' });
-    }, [constructorItems]);
+    // Delete ingredient from constructor
+    const deleteConstructorItem = useCallback((index) => {
+        setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));
+    }, [constructorItems, setConstructorItems]);
 
     return (
         <div className={`${styles.BurgerConstructor} ml-10 mt-25`}>
@@ -60,7 +67,7 @@ const BurgerConstructor = (props) => {
                                     price={item.price}
                                     thumbnail={item.image_mobile}
                                     extraClass={`${styles.Item}`}
-                                    handleClose={() => onDeleteItem(index)}
+                                    handleClose={() => deleteConstructorItem(index)}
                                 />
                             </section>
                         ))
@@ -78,7 +85,7 @@ const BurgerConstructor = (props) => {
             <section className={`${styles.Total} mt-10`}>
                 <section className={`${styles.Price} mr-10`}>
                     <p className='text text_type_digits-medium'>
-                        {totalPriceState.totalPrice}
+                        {totalPrice}
                     </p>
                     <CurrencyIcon type='primary' />
                 </section>
@@ -87,7 +94,7 @@ const BurgerConstructor = (props) => {
                     type='primary'
                     size='medium'
                     extraClass='mr-4'
-                    onClick={onHandleOpenModal}
+                    onClick={handleSetOrder}
                 >
                     Оформить заказ
                 </Button>
@@ -97,8 +104,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-    onDeleteItem: PropTypes.func.isRequired,
-    onHandleOpenModal: PropTypes.func.isRequired
+    setOrderState: PropTypes.func.isRequired
 }
 
 export default memo(BurgerConstructor);

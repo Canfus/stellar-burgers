@@ -1,5 +1,5 @@
 // Import React functions
-import { memo, useMemo, useContext } from 'react';
+import { memo, useMemo, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerIngredientsItem.module.css';
 
@@ -16,18 +16,23 @@ const BurgerIngredientsItem = (props) => {
     const { item, onHandleOpenModal } = props;
 
     // Import data from contexts
-    const constructorItems = useContext(ConstructorContext);
+    const [constructorItems, setConstructorItems] = useContext(ConstructorContext);
 
     // Calculate count of ingredient
     const count = useMemo(() => {
-        return constructorItems
-            .filter(i => i._id === item._id).length;
+        return constructorItems.filter(i => i._id === item._id).length;
     }, [constructorItems, item._id]);
+
+    // Add ingredient to constructor
+    const addConstructorItem = useCallback((item) => {
+        item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
+        item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
+    }, [setConstructorItems, constructorItems]);
 
     return (
         <div
             className={`${styles.BurgerIngredientsItem} mb-8`}
-            onClick={() => {onHandleOpenModal(item)}}
+            onClick={() => {addConstructorItem(item)}}
         >
             <img src={item.image} alt="bun" className={styles.BurgerImage} />
             {count > 0 && <Counter count={count} size='default' extraClass='m-1' />}

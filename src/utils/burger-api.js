@@ -13,15 +13,13 @@ export const getIngredientData = async () => {
 }
 
 // Function will post to the server and return Promise of burger
-export const postIngredients = async (ingredientsId) => {
+export const postIngredients = async (orderData) => {
     const res = await fetch(`${BURGER_API_URL}/orders`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
-        body: JSON.stringify({
-            ingredients: ingredientsId
-        })
+        body: JSON.stringify(orderData)
     });
     return checkResponse(res);
 }

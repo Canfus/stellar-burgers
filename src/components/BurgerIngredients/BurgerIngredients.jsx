@@ -1,5 +1,5 @@
 // Import React functions
-import { memo, useContext, useMemo } from 'react';
+import { memo, useContext, useMemo, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerIngredients.module.css';
 
@@ -11,7 +11,7 @@ import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
 import { AppContext } from '../../context/AppContext';
 
 const BurgerIngredients = (props) => {
-    const { onHandleOpenModal } = props;
+    const { setIngredientInfoModalState } = props;
 
     // Import data from context
     const data = useContext(AppContext);
@@ -20,6 +20,11 @@ const BurgerIngredients = (props) => {
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
     const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);
+
+    // 
+    const handleOpenIgredientInfoModal = useCallback((item) => {
+        setIngredientInfoModalState({ isVisible: true, item: item });
+    }, [setIngredientInfoModalState]);
     
     return (
         <div className={`${styles.BurgerIngredients} mt-10`}>
@@ -28,16 +33,16 @@ const BurgerIngredients = (props) => {
             </p>
             <BurgerIngredientsTab />
             <section className={styles.BurgerIngredientsContainer}>
-                <BurgerIngredientsItemList title='Булки' data={buns} onHandleOpenModal={onHandleOpenModal} />
-                <BurgerIngredientsItemList title='Соусы' data={sauces} onHandleOpenModal={onHandleOpenModal} />
-                <BurgerIngredientsItemList title='Начинки' data={mains} onHandleOpenModal={onHandleOpenModal} />
+                <BurgerIngredientsItemList title='Булки' data={buns} onHandleOpenModal={handleOpenIgredientInfoModal} />
+                <BurgerIngredientsItemList title='Соусы' data={sauces} onHandleOpenModal={handleOpenIgredientInfoModal} />
+                <BurgerIngredientsItemList title='Начинки' data={mains} onHandleOpenModal={handleOpenIgredientInfoModal} />
             </section>
         </div>
     );
 };
 
 BurgerIngredients.propTypes = {
-    onHandleOpenModal: PropTypes.func.isRequired
+    setIngredientInfoModalState: PropTypes.func.isRequired
 }
 
 export default memo(BurgerIngredients);

@@ -1,6 +1,13 @@
+// Import React functions
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+
+// Import Redux functions
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+
+// Import App component
 import App from './components/App/App';
 // import reportWebVitals from './reportWebVitals';
 

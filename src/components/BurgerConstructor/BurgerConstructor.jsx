@@ -34,7 +34,7 @@ const BurgerConstructor = (props) => {
         postIngredients({ ingredients: ingredientsId }).then(data => {
             setOrderState(data.order.number);
         });
-    }, [constructorItems]);
+    }, [constructorItems, setOrderState]);
 
     // Open/Close Order modal popup functions
     const handleSetOrder = useCallback(() => {

@@ -27,19 +27,19 @@ const BurgerConstructor = (props) => {
     // Calculating total price of igredients
     const totalPrice = useMemo(() => {
         return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
+    }, [constructorItems, bun.price]);
+
+    const handlePostOrder = useCallback(() => {
+        const ingredientsId = constructorItems.map(item => item._id);
+        postIngredients({ ingredients: ingredientsId }).then(data => {
+            setOrderState(data.order.number);
+        });
     }, [constructorItems]);
 
     // Open/Close Order modal popup functions
     const handleSetOrder = useCallback(() => {
         handlePostOrder(constructorItems);
-    }, [constructorItems]);
-
-    const handlePostOrder = () => {
-        const ingredientsId = constructorItems.map(item => item._id);
-        postIngredients({ ingredients: ingredientsId }).then(data => {
-            setOrderState(data.order.number);
-        });
-    }
+    }, [constructorItems, handlePostOrder]);
 
     // Delete ingredient from constructor
     const deleteConstructorItem = useCallback((index) => {

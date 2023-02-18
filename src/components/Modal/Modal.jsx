@@ -31,7 +31,7 @@ const Modal = (props) => {
         return () => {
             document.removeEventListener('keydown', handleKeydownModalClose);
         }
-    }, []);
+    }, [onClose]);
 
     return createPortal(
         (

@@ -1,5 +1,5 @@
 // Import React functions
-import { memo, useContext, useMemo, useCallback, useEffect } from 'react';
+import { memo, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './BurgerIngredients.module.css';
 
@@ -20,11 +20,6 @@ const BurgerIngredients = (props) => {
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
     const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);
-
-    // 
-    const handleOpenIgredientInfoModal = useCallback((item) => {
-        setIngredientInfoModalState({ isVisible: true, item: item });
-    }, [setIngredientInfoModalState]);
     
     return (
         <div className={`${styles.BurgerIngredients} mt-10`}>
@@ -33,9 +28,9 @@ const BurgerIngredients = (props) => {
             </p>
             <BurgerIngredientsTab />
             <section className={styles.BurgerIngredientsContainer}>
-                <BurgerIngredientsItemList title='Булки' data={buns} onHandleOpenModal={handleOpenIgredientInfoModal} />
-                <BurgerIngredientsItemList title='Соусы' data={sauces} onHandleOpenModal={handleOpenIgredientInfoModal} />
-                <BurgerIngredientsItemList title='Начинки' data={mains} onHandleOpenModal={handleOpenIgredientInfoModal} />
+                <BurgerIngredientsItemList title='Булки' data={buns} setIngredientInfoModalState={setIngredientInfoModalState} />
+                <BurgerIngredientsItemList title='Соусы' data={sauces} setIngredientInfoModalState={setIngredientInfoModalState} />
+                <BurgerIngredientsItemList title='Начинки' data={mains} setIngredientInfoModalState={setIngredientInfoModalState} />
             </section>
         </div>
     );

@@ -13,7 +13,7 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { ConstructorContext } from '../../../context/ConstructorContext';
 
 const BurgerIngredientsItem = (props) => {
-    const { item, onHandleOpenModal } = props;
+    const { item, setIngredientInfoModalState } = props;
 
     // Import data from contexts
     const [constructorItems, setConstructorItems] = useContext(ConstructorContext);
@@ -28,6 +28,11 @@ const BurgerIngredientsItem = (props) => {
         item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
         item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
     }, [setConstructorItems, constructorItems]);
+
+    // Open Ingredient info modal popup functions
+    const handleOpenIgredientInfoModal = useCallback((item) => {
+        setIngredientInfoModalState({ isVisible: true, item: item });
+    }, [setIngredientInfoModalState]);
 
     return (
         <div
@@ -49,7 +54,7 @@ const BurgerIngredientsItem = (props) => {
 
 BurgerIngredientsItem.propTypes = {
     item: IngredientItem.isRequired,
-    onHandleOpenModal: PropTypes.func.isRequired
+    setIngredientInfoModalState: PropTypes.func.isRequired
 }
 
 export default memo(BurgerIngredientsItem);

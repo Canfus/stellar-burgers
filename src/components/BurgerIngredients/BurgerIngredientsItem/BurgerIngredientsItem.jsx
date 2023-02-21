@@ -1,7 +1,14 @@
 // Import React functions
-import { memo, useMemo, useContext, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import { memo, useMemo, useCallback } from 'react';
 import styles from './BurgerIngredientsItem.module.css';
+
+// Import Redux Functions
+import { useSelector, useDispatch } from 'react-redux';
+import { addConstructorItem } from '../../../services/slices/ConstructorItemsSlice';
+import { showIngredientInfo } from '../../../services/slices/IngredientSlice';
+
+// Import DnD functions
+import { useDrag } from 'react-dnd';
 
 // Import PropType
 import IngredientItem from '../../../utils/types';
@@ -9,14 +16,16 @@ import IngredientItem from '../../../utils/types';
 // Import Burger UI components
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-// Import contexts
-import { ConstructorContext } from '../../../context/ConstructorContext';
+const BurgerIngredientsItem = ({ item }) => {
+    const [, dragRef] = useDrag({
+        type: 'ingredient',
+        item: {...item}
+    });
 
-const BurgerIngredientsItem = (props) => {
-    const { item, setIngredientInfoModalState } = props;
+    const dispatch = useDispatch();
 
     // Import data from contexts
-    const [constructorItems, setConstructorItems] = useContext(ConstructorContext);
+    const constructorItems = useSelector((store) => store.constructorItems.items);
 
     // Calculate count of ingredient
     const count = useMemo(() => {
@@ -24,20 +33,20 @@ const BurgerIngredientsItem = (props) => {
     }, [constructorItems, item._id]);
 
     // Add ingredient to constructor
-    const addConstructorItem = useCallback((item) => {
-        item.type !== 'bun' && setConstructorItems([...constructorItems, item]);
-        item.type === 'bun' && setConstructorItems([item, ...constructorItems.slice(1)]);
-    }, [setConstructorItems, constructorItems]);
+    const addItem = useCallback((item) => {
+        dispatch(addConstructorItem(item));
+    }, [constructorItems]);
 
     // Open Ingredient info modal popup functions
     const handleOpenIgredientInfoModal = useCallback((item) => {
-        setIngredientInfoModalState({ isVisible: true, item: item });
-    }, [setIngredientInfoModalState]);
+        dispatch(showIngredientInfo(item));
+    }, [dispatch]);
 
     return (
         <div
+            ref={dragRef}
             className={`${styles.BurgerIngredientsItem} mb-8`}
-            onClick={() => {addConstructorItem(item)}}
+            onClick={() => {handleOpenIgredientInfoModal(item)}}
         >
             <img src={item.image} alt="bun" className={styles.BurgerImage} />
             {count > 0 && <Counter count={count} size='default' extraClass='m-1' />}
@@ -53,8 +62,7 @@ const BurgerIngredientsItem = (props) => {
 };
 
 BurgerIngredientsItem.propTypes = {
-    item: IngredientItem.isRequired,
-    setIngredientInfoModalState: PropTypes.func.isRequired
+    item: IngredientItem.isRequired
 }
 
 export default memo(BurgerIngredientsItem);

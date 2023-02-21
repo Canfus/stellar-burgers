@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 // Import Redux functions
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import { store } from './services/store';
 
 // Import App component
 import App from './components/App/App';
@@ -16,7 +16,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <App />
+        <Provider store={store}>
+            <App />
+        </Provider>
     </React.StrictMode>
 );
 

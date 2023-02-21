@@ -1,23 +1,39 @@
 // Import React functions
-import { memo, useContext, useMemo, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import { memo, useMemo, useCallback } from 'react';
 import styles from './BurgerConstructor.module.css';
 
-// Import burger-api functions
-import { postIngredients } from '../../utils/burger-api';
+// Import Redux functions
+import { useSelector, useDispatch } from 'react-redux';
+import { addConstructorItem, deleteConstructorItem } from '../../services/slices/ConstructorItemsSlice';
+import { postOrder } from '../../services/slices/OrderSlice';
+
+// Import DnD functions
+import { useDrop } from 'react-dnd';
+import uuid from 'react-uuid';
 
 // Import Burger UI components
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+    Button,
+    ConstructorElement,
+    CurrencyIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
-// Import contexts
-import { ConstructorContext } from '../../context/ConstructorContext';
- 
+// Import UI components
+import BurgerConstructorItemList from './BurgerConstructorItemList/BurgerConstructorItemList';
 
-const BurgerConstructor = (props) => {
-    const { setOrderState } = props;
+const BurgerConstructor = () => {
+    const dispatch = useDispatch();
 
-    // Import data from context
-    const [constructorItems, setConstructorItems] = useContext(ConstructorContext);
+    // Get dropTargetRef
+    const [, dropTargetRef] = useDrop({
+        accept: 'ingredient',
+        drop(item) {
+            dispatch(addConstructorItem({ ...item, dragId: uuid() }))
+        }
+    });
+
+    // Import data from store
+    const constructorItems = useSelector((store) => store.constructorItems.items);
 
     // Get bun from constructorItems array
     const bun = useMemo(() => {
@@ -29,25 +45,17 @@ const BurgerConstructor = (props) => {
         return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
     }, [constructorItems, bun.price]);
 
+    // Handle post order functions
     const handlePostOrder = useCallback(() => {
         const ingredientsId = constructorItems.map(item => item._id);
-        postIngredients({ ingredients: ingredientsId }).then(data => {
-            setOrderState(data.order.number);
-        });
-    }, [constructorItems, setOrderState]);
-
-    // Open/Close Order modal popup functions
-    const handleSetOrder = useCallback(() => {
-        handlePostOrder(constructorItems);
-    }, [constructorItems, handlePostOrder]);
-
-    // Delete ingredient from constructor
-    const deleteConstructorItem = useCallback((index) => {
-        setConstructorItems(constructorItems.filter((i, itemIndex) => itemIndex !== index));
-    }, [constructorItems, setConstructorItems]);
+        dispatch(postOrder(ingredientsId));
+    }, [constructorItems]);
 
     return (
-        <div className={`${styles.BurgerConstructor} ml-10 mt-25`}>
+        <div
+            ref={dropTargetRef}
+            className={`${styles.BurgerConstructor} ml-10 mt-25`}
+        >
             <section className={styles.BurgerSection}>
                 <ConstructorElement
                     type="top"
@@ -57,22 +65,10 @@ const BurgerConstructor = (props) => {
                     thumbnail={bun.image_mobile}
                     extraClass='ml-6'
                 />
-                <div className={styles.BurgerConstructorItemList}>
-                    {
-                        constructorItems.map((item, index) => item.type !== 'bun' && (
-                            <section key={Math.random()}>
-                                <DragIcon type='primary' />
-                                <ConstructorElement
-                                    text={item.name}
-                                    price={item.price}
-                                    thumbnail={item.image_mobile}
-                                    extraClass={`${styles.Item}`}
-                                    handleClose={() => deleteConstructorItem(index)}
-                                />
-                            </section>
-                        ))
-                    }
-                </div>
+                {constructorItems.length > 1 && (
+                    <BurgerConstructorItemList constructorItems={constructorItems} />
+                )}
+                
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
@@ -94,7 +90,7 @@ const BurgerConstructor = (props) => {
                     type='primary'
                     size='medium'
                     extraClass='mr-4'
-                    onClick={handleSetOrder}
+                    onClick={handlePostOrder}
                 >
                     Оформить заказ
                 </Button>
@@ -102,9 +98,5 @@ const BurgerConstructor = (props) => {
         </div>
     );
 };
-
-BurgerConstructor.propTypes = {
-    setOrderState: PropTypes.func.isRequired
-}
 
 export default memo(BurgerConstructor);

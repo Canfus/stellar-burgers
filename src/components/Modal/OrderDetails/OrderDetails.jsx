@@ -1,18 +1,18 @@
 // Import React functions
-import { memo, useContext } from 'react';
+import { memo } from 'react';
 import styles from './OrderDetails.module.css';
 
-// Import contextx
-import { OrderContext } from '../../../context/OrderContext';
+// Import Redux functions
+import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
-    // Import data from context
-    const orderState = useContext(OrderContext);
+    // Import data from store
+    const orderNumber = useSelector((store) => store.order.orderNumber);
 
     return (
         <div className={`${styles.OrderDetails} pt-30 pb-30`}>
             <span className={`${styles.OrderNumber} text text_type_digits-large mb-8`}>
-                {orderState}
+                {orderNumber}
             </span>
             <span className='text text_type_main-medium'>
                 идентефикатор заказа

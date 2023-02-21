@@ -13,21 +13,6 @@
     gap: 10px;
 }
 
-.BurgerConstructorItemList {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 440px;
-    overflow-y: auto;
-}
-
-.Item {
-    min-width: 536px;
-    gap: 10px;
-}
-
 .Total {
     display: flex;
     justify-content: flex-end;

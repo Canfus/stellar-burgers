@@ -1,25 +1,25 @@
 // Import React functions
-import { memo, useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { memo, useMemo } from 'react';
 import styles from './BurgerIngredients.module.css';
+
+// Import Redux functions
+import { useSelector } from 'react-redux';
 
 // Import Burger UI components
 import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredientsItemList';
 import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
 
-// Import contexts
-import { AppContext } from '../../context/AppContext';
+const BurgerIngredients = () => {
 
-const BurgerIngredients = (props) => {
-    const { setIngredientInfoModalState } = props;
-
-    // Import data from context
-    const data = useContext(AppContext);
+    // Import data from store
+    const data = useSelector((store) => store.ingredientsItems.items);
 
     // Sort ingredients by type
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
     const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);
+
+    
     
     return (
         <div className={`${styles.BurgerIngredients} mt-10`}>
@@ -28,17 +28,13 @@ const BurgerIngredients = (props) => {
             </p>
             <BurgerIngredientsTab />
             <section className={styles.BurgerIngredientsContainer}>
-                <BurgerIngredientsItemList title='Булки' data={buns} setIngredientInfoModalState={setIngredientInfoModalState} />
-                <BurgerIngredientsItemList title='Соусы' data={sauces} setIngredientInfoModalState={setIngredientInfoModalState} />
-                <BurgerIngredientsItemList title='Начинки' data={mains} setIngredientInfoModalState={setIngredientInfoModalState} />
+                <BurgerIngredientsItemList title='Булки' data={buns} />
+                <BurgerIngredientsItemList title='Соусы' data={sauces} />
+                <BurgerIngredientsItemList title='Начинки' data={mains} />
             </section>
         </div>
     );
 };
-
-BurgerIngredients.propTypes = {
-    setIngredientInfoModalState: PropTypes.func.isRequired
-}
 
 export default memo(BurgerIngredients);
 

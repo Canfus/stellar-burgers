@@ -10,7 +10,7 @@ import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsIte
 import IngredientItem from '../../../utils/types';
 
 const BurgerIngredientsItemList = (props) => {
-    const { title, data, setIngredientInfoModalState } = props;
+    const { title, data } = props;
 
     return (
         <div className={`${styles.BurgerIngredientsItem}`}>
@@ -19,7 +19,7 @@ const BurgerIngredientsItemList = (props) => {
             </p>
             <section className={`${styles.IngredientsContainer} ml-4`}>
                 {
-                    data.map((item) => <BurgerIngredientsItem key={item._id} item={item} setIngredientInfoModalState={setIngredientInfoModalState} />)
+                    data.map((item) => <BurgerIngredientsItem key={item._id} item={item} />)
                 }
             </section>
         </div>
@@ -28,8 +28,7 @@ const BurgerIngredientsItemList = (props) => {
 
 BurgerIngredientsItemList.propTypes = {
     title: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
-    setIngredientInfoModalState: PropTypes.func.isRequired
+    data: PropTypes.arrayOf(IngredientItem.isRequired).isRequired
 }
 
 export default memo(BurgerIngredientsItemList);

@@ -2,8 +2,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './App.module.css';
 
-// Import burger-api functions
-import { getIngredientData } from '../../utils/burger-api';
+// Import Redux functions
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchData } from '../../services/slices/IngredientsItemsSlice';
 
 // Import main components
 import AppHeader from '../AppHeader/AppHeader';
@@ -15,79 +16,63 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../Modal/OrderDetails/OrderDetails';
 import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 
-// Import contexts
-import { AppContext } from '../../context/AppContext';
-import { ConstructorContext } from '../../context/ConstructorContext';
-import { OrderContext } from '../../context/OrderContext';
+// Import Redux functions
+import { closeOrderModal } from '../../services/slices/OrderSlice';
+import { closeIngredientInfo } from '../../services/slices/IngredientSlice';
+
+// Import DnD
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const App = () => {
-    // Application state
-    const [state, setState] = useState({
-        isLoading: false,
-        hasError: false,
-        data: []
-    });
+    // Import data from store
+    const state = useSelector((store) => store.ingredientsItems);
+    const orderInfo = useSelector((store) => store.order);
+    const ingredientInfo = useSelector((store) => store.ingredientInfo);
 
-    // Burger Constructor state
-    const constructorItemsState = useState([]);
+    // Initialize dispatcher
+    const dispatch = useDispatch();
 
     // Get ingredients when application starts
     useEffect(() => {
-        setState({ ...state, isLoading: true, hasError: false });
-        getIngredientData().then(data => {
-            setState({ ...state, isLoading: false, data: data.data });
-            constructorItemsState[1]([data.data.find(item => item.type === 'bun')]);
-        });
+        dispatch(fetchData());
     }, []);
-
-    // Modal popups 
-    const [orderState, setOrderState] = useState(0);
-    const [ingredientInfoModalState, setIngredientInfoModalState] = useState({
-        isVisible: false,
-        item: null
-    });
 
     // Close Order modal popup functions
     const handleCloseOrderModal = useCallback(() => {
-        setOrderState(0);
-    }, [setOrderState]);
+        dispatch(closeOrderModal());
+    }, [orderInfo]);
 
     // Close Ingredient info modal popup functions
     const handleCloseIgredientInfoModal = useCallback(() => {
-        setIngredientInfoModalState({ isVisible: false, item: null });
-    }, [setIngredientInfoModalState]);
+        dispatch(closeIngredientInfo());
+    }, [ingredientInfo]);
 
     return (
         <div className={styles.App}>
-            <AppContext.Provider value={state.data}>
-                <ConstructorContext.Provider value={constructorItemsState}>
-                    <AppHeader />
-                    {!state.isLoading && !state.hasError && state.data.length &&
-                        <section className={styles.Main}>
-                            <BurgerIngredients setIngredientInfoModalState={setIngredientInfoModalState} />
-                            <BurgerConstructor
-                                setOrderState={setOrderState}
-                            />
-                        </section>
-                    }
-                    {orderState > 0 &&
-                        (
-                            <OrderContext.Provider value={orderState}>
-                                <Modal onClose={handleCloseOrderModal}>
-                                    <OrderDetails />
-                                </Modal>
-                            </OrderContext.Provider>
-                        )
-                    }
-                    {ingredientInfoModalState.isVisible &&
-                        (
-                            <Modal onClose={handleCloseIgredientInfoModal}>
-                                <IngredientDetails ingredientItem={ingredientInfoModalState.item} />
-                            </Modal>
-                        )
-                    }
-                </ConstructorContext.Provider>
-            </AppContext.Provider>
+            <AppHeader />
+            {state.status === 'ok' && !state.error && state.items.length &&
+                <main className={styles.Main}>
+                    <DndProvider backend={HTML5Backend}>
+                        <BurgerIngredients />
+                        <BurgerConstructor />
+                    </DndProvider>
+                </main>
+            }
+            {orderInfo.status === 'visible' &&
+                (
+                    <Modal onClose={handleCloseOrderModal}>
+                        <OrderDetails />
+                    </Modal>
+                )
+            }
+            {ingredientInfo.status === 'visible' &&
+                (
+                    <Modal onClose={handleCloseIgredientInfoModal}>
+                        <IngredientDetails ingredientItem={ingredientInfo.item} />
+                    </Modal>
+                )
+            }
         </div>
     );
 }

@@ -12,27 +12,30 @@ import IngredientItem from '../../../utils/types';
 
 // Import UI component
 import BurgerConstructorItem from '../BurgerConstructorItem/BurgerConstructorItem';
+import uuid from 'react-uuid';
+import { Reorder } from 'framer-motion';
 
 const BurgerConstructorItemList = ({ constructorItems }) => {
     const dispatch = useDispatch();
 
-    const moveCard = useCallback((dragIndex, hoverIndex) => {
-        const dragItem = constructorItems[dragIndex];
-        const newItems = [...constructorItems];
+    const update = (newList) => {
+        dispatch(updateConstructorItems(newList))
+    }
 
-        newItems.splice(dragIndex, 1);
-        newItems.splice(hoverIndex, 0, dragItem);
-
-        dispatch(updateConstructorItems(newItems));
-    }, [constructorItems, dispatch]);
     return (
-        <section className={styles.BurgerConstructorItemList} key={Math.random()}>
+        <Reorder.Group
+            axis='y'
+            as='section'
+            onReorder={(newList) => update(newList)}
+            values={constructorItems}
+            className={styles.BurgerConstructorItemList}
+        >
             {
                 constructorItems.map((item, index) => item.type !== 'bun' && (
-                    <BurgerConstructorItem key={item.dragId} index={index} item={item} moveCard={moveCard} />
+                    <BurgerConstructorItem key={item.dragId} index={index} item={item} />
                 ))
             }
-        </section>
+        </Reorder.Group>
     );
 };
 

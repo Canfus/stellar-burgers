@@ -30,7 +30,7 @@ export const ConstructorItemsSlice = createSlice({
             state.items = state.items.filter((item, index) => index !== action.payload);
         },
         updateConstructorItems: (state, action) => {
-            state.items = action.payload;
+            state.items = [state.items[0], ...action.payload];
         }
     }
 });

@@ -19,7 +19,7 @@ const BurgerConstructorItemList = ({ constructorItems }) => {
     const dispatch = useDispatch();
 
     const update = (newList) => {
-        dispatch(updateConstructorItems(newList))
+        dispatch(updateConstructorItems(newList));
     }
 
     return (
@@ -31,8 +31,8 @@ const BurgerConstructorItemList = ({ constructorItems }) => {
             className={styles.BurgerConstructorItemList}
         >
             {
-                constructorItems.map((item, index) => item.type !== 'bun' && (
-                    <BurgerConstructorItem key={item.dragId} index={index} item={item} />
+                constructorItems.map((item) => item.type !== 'bun' && (
+                    <BurgerConstructorItem key={item.dragId} item={item} />
                 ))
             }
         </Reorder.Group>

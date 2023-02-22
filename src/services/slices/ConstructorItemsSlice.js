@@ -27,7 +27,7 @@ export const ConstructorItemsSlice = createSlice({
             if (action.payload.type === 'bun') state.items = [action.payload, ...state.items.slice(1)];
         },
         deleteConstructorItem: (state, action) => {
-            state.items = state.items.filter((item, index) => index !== action.payload);
+            state.items = state.items.filter((item) => item.dragId !== action.payload.dragId);
         },
         updateConstructorItems: (state, action) => {
             state.items = [state.items[0], ...action.payload];

@@ -15,12 +15,12 @@ import { deleteConstructorItem } from '../../../services/slices/ConstructorItems
 // Import Burger UI components
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerConstructorItem = ({ item, index }) => {
+const BurgerConstructorItem = ({ item }) => {
     const dispatch = useDispatch();
 
     // Delete ingredient from constructor
-    const deleteItem = (index) => {
-        dispatch(deleteConstructorItem(index));
+    const deleteItem = (item) => {
+        dispatch(deleteConstructorItem(item));
     }
 
     return (
@@ -31,15 +31,14 @@ const BurgerConstructorItem = ({ item, index }) => {
                 price={item.price}
                 thumbnail={item.image_mobile}
                 extraClass={styles.Item}
-                handleClose={() => dispatch(deleteItem(index))}
+                handleClose={() => deleteItem(item)}
             />
         </Reorder.Item>
     );
 };
 
 BurgerConstructorItem.propTypes = {
-    item: IngredientItem.isRequired,
-    index: PropTypes.number.isRequired
+    item: IngredientItem.isRequired
 };
 
 export default BurgerConstructorItem;

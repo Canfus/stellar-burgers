@@ -27,8 +27,8 @@ const BurgerConstructor = () => {
     // Get dropTargetRef
     const [, dropTargetRef] = useDrop({
         accept: 'ingredient',
-        drop(item) {
-            dispatch(addConstructorItem({ ...item, dragId: uuid() }))
+        drop: (item) => {
+            dispatch(addConstructorItem({ ...item, dragId: uuid() }));
         }
     });
 

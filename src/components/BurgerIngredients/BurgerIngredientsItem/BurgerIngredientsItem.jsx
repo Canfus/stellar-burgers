@@ -32,11 +32,6 @@ const BurgerIngredientsItem = ({ item }) => {
         return constructorItems.filter(i => i._id === item._id).length;
     }, [constructorItems, item._id]);
 
-    // Add ingredient to constructor
-    const addItem = useCallback((item) => {
-        dispatch(addConstructorItem(item));
-    }, [constructorItems]);
-
     // Open Ingredient info modal popup functions
     const handleOpenIgredientInfoModal = useCallback((item) => {
         dispatch(showIngredientInfo(item));

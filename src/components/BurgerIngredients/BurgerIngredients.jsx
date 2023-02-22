@@ -1,5 +1,5 @@
 // Import React functions
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './BurgerIngredients.module.css';
 
 // Import Redux functions
@@ -10,7 +10,6 @@ import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredi
 import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
 
 const BurgerIngredients = () => {
-
     // Import data from store
     const data = useSelector((store) => store.ingredientsItems.items);
 
@@ -19,18 +18,25 @@ const BurgerIngredients = () => {
     const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
     const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);
 
-    
+    const [currentCategory, setCurrentCategory] = useState(0);
+
+    const refs = useRef([]);
+
+    const setCategory = (index) => {
+        refs.current[index].scrollIntoView({ behavior: 'smooth' });
+        setCurrentCategory(index);
+    }
     
     return (
         <div className={`${styles.BurgerIngredients} mt-10`}>
             <p className='text text_type_main-large mb-5'>
                 Соберите бургер
             </p>
-            <BurgerIngredientsTab />
+            <BurgerIngredientsTab currentCategory={currentCategory} setCategory={setCategory} />
             <section className={styles.BurgerIngredientsContainer}>
-                <BurgerIngredientsItemList title='Булки' data={buns} />
-                <BurgerIngredientsItemList title='Соусы' data={sauces} />
-                <BurgerIngredientsItemList title='Начинки' data={mains} />
+                <BurgerIngredientsItemList index={0} refs={refs} title='Булки' data={buns} />
+                <BurgerIngredientsItemList index={1} refs={refs} title='Соусы' data={sauces} />
+                <BurgerIngredientsItemList index={2} refs={refs} title='Начинки' data={mains} />
             </section>
         </div>
     );

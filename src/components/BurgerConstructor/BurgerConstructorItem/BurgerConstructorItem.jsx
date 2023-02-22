@@ -24,7 +24,7 @@ const BurgerConstructorItem = ({ item, index }) => {
     }
 
     return (
-        <Reorder.Item value={item} as='section'>
+        <Reorder.Item value={item} as='section' transition={{ type: 'tween', duration: 0.3 }}>
             <DragIcon type='primary' />
             <ConstructorElement
                 text={item.name}

@@ -43,6 +43,8 @@ const OrderSlice = createSlice({
             .addCase(postOrder.rejected, (state, action) => {
                 state.status = 'error';
                 state.error = action.payload;
+                state.name = null;
+                state.orderNumber = null;
             });
     }
 });

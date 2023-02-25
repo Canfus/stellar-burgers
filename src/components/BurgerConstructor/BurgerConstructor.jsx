@@ -34,6 +34,7 @@ const BurgerConstructor = () => {
 
     // Import data from store
     const constructorItems = useSelector((store) => store.constructorItems.items);
+    const orderStatus = useSelector((store) => store.order.status);
 
     // Get bun from constructorItems array
     const bun = useMemo(() => {
@@ -64,8 +65,8 @@ const BurgerConstructor = () => {
             ref={dropTargetRef}
             className={`${styles.BurgerConstructor} ml-10 mt-25`}
         >
-            {constructorItems.length
-                ? (
+            {constructorItems.length ?
+                (
                     <>
                         <section className={styles.BurgerSection}>
                             <ConstructorElement
@@ -103,13 +104,13 @@ const BurgerConstructor = () => {
                                 extraClass='mr-4'
                                 onClick={handlePostOrder}
                             >
-                                Оформить заказ
+                                {orderStatus === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ` }
                             </Button>
                         </section>
                     </>
                 ) : (
                     <span className={`text text_type_main-large ${styles.BurgerConstructorEmpty} ml-10`}>
-                        Добавьте булку и взлетаем
+                        Добавьте булку и полетели
                     </span>
                 )
             }

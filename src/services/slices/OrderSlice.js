@@ -7,8 +7,8 @@ export const postOrder = createAsyncThunk(
         try {
             return postIngredients({ ingredients: ingredientsId })
                 .then(data => data);
-        } catch (error) {
-            return rejectWithValue(error.message);
+        } catch {
+            return rejectWithValue(postIngredients({ ingredients: ingredientsId }).then(error => error));
         }
     }
 );
@@ -32,8 +32,10 @@ const OrderSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(postOrder.pending, (state) => {
-                state.status = 'post';
+                state.status = 'pending';
                 state.error = null;
+                state.name = null;
+                state.orderNumber = null;
             })
             .addCase(postOrder.fulfilled, (state, action) => {
                 state.name = action.payload.name;
@@ -42,9 +44,7 @@ const OrderSlice = createSlice({
             })
             .addCase(postOrder.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.payload;
-                state.name = null;
-                state.orderNumber = null;
+                state.error = action.error.message;
             });
     }
 });

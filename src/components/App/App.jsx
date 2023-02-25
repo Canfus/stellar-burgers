@@ -23,6 +23,7 @@ import { closeIngredientInfo } from '../../services/slices/IngredientSlice';
 // Import DnD
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import OrderError from '../Modal/OrderError/OrderError';
 
 const App = () => {
     // Import data from store
@@ -63,6 +64,13 @@ const App = () => {
                 (
                     <Modal onClose={handleCloseOrderModal}>
                         <OrderDetails />
+                    </Modal>
+                )
+            }
+            {orderInfo.status === 'error' &&
+                (
+                    <Modal onClose={handleCloseOrderModal}>
+                        <OrderError />
                     </Modal>
                 )
             }

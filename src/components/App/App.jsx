@@ -1,5 +1,5 @@
 // Import React functions
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import styles from './App.module.css';
 
 // Import Redux functions
@@ -41,12 +41,12 @@ const App = () => {
     // Close Order modal popup functions
     const handleCloseOrderModal = useCallback(() => {
         dispatch(closeOrderModal());
-    }, [orderInfo]);
+    }, [dispatch]);
 
     // Close Ingredient info modal popup functions
     const handleCloseIgredientInfoModal = useCallback(() => {
         dispatch(closeIngredientInfo());
-    }, [ingredientInfo]);
+    }, [dispatch]);
 
     return (
         <div className={styles.App}>

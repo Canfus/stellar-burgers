@@ -6,6 +6,10 @@
     width: 568px;
 }
 
+.BurgerConstructorEmpty {
+    text-shadow: 0 0 20px #4C4CFF;
+}
+
 .BurgerSection {
     display: flex;
     justify-content: flex-end;

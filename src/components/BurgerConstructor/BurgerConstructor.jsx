@@ -4,7 +4,7 @@ import styles from './BurgerConstructor.module.css';
 
 // Import Redux functions
 import { useSelector, useDispatch } from 'react-redux';
-import { addConstructorItem, deleteConstructorItem } from '../../services/slices/ConstructorItemsSlice';
+import { addConstructorItem } from '../../services/slices/ConstructorItemsSlice';
 import { postOrder } from '../../services/slices/OrderSlice';
 
 // Import DnD functions
@@ -37,64 +37,83 @@ const BurgerConstructor = () => {
 
     // Get bun from constructorItems array
     const bun = useMemo(() => {
-        return constructorItems.find(item => item.type === 'bun');
+        try {
+            return constructorItems.find(item => item.type === 'bun');
+        } catch {
+            return null;
+        }
     }, [constructorItems]);
     
     // Calculating total price of igredients
     const totalPrice = useMemo(() => {
-        return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
-    }, [constructorItems, bun.price]);
+        try {
+            return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
+        } catch {
+            return 0;
+        }
+    }, [constructorItems, bun]);
 
     // Handle post order functions
     const handlePostOrder = useCallback(() => {
         const ingredientsId = constructorItems.map(item => item._id);
         dispatch(postOrder(ingredientsId));
-    }, [constructorItems]);
+    }, [constructorItems, dispatch]);
 
     return (
         <div
             ref={dropTargetRef}
             className={`${styles.BurgerConstructor} ml-10 mt-25`}
         >
-            <section className={styles.BurgerSection}>
-                <ConstructorElement
-                    type="top"
-                    isLocked={true}
-                    text={`${bun.name} (верх)`}
-                    price={bun.price}
-                    thumbnail={bun.image_mobile}
-                    extraClass='ml-6'
-                />
-                {constructorItems.length > 1 && (
-                    <BurgerConstructorItemList constructorItems={constructorItems} />
-                )}
-                
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}
-                    text={`${bun.name} (низ)`}
-                    price={bun.price}
-                    thumbnail={bun.image_mobile}
-                    extraClass='ml-6'
-                />
-            </section>
-            <section className={`${styles.Total} mt-10`}>
-                <section className={`${styles.Price} mr-10`}>
-                    <p className='text text_type_digits-medium'>
-                        {totalPrice}
-                    </p>
-                    <CurrencyIcon type='primary' />
-                </section>
-                <Button
-                    htmlType='button'
-                    type='primary'
-                    size='medium'
-                    extraClass='mr-4'
-                    onClick={handlePostOrder}
-                >
-                    Оформить заказ
-                </Button>
-            </section>
+            {constructorItems.length
+                ? (
+                    <>
+                        <section className={styles.BurgerSection}>
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image_mobile}
+                                extraClass='ml-6'
+                            />
+                            {constructorItems.length > 1 && (
+                                <BurgerConstructorItemList constructorItems={constructorItems} />
+                            )}
+                            
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image_mobile}
+                                extraClass='ml-6'
+                            />
+                        </section>
+                        <section className={`${styles.Total} mt-10`}>
+                            <section className={`${styles.Price} mr-10`}>
+                                <p className='text text_type_digits-medium'>
+                                    {totalPrice}
+                                </p>
+                                <CurrencyIcon type='primary' />
+                            </section>
+                            <Button
+                                htmlType='button'
+                                type='primary'
+                                size='medium'
+                                extraClass='mr-4'
+                                onClick={handlePostOrder}
+                            >
+                                Оформить заказ
+                            </Button>
+                        </section>
+                    </>
+                ) : (
+                    <span className={`text text_type_main-large ${styles.BurgerConstructorEmpty} ml-10`}>
+                        Добавьте булку и взлетаем
+                    </span>
+                )
+            }
+            
         </div>
     );
 };

@@ -1,5 +1,5 @@
 // Import React functions
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './BurgerIngredients.module.css';
 
 // Import Redux functions

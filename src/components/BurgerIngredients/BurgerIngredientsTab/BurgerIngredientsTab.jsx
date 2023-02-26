@@ -9,13 +9,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 const BurgerIngredientsTab = ({ currentCategory, setCategory }) => {
     return (
         <div className={`${styles.BurgerIngredientsTab} mb-10`}>
-            <Tab value={0} active={currentCategory === 0} onClick={() => {setCategory(0)}}>
+            <Tab value={0} active={currentCategory === 0} onClick={setCategory}>
                 Булки
             </Tab>
-            <Tab value={1} active={currentCategory === 1} onClick={() => {setCategory(1)}}>
+            <Tab value={1} active={currentCategory === 1} onClick={setCategory}>
                 Соусы
             </Tab>
-            <Tab value={2} active={currentCategory === 2} onClick={() => {setCategory(2)}}>
+            <Tab value={2} active={currentCategory === 2} onClick={setCategory}>
                 Начинки
             </Tab>
         </div>

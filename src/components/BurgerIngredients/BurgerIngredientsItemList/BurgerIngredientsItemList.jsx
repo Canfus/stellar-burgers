@@ -13,8 +13,8 @@ const BurgerIngredientsItemList = (props) => {
     const { title, data, refs, index } = props;
 
     return (
-        <div className={`${styles.BurgerIngredientsItem}`}>
-            <p ref={(item) => {refs.current[index] = item}} className='text text_type_main-medium mb-6'>
+        <div className={`${styles.BurgerIngredientsItemList}`}>
+            <p id={index} ref={(item) => {refs.current[index] = item}} className='text text_type_main-medium mb-6'>
                 {title}
             </p>
             <section className={`${styles.IngredientsContainer} ml-4`}>

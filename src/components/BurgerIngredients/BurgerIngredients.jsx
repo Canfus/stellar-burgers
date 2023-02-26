@@ -1,5 +1,5 @@
 // Import React functions
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './BurgerIngredients.module.css';
 
 // Import Redux functions
@@ -20,20 +20,43 @@ const BurgerIngredients = () => {
 
     const [currentCategory, setCurrentCategory] = useState(0);
 
+    const scrollArea = useRef(null);
     const refs = useRef([]);
 
     const setCategory = (index) => {
-        refs.current[index].scrollIntoView({ behavior: 'smooth' });
-        setCurrentCategory(index);
+        refs.current[index].scrollIntoView({ block: 'start', behavior: 'smooth' });
+        setCurrentCategory(Number(index));
     }
-    
+
+    useEffect(() => {
+        const headers = {};
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                headers[entry.target.id] = entry.isIntersecting;
+            });
+            for (const header in headers) {
+                if (headers[header]) {
+                    setCategory(header);
+                    break;
+                }
+            }
+        }, { root: scrollArea.current });
+
+        refs.current.forEach(element => {
+            observer.observe(element);
+        });
+
+        return () => observer.disconnect();
+    }, [refs]);
+
     return (
         <div className={`${styles.BurgerIngredients} mt-10`}>
             <p className='text text_type_main-large mb-5'>
                 Соберите бургер
             </p>
             <BurgerIngredientsTab currentCategory={currentCategory} setCategory={setCategory} />
-            <section className={styles.BurgerIngredientsContainer}>
+            <section ref={scrollArea} className={styles.BurgerIngredientsContainer}>
                 <BurgerIngredientsItemList index={0} refs={refs} title='Булки' data={buns} />
                 <BurgerIngredientsItemList index={1} refs={refs} title='Соусы' data={sauces} />
                 <BurgerIngredientsItemList index={2} refs={refs} title='Начинки' data={mains} />
@@ -43,4 +66,3 @@ const BurgerIngredients = () => {
 };
 
 export default memo(BurgerIngredients);
-

@@ -1,20 +1,25 @@
+// Import React functions
 import { memo } from 'react';
-import PropTypes from 'prop-types';
-import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
 import styles from './BurgerIngredientsItemList.module.css';
+
+// Import components
+import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
+
+// Import PropType
 import IngredientItem from '../../../utils/types';
+import PropTypes from 'prop-types';
 
 const BurgerIngredientsItemList = (props) => {
-    const { title, data, constructorItems, onHandleOpenModal } = props;
+    const { title, data, refs, index } = props;
 
     return (
-        <div className={`${styles.BurgerIngredientsItem}`}>
-            <p className='text text_type_main-medium mb-6'>
+        <div className={`${styles.BurgerIngredientsItemList}`}>
+            <p id={index} ref={(item) => {refs.current[index] = item}} className='text text_type_main-medium mb-6'>
                 {title}
             </p>
             <section className={`${styles.IngredientsContainer} ml-4`}>
                 {
-                    data.map((item) => <BurgerIngredientsItem key={item._id} constructorItems={constructorItems} item={item} onHandleOpenModal={onHandleOpenModal} />)
+                    data.map((item) => <BurgerIngredientsItem key={item._id} item={item} />)
                 }
             </section>
         </div>
@@ -24,8 +29,8 @@ const BurgerIngredientsItemList = (props) => {
 BurgerIngredientsItemList.propTypes = {
     title: PropTypes.string.isRequired,
     data: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
-    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
-    onHandleOpenModal: PropTypes.func.isRequired
+    refs: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired
 }
 
 export default memo(BurgerIngredientsItemList);

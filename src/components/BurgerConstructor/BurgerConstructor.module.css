@@ -6,25 +6,14 @@
     width: 568px;
 }
 
+.BurgerConstructorEmpty {
+    text-shadow: 0 0 20px #4C4CFF;
+}
+
 .BurgerSection {
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
-    gap: 10px;
-}
-
-.BurgerConstructorItemList {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 440px;
-    overflow-y: auto;
-}
-
-.Item {
-    min-width: 536px;
     gap: 10px;
 }
 

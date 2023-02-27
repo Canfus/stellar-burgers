@@ -1,24 +1,30 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { memo, useState } from 'react';
+// Import React functions
+import { memo } from 'react';
+import PropTypes from 'prop-types';
 import styles from './BurgerIngredientsTab.module.css';
 
-const BurgerIngredientsTab = () => {
-    // State of current Tab
-    const [current, setCurrent] = useState('one');
+// Import Burger UI components
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
+const BurgerIngredientsTab = ({ currentCategory, setCategory }) => {
     return (
         <div className={`${styles.BurgerIngredientsTab} mb-10`}>
-            <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+            <Tab value={0} active={currentCategory === 0} onClick={setCategory}>
                 Булки
             </Tab>
-            <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+            <Tab value={1} active={currentCategory === 1} onClick={setCategory}>
                 Соусы
             </Tab>
-            <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+            <Tab value={2} active={currentCategory === 2} onClick={setCategory}>
                 Начинки
             </Tab>
         </div>
     );
 };
+
+BurgerIngredientsTab.propTypes = {
+    currentCategory: PropTypes.number.isRequired,
+    setCategory: PropTypes.func.isRequired
+}
 
 export default memo(BurgerIngredientsTab);

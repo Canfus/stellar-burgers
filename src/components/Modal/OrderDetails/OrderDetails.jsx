@@ -1,9 +1,13 @@
+// Import React functions
 import { memo } from 'react';
 import styles from './OrderDetails.module.css';
-import PropTypes from 'prop-types';
 
-const OrderDetails = (props) => {
-    const { orderNumber } = props;
+// Import Redux functions
+import { useSelector } from 'react-redux';
+
+const OrderDetails = () => {
+    // Import data from store
+    const orderNumber = useSelector((store) => store.order.orderNumber);
 
     return (
         <div className={`${styles.OrderDetails} pt-30 pb-30`}>
@@ -66,10 +70,6 @@ const OrderDetails = (props) => {
             </span>
         </div>
     );
-};
-
-OrderDetails.propTypes = {
-    orderNumber: PropTypes.number.isRequired
 };
 
 export default memo(OrderDetails);

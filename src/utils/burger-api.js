@@ -7,7 +7,7 @@ const checkResponse = (res) => {
 }
 
 export const requestWithToken = async (request, data) => {
-    const res = await request(data || null);
+    let res = await request(data || null);
     
     if (!res.ok) {
         await updateAccessTokenRequest();

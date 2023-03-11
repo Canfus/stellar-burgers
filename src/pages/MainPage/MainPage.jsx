@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import styles from './MainPage.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { closeOrderModal } from '../../services/slices/OrderSlice';
+
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -14,7 +16,6 @@ import OrderDetails from '../../components/Modal/OrderDetails/OrderDetails';
 import OrderError from '../../components/Modal/OrderError/OrderError';
 import OrderPending from '../../components/Modal/OrderPending/OrderPending';
 
-import { closeOrderModal } from '../../services/slices/OrderSlice';
 
 const MainPage = () => {
     const state = useSelector((store) => store.ingredientsItems);

@@ -1,7 +1,13 @@
-import { memo, useState, useEffect, useCallback } from 'react';
+import {
+    memo,
+    useState,
+    useEffect,
+    useCallback
+} from 'react';
+
 import styles from './Profile.module.css';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, updateUser } from '../../services/slices/UserSlice';
@@ -17,8 +23,6 @@ import {
 
 const Profile = () => {
     const dispatch = useDispatch();
-
-    const navigate = useNavigate();
 
     const userData = useSelector((store) => store.userSlice.user);
 
@@ -51,7 +55,7 @@ const Profile = () => {
 
     const handleLogout = useCallback(() => {
         dispatch(logout());
-    }, [dispatch, userData]);
+    }, [dispatch]);
 
     const handleUpdateUserData = useCallback(() => {
         dispatch(updateUser({ name, email, password }));
@@ -62,7 +66,7 @@ const Profile = () => {
         setName(userData.name);
         setEmail(userData.email);
         setPassword(userData.password);
-    }, [dispatch, userData]);
+    }, [userData]);
 
     return (
         <section className={styles.Profile}>

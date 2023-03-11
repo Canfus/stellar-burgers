@@ -15,6 +15,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerConstructorItemList from './BurgerConstructorItemList/BurgerConstructorItemList';
+
 import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
@@ -56,7 +57,7 @@ const BurgerConstructor = () => {
         }
         const ingredientsId = constructorItems.map(item => item._id);
         dispatch(postOrder(ingredientsId));
-    }, [constructorItems, dispatch, userData]);
+    }, [constructorItems, dispatch, userData, navigate]);
 
     return (
         <div

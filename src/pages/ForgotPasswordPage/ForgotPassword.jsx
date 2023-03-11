@@ -21,7 +21,7 @@ const ForgotPassword = () => {
         if (userData.email) {
             navigate('/', { replace: true });
         }
-    }, [userData]);
+    }, [userData, navigate]);
 
     const [email, setEmail] = useState('');
     const handleSetEmail = (e) => {
@@ -34,7 +34,7 @@ const ForgotPassword = () => {
             setItemLocalStorage('isCodeSent', true);
             navigate('/reset-password');
         }
-    }, [email]);
+    }, [email, navigate]);
 
     return (
         <section className={styles.ForgotPassword}>

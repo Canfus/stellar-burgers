@@ -3,6 +3,7 @@ import styles from './App.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
+import { getUserData } from '../../services/slices/UserSlice';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ProtectedRouteElement } from '../ProtectedRouteElement';
@@ -14,7 +15,6 @@ import ForgotPassword from '../../pages/ForgotPasswordPage/ForgotPassword';
 import ResetPassword from '../../pages/ResetPasswordPage/ResetPassword';
 import Profile from '../../pages/ProfilePage/Profile';
 import NotFound404 from '../../pages/NotFound404/NotFound404';
-import { getUserData } from '../../services/slices/UserSlice';
 import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
 

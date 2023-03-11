@@ -1,10 +1,11 @@
 import { memo } from 'react';
 import styles from './BurgerIngredientsItemList.module.css';
 
+import PropTypes from 'prop-types';
+
 import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
 
 import IngredientItem from '../../../utils/types';
-import PropTypes from 'prop-types';
 
 const BurgerIngredientsItemList = (props) => {
     const { title, data, refs, index } = props;

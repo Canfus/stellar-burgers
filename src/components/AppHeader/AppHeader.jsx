@@ -5,7 +5,13 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
-import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+    BurgerIcon,
+    ListIcon,
+    ProfileIcon,
+    Logo
+} from '@ya.praktikum/react-developer-burger-ui-components';
+
 import { useSelector } from 'react-redux';
 
 const AppHeader = ({ active }) => {

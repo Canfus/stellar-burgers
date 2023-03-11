@@ -13,7 +13,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import AppHeader from '../../components/AppHeader/AppHeader';
 
-import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+    Input,
+    EmailInput,
+    PasswordInput,
+    Button
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -26,7 +31,7 @@ const Register = () => {
         if (userData.email) {
             navigate('/profile', { replace: true });
         }
-    }, [userData]);
+    }, [userData, navigate]);
 
     const [username, setUsername] = useState('');
     const handleSetUsername = (e) => {

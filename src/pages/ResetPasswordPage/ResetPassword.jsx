@@ -28,7 +28,7 @@ const ResetPassword = () => {
         if (userData.email) {
             navigate('/', { replace: true });
         }
-    }, [userData]);
+    }, [userData, navigate]);
 
     const [code, setCode] = useState('');
     const handleSetCode = (e) => {
@@ -47,7 +47,7 @@ const ResetPassword = () => {
             deleteItemLocalStorage('isCodeSent');
             navigate('/login');
         }
-    }, [navigate]);
+    }, [navigate, password, code]);
     return (
         <section className={styles.ResetPassword}>
             <AppHeader active='profile' />

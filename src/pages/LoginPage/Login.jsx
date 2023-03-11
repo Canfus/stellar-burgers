@@ -1,4 +1,10 @@
-import { memo, useState, useCallback, useEffect } from 'react';
+import {
+    memo,
+    useState,
+    useCallback,
+    useEffect
+} from 'react';
+
 import styles from './Login.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +14,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import AppHeader from '../../components/AppHeader/AppHeader';
 
-import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+    EmailInput,
+    PasswordInput,
+    Button
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -21,7 +31,7 @@ const Login = () => {
         if (userData.email) {
             navigate('/', { replace: true });
         }
-    }, [userData]);
+    }, [userData, navigate]);
 
     const [email, setEmail] = useState('');
     const handleSetEmail = (e) => {

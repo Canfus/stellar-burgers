@@ -1,13 +1,14 @@
 import { memo, useMemo } from 'react';
-
-import styles from './IngredientDetails.module.css';
+import styles from './IngredientDetailsPage.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredientsData } from '../../../services/slices/IngredientsItemsSlice';
+import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
 
 import { useParams } from 'react-router-dom';
 
-const IngredientDetails = () => {
+import AppHeader from '../../components/AppHeader/AppHeader';
+
+const IngredientDetailsPage = () => {
     const dispatch = useDispatch();
 
     const { ingredientId } = useParams();
@@ -23,7 +24,8 @@ const IngredientDetails = () => {
 
     return (
         <div className={styles.IngredientDetails}>
-            <header className={`${styles.IngredientHeader} ml-10 mt-15 mr-10`}>
+            <AppHeader active='constructor' />
+            <header className={`${styles.IngredientHeader} ml-10 mt-25 mr-10`}>
                 <span className='text text_type_main-large'>
                     Детали ингредиента
                 </span>
@@ -68,4 +70,4 @@ const IngredientDetails = () => {
     );
 };
 
-export default memo(IngredientDetails);
+export default memo(IngredientDetailsPage);

@@ -1,12 +1,9 @@
-// Import React functions
 import { memo } from 'react';
 import styles from './OrderDetails.module.css';
 
-// Import Redux functions
 import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
-    // Import data from store
     const orderNumber = useSelector((store) => store.order.orderNumber);
 
     return (

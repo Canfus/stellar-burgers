@@ -1,13 +1,9 @@
-// Import React function
 import { memo } from 'react';
 import styles from './OrderError.module.css';
 
-// Import Redux functions
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const OrderError = () => {
-    // Import data from store
-    const errorData = useSelector((store) => store.order);
+const OrderError = ({ message }) => {
 
     return (
         <div className={`${styles.OrderError} pt-30 pb-30`}>
@@ -15,10 +11,14 @@ const OrderError = () => {
                 Ошибка
             </span>
             <span className='text text_type_main-default text_color_inactive'>
-                {errorData.error}
+                {message}
             </span>
         </div>
     );
 };
+
+OrderError.propTypes = {
+    message: PropTypes.string.isRequired
+}
 
 export default memo(OrderError);

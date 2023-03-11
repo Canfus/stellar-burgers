@@ -1,9 +1,8 @@
-// Import React functions
 import { memo } from 'react';
-import PropTypes from 'prop-types';
 import styles from './BurgerIngredientsTab.module.css';
 
-// Import Burger UI components
+import PropTypes from 'prop-types';
+
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const BurgerIngredientsTab = ({ currentCategory, setCategory }) => {

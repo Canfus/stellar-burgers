@@ -1,18 +1,13 @@
-// Import React functions
 import styles from './BurgerConstructorItemList.module.css';
 
-// Import Redux functions
 import { useDispatch } from 'react-redux';
 import { updateConstructorItems } from '../../../services/slices/ConstructorItemsSlice';
 
-// Import Motion component
 import { Reorder } from 'framer-motion';
 
-// Import IngredientItem type
 import PropTypes from 'prop-types';
 import IngredientItem from '../../../utils/types';
 
-// Import UI component
 import BurgerConstructorItem from '../BurgerConstructorItem/BurgerConstructorItem';
 
 const BurgerConstructorItemList = ({ constructorItems }) => {

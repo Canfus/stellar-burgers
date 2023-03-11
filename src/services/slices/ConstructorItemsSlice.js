@@ -21,4 +21,3 @@ export const ConstructorItemsSlice = createSlice({
 
 export const { addConstructorItem, deleteConstructorItem, updateConstructorItems } = ConstructorItemsSlice.actions;
 export default ConstructorItemsSlice.reducer;
-

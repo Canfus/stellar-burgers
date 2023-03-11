@@ -1,11 +1,8 @@
-// Import React functions
 import { memo } from 'react';
 import styles from './BurgerIngredientsItemList.module.css';
 
-// Import components
 import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
 
-// Import PropType
 import IngredientItem from '../../../utils/types';
 import PropTypes from 'prop-types';
 

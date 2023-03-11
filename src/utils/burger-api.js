@@ -94,7 +94,8 @@ export const updateAccessTokenRequest = async () => {
     const res = await fetch(`${BURGER_API_URL}/auth/token`, {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            Authorization: 'Bearer ' + getItemLocalStorage('accessToken')
         },
         body: JSON.stringify({
             token: getItemLocalStorage('refreshToken')

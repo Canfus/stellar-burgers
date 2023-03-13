@@ -19,16 +19,16 @@ import { deleteItemLocalStorage, getItemLocalStorage } from '../../utils/localSt
 const ResetPassword = () => {
     const navigate = useNavigate();
 
-    const userData = useSelector((store) => store.userSlice.user);
+    const isLoggedIn = useSelector((store) => store.userSlice.isLoggedIn);
 
     useEffect(() => {
         if (getItemLocalStorage('isCodeSent') !== 'true') {
             navigate(-1);
         }
-        if (userData.email) {
+        if (isLoggedIn) {
             navigate('/', { replace: true });
         }
-    }, [userData, navigate]);
+    }, [isLoggedIn, navigate]);
 
     const [code, setCode] = useState('');
     const handleSetCode = (e) => {
@@ -50,7 +50,6 @@ const ResetPassword = () => {
     }, [navigate, password, code]);
     return (
         <section className={styles.ResetPassword}>
-            <AppHeader active='profile' />
             <section className={styles.ResetPasswordContainer}>
                 <span className='text text_type_main-medium'>Восстановление пароля</span>
                 <PasswordInput

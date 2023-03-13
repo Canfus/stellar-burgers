@@ -1,26 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
-import { useAuth } from '../utils/auth';
+export const ProtectedRoute = ({ element, anonymous = false }) => {
+    const isLoggedIn = useSelector((store) => store.userSlice.isLoggedIn);
 
-export const ProtectedRouteElement = ({ element }) => {
-    let { getUser, ...auth } = useAuth();
-    const [isUserLoaded, setUserLoaded] = useState(false);
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
-    const init = async () => {
-        await getUser();
-        setUserLoaded(true);
+    if (anonymous && isLoggedIn) {
+        return <Navigate to={ from } />
     }
 
-    useEffect(() => {
-        init();
-    //eslint-disable-next-line
-    }, []);
-
-    if (!isUserLoaded) {
-        return null;
+    if (!anonymous && !isLoggedIn) {
+        return <Navigate to='/login' state={{ from: location }} />
     }
-    
-    return auth.user.email ? element : <Navigate to='/login' replace={true} />;
+
+    return element;
 }

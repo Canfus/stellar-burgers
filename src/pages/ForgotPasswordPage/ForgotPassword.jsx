@@ -1,7 +1,7 @@
 import { memo, useCallback, useState, useEffect } from 'react';
 import styles from './ForgotPassword.module.css';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
@@ -14,14 +14,10 @@ import { setItemLocalStorage } from '../../utils/localStorage';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
-    const userData = useSelector((store) => store.userSlice.user);
-
-    useEffect(() => {
-        if (userData.email) {
-            navigate('/', { replace: true });
-        }
-    }, [userData, navigate]);
+    const isLoggedIn = useSelector((store) => store.userSlice.isLoggedIn);
 
     const [email, setEmail] = useState('');
     const handleSetEmail = (e) => {
@@ -32,13 +28,16 @@ const ForgotPassword = () => {
         const res = await postResetCode(email);
         if (res.success) {
             setItemLocalStorage('isCodeSent', true);
-            navigate('/reset-password');
+            navigate('/reset-password', { from: location });
         }
     }, [email, navigate]);
 
+    if (isLoggedIn) {
+        return <Navigate to={ from } />
+    }
+
     return (
         <section className={styles.ForgotPassword}>
-            <AppHeader active='profile' />
             <section className={styles.ForgotPasswordContainer}>
                 <span className='text text_type_main-medium'>Восстановление пароля</span>
                 <EmailInput

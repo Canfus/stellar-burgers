@@ -6,7 +6,9 @@ import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlic
 import { getUserData } from '../../services/slices/UserSlice';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { ProtectedRouteElement } from '../ProtectedRouteElement';
+import { ProtectedRoute } from '../ProtectedRouteElement';
+
+import AppHeader from '../AppHeader/AppHeader';
 
 import MainPage from '../../pages/MainPage/MainPage';
 import Login from '../../pages/LoginPage/Login';
@@ -19,18 +21,15 @@ import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
 
 const App = () => {
-    // Import data from store
     const state = useSelector((store) => store.ingredientsItems);
-    const userData = useSelector((store) => store.userSlice.user);
+    const userData = useSelector((store) => store.userSlice);
 
-    // Initialize dispatcher
     const dispatch = useDispatch();
 
-    // Get ingredients when application starts
     useEffect(() => {
         dispatch(fetchIngredientsData());
 
-        if (!userData.email) {
+        if (!userData.isLoggedIn) {
             dispatch(getUserData());
         }
         // eslint-disable-next-line
@@ -52,17 +51,18 @@ const App = () => {
                 )
                 : (
                     <>
+                        <AppHeader active='constructor' />
                         <Routes location={background || location}>
                             <Route path='/' element={<MainPage />} />
-                            <Route path='/profile' element={<ProtectedRouteElement element={<Profile />} />} />
+                            <Route path='/profile' element={<ProtectedRoute element={<Profile />} />} />
                             <Route
                                 path='/ingredients/:ingredientId'
                                 element={<IngredientDetailsPage />}
                             />
-                            <Route path='/login' element={<Login />} />
-                            <Route path='/register' element={<Register />} />
-                            <Route path='/forgot-password' element={<ForgotPassword />} />
-                            <Route path='/reset-password' element={<ResetPassword />} />
+                            <Route path='/login' element={<ProtectedRoute anonymous element={<Login />} />} />
+                            <Route path='/register' element={<ProtectedRoute anonymous element={<Register />} />} />
+                            <Route path='/forgot-password' element={<ProtectedRoute anonymous element={<ForgotPassword />} />} />
+                            <Route path='/reset-password' element={<ProtectedRoute anonymous element={<ResetPassword />} />} />
                             <Route path='*' element={<NotFound404 />} />
                         </Routes>
                         <ModalSwitch background={background} />
@@ -74,5 +74,3 @@ const App = () => {
 };
 
 export default memo(App);
-
-// <h1 className={`text text_type_main-large ${styles.Loading}`}>Loading...</h1>

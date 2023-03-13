@@ -6,56 +6,56 @@ const checkResponse = (res) => {
     return res.ok ? res.json() : res.json().then(error => Promise.reject(error));
 }
 
-export const requestWithToken = async (request, data) => {
-    let res = await request(data || null);
-    
-    if (!res.ok) {
+const request = async (url, options) => {
+    return fetch(BURGER_API_URL + url, options)
+        .then(checkResponse);
+}
+
+export const requestWithToken = async (req, data = null) => {
+    let res = await req(data);
+    if (!res.success) {
         await updateAccessTokenRequest();
-        res = await request(data || null);
+        res = await req(data);
     }
-    return checkResponse(res);
+    return res;
 }
 
 export const getIngredientData = async () => {
-    const res = await fetch(`${BURGER_API_URL}/ingredients`);
-    return checkResponse(res);
+    return await request('/ingredients');
 }
 
 export const postIngredients = async (orderData) => {
-    const res = await fetch(`${BURGER_API_URL}/orders`, {
+    return await request('/orders', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify(orderData)
     });
-    return checkResponse(res);
 }
 
 export const registerRequest = async (userData) => {
-    const res = await fetch(`${BURGER_API_URL}/auth/register`, {
+    return await request('/auth/register', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify(userData)
     });
-    return checkResponse(res);
 }
 
 export const loginRequest = async (userData) => {
-    const res = await fetch(`${BURGER_API_URL}/auth/login`, {
+    return await request('/auth/login', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify(userData)
     });
-    return checkResponse(res);
 }
 
 export const logoutRequest = async () => {
-    const res = await fetch(`${BURGER_API_URL}/auth/logout`, {
+    return await request('/auth/logout', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
@@ -64,22 +64,20 @@ export const logoutRequest = async () => {
             token: getItemLocalStorage('refreshToken')
         })
     });
-    return checkResponse(res);
 }
 
 export const getUserRequest = async () => {
-    const res = await fetch(`${BURGER_API_URL}/auth/user`, {
+    return await request('/auth/user', {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
             Authorization: 'Bearer ' + getItemLocalStorage('accessToken')
         }
     });
-    return checkResponse(res);
 }
 
 export const updateUserRequest = async (userData) => {
-    const res = await fetch(`${BURGER_API_URL}/auth/user`, {
+    return await request('/auth/user', {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json',
@@ -87,25 +85,22 @@ export const updateUserRequest = async (userData) => {
         },
         body: JSON.stringify(userData)
     });
-    return checkResponse(res);
 }
 
 export const updateAccessTokenRequest = async () => {
-    const res = await fetch(`${BURGER_API_URL}/auth/token`, {
+    return await request('/auth/token', {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json',
-            Authorization: 'Bearer ' + getItemLocalStorage('accessToken')
+            'Content-type': 'application/json'
         },
         body: JSON.stringify({
             token: getItemLocalStorage('refreshToken')
         })
     });
-    return checkResponse(res);
 }
 
 export const postResetCode = async (email) => {
-    const res = await fetch(`${BURGER_API_URL}/password-reset`, {
+    return await request('/password-reset', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
@@ -114,11 +109,10 @@ export const postResetCode = async (email) => {
             email: email
         })
     });
-    return checkResponse(res);
 }
 
 export const postResetPassword = async (password, code) => {
-    const res = await fetch(`${BURGER_API_URL}/password-reset/reset`, {
+    return await request('/password-reset/reset', {
         method: 'POST',
          headers: {
             'Content-type': 'application/json'
@@ -128,5 +122,4 @@ export const postResetPassword = async (password, code) => {
             token: code
          })
     });
-    return checkResponse(res);
 }

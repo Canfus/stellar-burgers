@@ -1,15 +1,16 @@
 import {
     memo,
-    useState,
-    useCallback,useEffect
+    useCallback
 } from 'react';
+
+import { useForm } from '../../hooks/useForm';
 
 import styles from './Register.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { register } from '../../services/slices/UserSlice';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AppHeader from '../../components/AppHeader/AppHeader';
 
@@ -23,72 +24,51 @@ import {
 const Register = () => {
     const dispatch = useDispatch();
 
-    const navigate = useNavigate();
+    const initialFormState = {
+        name: '',
+        email: '',
+        password: ''
+    };
+    const { values, handleChange } = useForm(initialFormState);
 
-    const userData = useSelector((store) => store.userSlice.user);
-
-    useEffect(() => {
-        if (userData.email) {
-            navigate('/profile', { replace: true });
-        }
-    }, [userData, navigate]);
-
-    const [username, setUsername] = useState('');
-    const handleSetUsername = (e) => {
-        setUsername(e.target.value);
-    }
-
-    const [email, setEmail] = useState('');
-    const handleSetEmail = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const [password, setPassword] = useState('');
-    const handleSetPassword = (e) => {
-        setPassword(e.target.value);
-    }
-
-    const handlePostRegisterForm = useCallback(() => {
-        const userForm = {
-            name: username,
-            email: email,
-            password: password
-        };
-        dispatch(register(userForm));
-    }, [dispatch, email, password, username]);
+    const handlePostRegisterForm = useCallback((e) => {
+        e.preventDefault();
+        dispatch(register(values));
+    }, [dispatch, values]);
 
     return (
         <section className={styles.Register}>
-            <AppHeader active='profile' />
-            <section className={styles.RegisterContainer}>
+            <form
+                className={styles.RegisterContainer}
+                onSubmit={handlePostRegisterForm}
+            >
                 <span className='text text_type_main-medium'>Регистрация</span>
                 <Input
                     type={'text'}
-                    onChange={(e) => handleSetUsername(e)}
-                    value={username}
+                    onChange={handleChange}
+                    value={values.name}
                     name={'name'}
                     placeholder='Имя'
                     extraClass='mt-6'
                 />
                 <EmailInput
-                    onChange={(e) => handleSetEmail(e)}
-                    value={email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     placeholder='E-mail'
                     isIcon={false}
                     extraClass='mt-6'
                 />
                 <PasswordInput
-                    onChange={(e) => handleSetPassword(e)}
-                    value={password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                     extraClass='mt-6 mb-6'
                 />
                 <Button
-                    htmlType='button'
+                    htmlType='submit'
                     type='primary'
                     size='medium'
-                    onClick={handlePostRegisterForm}
                     extraClass='mb-20'
                 >
                     Зарегистрироваться
@@ -97,7 +77,7 @@ const Register = () => {
                     <span className='text text_type_main-default text_color_inactive'>Уже зарегистрированы? </span>
                     <Link to='/login' className={`text text_type_main-default text_color_inactive ${styles.Link}`}>Войти</Link>
                 </section>
-            </section>
+            </form>
         </section>
     );
 };

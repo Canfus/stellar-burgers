@@ -30,7 +30,6 @@ const MainPage = () => {
 
     return (
         <div className={styles.MainPage}>
-            <AppHeader active='constructor' />
             {state.status === 'ok' && !state.error && state.items.length &&
                 <main className={styles.Main}>
                     <DndProvider backend={HTML5Backend}>

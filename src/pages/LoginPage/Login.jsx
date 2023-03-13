@@ -1,16 +1,16 @@
 import {
     memo,
-    useState,
-    useCallback,
-    useEffect
+    useCallback
 } from 'react';
+
+import { useForm } from '../../hooks/useForm';
 
 import styles from './Login.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../../services/slices/UserSlice';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AppHeader from '../../components/AppHeader/AppHeader';
 
@@ -23,58 +23,43 @@ import {
 const Login = () => {
     const dispatch = useDispatch();
 
-    const navigate = useNavigate();
+    const initialFormState = {
+        email: '',
+        password: ''
+    };
+    const { values, handleChange } = useForm(initialFormState);
 
-    const userData = useSelector((store) => store.userSlice.user);
+    const handlePostLoginForm = useCallback((e) => {
+        e.preventDefault();
 
-    useEffect(() => {
-        if (userData.email) {
-            navigate('/', { replace: true });
-        }
-    }, [userData, navigate]);
-
-    const [email, setEmail] = useState('');
-    const handleSetEmail = (e) => {
-        setEmail(e.target.value);
-    }
-
-    const [password, setPassword] = useState('');
-    const handleSetPassword = (e) => {
-        setPassword(e.target.value);
-    }
-
-    const handlePostLoginForm = useCallback(() => {
-        const userForm = {
-            email: email,
-            password: password
-        };
-        dispatch(login(userForm));
-    }, [dispatch, email, password]);
+        dispatch(login(values));
+    }, [dispatch, values]);
 
     return (
         <section className={styles.Login}>
-            <AppHeader active='profile' />
-            <section className={styles.LoginContainer}>
+            <form
+                className={styles.LoginContainer}
+                onSubmit={handlePostLoginForm}
+            >
                 <span className='text text_type_main-medium'>Вход</span>
                 <EmailInput
-                    onChange={(e) => handleSetEmail(e)}
-                    value={email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     placeholder='E-mail'
                     isIcon={false}
                     extraClass='mt-6'
                 />
                 <PasswordInput
-                    onChange={(e) => handleSetPassword(e)}
-                    value={password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                     extraClass='mt-6 mb-6'
                 />
                 <Button
-                    htmlType='button'
+                    htmlType='submit'
                     type='primary'
                     size='medium'
-                    onClick={handlePostLoginForm}
                     extraClass='mb-20'
                 >
                     Войти
@@ -87,7 +72,7 @@ const Login = () => {
                     <span className='text text_type_main-default text_color_inactive'>Забыли пароль? </span>
                     <Link to='/forgot-password' className={`text text_type_main-default text_color_inactive ${styles.Link}`}>Восстановить пароль</Link>
                 </section>
-            </section>
+            </form>
         </section>
     );
 };

@@ -1,30 +1,28 @@
-// Import React functions
 import { memo, useMemo, useCallback } from 'react';
 import styles from './BurgerConstructor.module.css';
 
-// Import Redux functions
 import { useSelector, useDispatch } from 'react-redux';
 import { addConstructorItem } from '../../services/slices/ConstructorItemsSlice';
 import { postOrder } from '../../services/slices/OrderSlice';
 
-// Import DnD functions
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
 
-// Import Burger UI components
 import {
     Button,
     ConstructorElement,
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-// Import UI components
 import BurgerConstructorItemList from './BurgerConstructorItemList/BurgerConstructorItemList';
+
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
 
-    // Get dropTargetRef
+    const navigate = useNavigate();
+
     const [, dropTargetRef] = useDrop({
         accept: 'ingredient',
         drop: (item) => {
@@ -32,11 +30,10 @@ const BurgerConstructor = () => {
         }
     });
 
-    // Import data from store
     const constructorItems = useSelector((store) => store.constructorItems.items);
     const orderStatus = useSelector((store) => store.order.status);
+    const userData = useSelector((store) => store.userSlice.user);
 
-    // Get bun from constructorItems array
     const bun = useMemo(() => {
         try {
             return constructorItems.find(item => item.type === 'bun');
@@ -45,7 +42,6 @@ const BurgerConstructor = () => {
         }
     }, [constructorItems]);
     
-    // Calculating total price of igredients
     const totalPrice = useMemo(() => {
         try {
             return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
@@ -54,11 +50,14 @@ const BurgerConstructor = () => {
         }
     }, [constructorItems, bun]);
 
-    // Handle post order functions
     const handlePostOrder = useCallback(() => {
+        if (!userData.name) {
+            navigate('/login', { replace: true });
+            return;
+        }
         const ingredientsId = constructorItems.map(item => item._id);
         dispatch(postOrder(ingredientsId));
-    }, [constructorItems, dispatch]);
+    }, [constructorItems, dispatch, userData, navigate]);
 
     return (
         <div

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getIngredientData } from '../../utils/burger-api';
 
-export const fetchData = createAsyncThunk(
+export const fetchIngredientsData = createAsyncThunk(
     'ingredientsItems/fetchData',
     async (_, { rejectWithValue }) => {
         try {
@@ -21,17 +21,17 @@ export const IngredientsItemsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchData.pending, (state) => {
+            .addCase(fetchIngredientsData.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
             })
-            .addCase(fetchData.fulfilled, (state, action) => {
+            .addCase(fetchIngredientsData.fulfilled, (state, action) => {
                 state.status = 'ok';
                 state.items = action.payload.data;
             })
-            .addCase(fetchData.rejected, (state, action) => {
+            .addCase(fetchIngredientsData.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.payload;
+                state.error = action.error.message;
             });
     }
 });

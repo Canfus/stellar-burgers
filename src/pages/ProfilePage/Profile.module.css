@@ -1,0 +1,53 @@
+.Profile {
+    text-align: center;
+}
+
+.ProfileContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-72%, -70%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.Navigation {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 320px;
+    text-align: left;
+}
+
+.UserData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Link {
+    text-decoration: none;
+    margin: 10px 0;
+}
+
+.text_color_active {
+    color: #fff
+}
+
+.userDataControls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 480px;
+}
+
+.disabled {
+    display: none;
+}
+
+.CancelButton {
+    cursor: pointer;
+}

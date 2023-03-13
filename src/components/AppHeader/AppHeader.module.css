@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     background-color: #1c1c21;
 }
 
@@ -24,6 +25,11 @@
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    background-color: transparent;
+}
+
+.AppHeaderItem:hover {
+    background-color: rgba(255, 255, 255, .1);
 }
 
 .text_color_active {

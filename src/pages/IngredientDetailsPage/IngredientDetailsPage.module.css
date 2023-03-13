@@ -1,0 +1,35 @@
+.IngredientDetails {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 720px;
+}
+
+.IngredientHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 640px;
+}
+
+.IngredientTitle {
+    text-align: center;
+    max-width: 520px;
+}
+
+.IngredientDetailsItemList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 520px;
+}
+
+.IngredientDetailsItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 115px;
+    height: 50px;
+}

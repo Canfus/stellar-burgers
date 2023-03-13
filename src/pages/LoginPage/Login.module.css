@@ -1,26 +1,27 @@
-.BurgerIngredientsItem {
-    position: relative;
+.Login {
+    text-align: center;
+}
+
+.LoginContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 262px;
-    height: 200px;
-    cursor: pointer;
 }
 
-.BurgerImage {
-    width: 240px;
-    height: 120px;
-}
-
-.Price {
+.Support {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .Link {
-    color: #fff;
     text-decoration: none;
+    color: #4c4cff;
+    margin-left: .5em;
 }

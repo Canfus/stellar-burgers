@@ -7,8 +7,8 @@ export const postOrder = createAsyncThunk(
         try {
             return postIngredients({ ingredients: ingredientsId })
                 .then(data => data);
-        } catch {
-            return rejectWithValue(postIngredients({ ingredients: ingredientsId }).then(error => error));
+        } catch (error) {
+            return rejectWithValue(error.message);
         }
     }
 );

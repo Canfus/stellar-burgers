@@ -1,18 +1,13 @@
-.App {
-    text-align: center;
-}
-
-.Main {
+.OrderPending {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    min-width: 720px;
 }
 
 .Loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;

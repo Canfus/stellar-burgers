@@ -1,40 +1,71 @@
-// Import React functions
 import { memo } from 'react';
 import styles from './AppHeader.module.css';
 
-// Import Burger UI components
-import { BurgerIcon, ListIcon, ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
-const AppHeader = () => {
+import { NavLink, Link } from 'react-router-dom';
+
+import {
+    BurgerIcon,
+    ListIcon,
+    ProfileIcon,
+    Logo
+} from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useSelector } from 'react-redux';
+
+const AppHeader = ({ active }) => {
+    const userData = useSelector((store) => store.userSlice);
+
     return (
         <header className={styles.AppHeader}>
             <section className={styles.HeaderButtons}>
                 <nav className={styles.NavButtons}>
-                    <a href='#' className={`${styles.AppHeaderItem} p-5`}>
-                        <BurgerIcon type='primary' />
-                        <span className={`text text_type_main-default ${styles.text_color_active} ml-2`}>
-                            Конструктор
-                        </span>
-                    </a>
-                    <a href='#' className={`${styles.AppHeaderItem} p-5`}>
-                        <ListIcon type='secondary' />
-                        <span className='text text_type_main-default text_color_inactive ml-2'>
-                            Лента заказов
-                        </span>
-                    </a>
+                    <NavLink to='/' className={`${styles.AppHeaderItem} p-5`}>
+                        {({ isActive }) => (
+                            <>
+                                <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+                                <span className={`text text_type_main-default ${isActive ? styles.text_color_active : 'text_color_inactive'} ml-2`}>
+                                    Конструктор
+                                </span>
+                            </>
+                        )}
+                    </NavLink>
+                    <NavLink to='/feed' className={`${styles.AppHeaderItem} p-5`}>
+                        {({ isActive }) => (
+                            <>
+                                <ListIcon type={isActive ? 'primary' : 'secondary'} />
+                                <span className={`text text_type_main-default ${isActive ? styles.text_color_active : 'text_color_inactive'} ml-2`}>
+                                    Лента заказов
+                                </span>
+                            </>
+                        )}
+                    </NavLink>
                 </nav>
-                <a href='#' className={`${styles.AppHeaderItem} p-5`}>
-                    <ProfileIcon type='secondary' />
-                    <span className='text text_type_main-default text_color_inactive ml-2'>
-                        Личный кабинет
-                    </span>
-                </a>
+                <NavLink
+                    to='/profile'
+                    className={`${styles.AppHeaderItem} p-5`}
+                    title={userData.isLoggedIn ? 'Перейти в личный кабинет' : 'Войти/Зарегистрироваться'}
+                >
+                    {({ isActive }) => (
+                        <>
+                            <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+                            <span className={`text text_type_main-default ${isActive ? styles.text_color_active : 'text_color_inactive'} ml-2`}>
+                                {userData.isLoggedIn ? userData.user.name : 'Личный кабинет'}
+                            </span>
+                        </>
+                    )}
+                </NavLink>
             </section>
             <section className={styles.Logo}>
                 <Logo />
             </section>
         </header>
     );
+};
+
+AppHeader.propTypes = {
+    active: PropTypes.string.isRequired
 };
 
 export default memo(AppHeader);

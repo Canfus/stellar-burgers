@@ -1,19 +1,14 @@
-// Import React functions
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './BurgerIngredients.module.css';
 
-// Import Redux functions
 import { useSelector } from 'react-redux';
 
-// Import Burger UI components
 import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredientsItemList';
 import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
 
 const BurgerIngredients = () => {
-    // Import data from store
     const data = useSelector((store) => store.ingredientsItems.items);
 
-    // Sort ingredients by type
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
     const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);

@@ -111,15 +111,15 @@ export const postResetCode = async (email) => {
     });
 }
 
-export const postResetPassword = async (password, code) => {
+export const postResetPassword = async (form) => {
     return await request('/password-reset/reset', {
         method: 'POST',
          headers: {
             'Content-type': 'application/json'
          },
          body: JSON.stringify({
-            password: password,
-            token: code
+            password: form.password,
+            token: form.code
          })
     });
 }

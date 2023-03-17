@@ -15,9 +15,17 @@ export const ConstructorItemsSlice = createSlice({
         },
         updateConstructorItems: (state, action) => {
             state.items = [state.items[0], ...action.payload];
+        },
+        clearConstructorItems: (state) => {
+            state.items = [];
         }
     }
 });
 
-export const { addConstructorItem, deleteConstructorItem, updateConstructorItems } = ConstructorItemsSlice.actions;
+export const {
+    addConstructorItem,
+    deleteConstructorItem,
+    updateConstructorItems,
+    clearConstructorItems
+} = ConstructorItemsSlice.actions;
 export default ConstructorItemsSlice.reducer;

@@ -2,8 +2,8 @@ import { memo, useMemo, useCallback } from 'react';
 import styles from './BurgerConstructor.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addConstructorItem } from '../../services/slices/ConstructorItemsSlice';
-import { postOrder } from '../../services/slices/OrderSlice';
+import { addConstructorItem, clearConstructorItems } from '../../services/slices/ConstructorItemsSlice';
+import { openOrderModal, postOrder } from '../../services/slices/OrderSlice';
 
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
@@ -31,8 +31,8 @@ const BurgerConstructor = () => {
     });
 
     const constructorItems = useSelector((store) => store.constructorItems.items);
-    const orderStatus = useSelector((store) => store.order.status);
-    const userData = useSelector((store) => store.userSlice.user);
+    const order = useSelector((store) => store.order);
+    const userData = useSelector((store) => store.userSlice);
 
     const bun = useMemo(() => {
         try {
@@ -51,13 +51,18 @@ const BurgerConstructor = () => {
     }, [constructorItems, bun]);
 
     const handlePostOrder = useCallback(() => {
-        if (!userData.name) {
+        const ingredientsId = constructorItems.map(item => item._id);
+        dispatch(postOrder(ingredientsId));
+        dispatch(clearConstructorItems());
+    }, [constructorItems, dispatch]);
+
+    const handleCheckOrder = useCallback(() => {
+        if (!userData.isLoggedIn) {
             navigate('/login', { replace: true });
             return;
         }
-        const ingredientsId = constructorItems.map(item => item._id);
-        dispatch(postOrder(ingredientsId));
-    }, [constructorItems, dispatch, userData, navigate]);
+        dispatch(openOrderModal());
+    }, [userData, dispatch, navigate]);
 
     return (
         <div
@@ -101,9 +106,9 @@ const BurgerConstructor = () => {
                                 type='primary'
                                 size='medium'
                                 extraClass='mr-4'
-                                onClick={handlePostOrder}
+                                onClick={handleCheckOrder}
                             >
-                                {orderStatus === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ` }
+                                {order === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ` }
                             </Button>
                         </section>
                     </>

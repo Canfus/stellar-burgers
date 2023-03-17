@@ -15,6 +15,7 @@ import Modal from '../../components/Modal/Modal';
 import OrderDetails from '../../components/Modal/OrderDetails/OrderDetails';
 import OrderError from '../../components/Modal/OrderError/OrderError';
 import OrderPending from '../../components/Modal/OrderPending/OrderPending';
+import ConfirmOrder from '../../components/Modal/ConfirmOrder/ConfirmOrder';
 
 
 const MainPage = () => {
@@ -38,6 +39,11 @@ const MainPage = () => {
                     </DndProvider>
                 </main>
             }
+            {orderInfo.confirmStatus === 'visible' && (
+                <Modal onClose={handleCloseOrderModal}>
+                    <ConfirmOrder />
+                </Modal>
+            )}
             {orderInfo.status === 'visible' && (
                 <Modal onClose={handleCloseOrderModal}>
                     <OrderDetails />

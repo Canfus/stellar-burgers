@@ -16,7 +16,8 @@ export const postOrder = createAsyncThunk(
 const OrderSlice = createSlice({
     name: 'orderSlice',
     initialState: {
-        status: null,
+        status: 'hidden',
+        confirmStatus: 'hidden',
         error: null,
         name: null,
         orderNumber: null
@@ -24,9 +25,13 @@ const OrderSlice = createSlice({
     reducers: {
         closeOrderModal: (state) => {
             state.status = 'hidden';
+            state.confirmStatus = 'hidden';
             state.error = null;
             state.name = null;
             state.orderNumber = null;
+        },
+        openOrderModal: (state) => {
+            state.confirmStatus = 'visible';
         }
     },
     extraReducers: (builder) => {
@@ -49,6 +54,6 @@ const OrderSlice = createSlice({
     }
 });
 
-export const { closeOrderModal } = OrderSlice.actions;
+export const { closeOrderModal, openOrderModal } = OrderSlice.actions;
 
 export default OrderSlice.reducer;

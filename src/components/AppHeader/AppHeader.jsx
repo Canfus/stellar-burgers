@@ -1,9 +1,7 @@
 import { memo } from 'react';
 import styles from './AppHeader.module.css';
 
-import PropTypes from 'prop-types';
-
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import {
     BurgerIcon,
@@ -14,7 +12,7 @@ import {
 
 import { useSelector } from 'react-redux';
 
-const AppHeader = ({ active }) => {
+const AppHeader = () => {
     const userData = useSelector((store) => store.userSlice);
 
     return (
@@ -62,10 +60,6 @@ const AppHeader = ({ active }) => {
             </section>
         </header>
     );
-};
-
-AppHeader.propTypes = {
-    active: PropTypes.string.isRequired
 };
 
 export default memo(AppHeader);

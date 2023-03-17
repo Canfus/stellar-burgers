@@ -1,0 +1,25 @@
+.ConfirmOrderItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 720px;
+    max-width: 720px;
+    gap: 10px;
+}
+
+.ItemImage {
+    width: 100px;
+}
+
+.ConfirmOrderItemBody {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 720px;
+}
+
+.ConfirmOrderItemPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

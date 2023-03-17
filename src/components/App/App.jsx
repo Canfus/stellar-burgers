@@ -51,7 +51,7 @@ const App = () => {
                 )
                 : (
                     <>
-                        <AppHeader active='constructor' />
+                        <AppHeader />
                         <Routes location={background || location}>
                             <Route path='/' element={<MainPage />} />
                             <Route path='/profile' element={<ProtectedRoute element={<Profile />} />} />

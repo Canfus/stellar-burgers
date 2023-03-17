@@ -1,16 +1,15 @@
-import { memo, useCallback, useState, useEffect } from 'react';
+import { memo, useCallback, useState } from 'react';
 import styles from './ForgotPassword.module.css';
 
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import AppHeader from '../../components/AppHeader/AppHeader';
-
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { postResetCode } from '../../utils/burger-api';
 import { setItemLocalStorage } from '../../utils/localStorage';
+import { useForm } from '../../hooks/useForm';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -19,18 +18,19 @@ const ForgotPassword = () => {
 
     const isLoggedIn = useSelector((store) => store.userSlice.isLoggedIn);
 
-    const [email, setEmail] = useState('');
-    const handleSetEmail = (e) => {
-        setEmail(e.target.value);
-    }
+    const initialFormState = {
+        email: ''
+    };
+
+    const { values, handleChange } = useForm(initialFormState);
 
     const handlePostResetCode = useCallback(async () => {
-        const res = await postResetCode(email);
+        const res = await postResetCode(values.email);
         if (res.success) {
             setItemLocalStorage('isCodeSent', true);
             navigate('/reset-password', { from: location });
         }
-    }, [email, navigate]);
+    }, [values, navigate]);
 
     if (isLoggedIn) {
         return <Navigate to={ from } />
@@ -38,11 +38,14 @@ const ForgotPassword = () => {
 
     return (
         <section className={styles.ForgotPassword}>
-            <section className={styles.ForgotPasswordContainer}>
+            <form
+                className={styles.ForgotPasswordContainer}
+                onSubmit={handlePostResetCode}
+            >
                 <span className='text text_type_main-medium'>Восстановление пароля</span>
                 <EmailInput
-                    onChange={handleSetEmail}
-                    value={email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     placeholder='Укажите E-mail'
                     isIcon={false}
@@ -50,10 +53,9 @@ const ForgotPassword = () => {
                 />
                 <Link to='/reset-password'>
                     <Button
-                        htmlType='button'
+                        htmlType='submit'
                         type='primary'
                         size='medium'
-                        onClick={handlePostResetCode}
                     >
                         Восстановить
                     </Button>
@@ -62,7 +64,7 @@ const ForgotPassword = () => {
                     <span className='text text_type_main-default text_color_inactive'>Вспомнили пароль?</span>
                     <Link to='/login' className={`text text_type_main-default text_color_inactive ${styles.Link}`}>Войти</Link>
                 </section>
-            </section>
+            </form>
         </section>
     );
 };

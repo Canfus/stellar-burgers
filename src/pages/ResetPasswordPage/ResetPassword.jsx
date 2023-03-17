@@ -15,6 +15,7 @@ import {
 
 import { postResetPassword } from '../../utils/burger-api';
 import { deleteItemLocalStorage, getItemLocalStorage } from '../../utils/localStorage';
+import { useForm } from '../../hooks/useForm';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
@@ -30,18 +31,15 @@ const ResetPassword = () => {
         }
     }, [isLoggedIn, navigate]);
 
-    const [code, setCode] = useState('');
-    const handleSetCode = (e) => {
-        setCode(e.target.value);
-    }
+    const initialFormState = {
+        code: '',
+        password: ''
+    };
 
-    const [password, setPassword] = useState('');
-    const handleSetPassword = (e) => {
-        setPassword(e.target.value);
-    }
+    const { values, handleChange } = useForm(initialFormState);
 
     const handleResetPassword = useCallback(async () => {
-        const res = await postResetPassword(password, code);
+        const res = await postResetPassword(values);
 
         if (res.success) {
             deleteItemLocalStorage('isCodeSent');
@@ -50,19 +48,22 @@ const ResetPassword = () => {
     }, [navigate, password, code]);
     return (
         <section className={styles.ResetPassword}>
-            <section className={styles.ResetPasswordContainer}>
+            <form
+                className={styles.ResetPasswordContainer}
+                onSubmit={handleResetPassword}
+            >
                 <span className='text text_type_main-medium'>Восстановление пароля</span>
                 <PasswordInput
-                    onChange={(e) => handleSetPassword(e)}
-                    value={password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                     placeholder='Введите новый пароль'
                     extraClass='mt-6'
                 />
                 <Input
                     type={'text'}
-                    onChange={(e) => handleSetCode(e)}
-                    value={code}
+                    onChange={handleChange}
+                    value={values.code}
                     name={'code'}
                     placeholder='Введите код из письма'
                     extraClass='mt-6 mb-6'
@@ -80,7 +81,7 @@ const ResetPassword = () => {
                     <span className='text text_type_main-default text_color_inactive'>Вспомнили пароль?</span>
                     <Link to='/login' className={`text text_type_main-default text_color_inactive ${styles.Link}`}>Войти</Link>
                 </section>
-            </section>
+            </form>
         </section>
     );
 };

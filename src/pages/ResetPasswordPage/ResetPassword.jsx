@@ -45,7 +45,7 @@ const ResetPassword = () => {
             deleteItemLocalStorage('isCodeSent');
             navigate('/login');
         }
-    }, [navigate, password, code]);
+    }, [navigate, values.password, values.code]);
     return (
         <section className={styles.ResetPassword}>
             <form

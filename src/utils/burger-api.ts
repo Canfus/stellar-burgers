@@ -1,4 +1,13 @@
-import { getItemLocalStorage } from "./localStorage";
+import { getItemLocalStorage } from './localStorage';
+
+import {
+    TPostIngredientsData,
+    TRegisterData,
+    TLoginData,
+    TUpdateUserData,
+    TPostResetCodeData,
+    TPostResetPasswordData
+} from './types';
 
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
@@ -11,7 +20,7 @@ const request = async (url: string, options?: any) => {
         .then(checkResponse);
 }
 
-export const requestWithToken = async (req: (data: any | null) => Promise<any>, data?: any | null) => {
+export const requestWithToken = async (req: (data?: any) => Promise<any>, data?: any) => {
     let res = await req(data);
     if (!res.success) {
         await updateAccessTokenRequest();
@@ -24,10 +33,6 @@ export const getIngredientData = async () => {
     return await request('/ingredients').then(data => data.data);
 }
 
-export type TPostIngredientsData = {
-    ingredients: string[];
-};
-
 export const postIngredients = async (orderData: TPostIngredientsData) => {
     return await request('/orders', {
         method: 'POST',
@@ -38,12 +43,6 @@ export const postIngredients = async (orderData: TPostIngredientsData) => {
     });
 }
 
-export type TRegisterData = {
-    name: string;
-    email: string;
-    password: string;
-};
-
 export const registerRequest = async (userData: TRegisterData) => {
     return await request('/auth/register', {
         method: 'POST',
@@ -53,11 +52,6 @@ export const registerRequest = async (userData: TRegisterData) => {
         body: JSON.stringify(userData)
     });
 }
-
-export type TLoginData = {
-    email: string;
-    password: string;
-};
 
 export const loginRequest = async (userData: TLoginData) => {
     return await request('/auth/login', {
@@ -91,12 +85,6 @@ export const getUserRequest = async () => {
     });
 }
 
-export type TUpdateUserData = {
-    name: string;
-    email: string;
-    password?: string;
-};
-
 export const updateUserRequest = async (userData: TUpdateUserData) => {
     return await request('/auth/user', {
         method: 'PATCH',
@@ -120,10 +108,6 @@ export const updateAccessTokenRequest = async () => {
     });
 }
 
-export type TPostResetCodeData = {
-    email: string;
-};
-
 export const postResetCode = async (email: TPostResetCodeData) => {
     return await request('/password-reset', {
         method: 'POST',
@@ -135,11 +119,6 @@ export const postResetCode = async (email: TPostResetCodeData) => {
         })
     });
 }
-
-export type TPostResetPasswordData = {
-    password: string;
-    code: string;
-};
 
 export const postResetPassword = async (form: TPostResetPasswordData) => {
     return await request('/password-reset/reset', {

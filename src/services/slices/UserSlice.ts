@@ -1,29 +1,24 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
     getUserRequest,
     loginRequest,
     logoutRequest,
     registerRequest,
     requestWithToken,
-    TLoginData,
-    TRegisterData,
-    TUpdateUserData,
     updateUserRequest
 } from '../../utils/burger-api';
 
+import {
+    TLoginData,
+    TRegisterData,
+    TUpdateUserData,
+} from '../../utils/types';
+
+import { IAuthResponse, IUserResponse } from '../../utils/types';
+
 import { deleteItemLocalStorage, setItemLocalStorage } from '../../utils/localStorage';
 
-type TRegisterResponse = {
-    success: boolean;
-    user: {
-        name: string;
-        email: string;
-    };
-    accessToken: string;
-    refreshToken: string;
-};
-
-export const register = createAsyncThunk<TRegisterResponse, TRegisterData, { rejectValue: string }>(
+export const register = createAsyncThunk<IAuthResponse, TRegisterData, { rejectValue: string }>(
     'userSlice/register',
     async (userData, { rejectWithValue }) => {
         try {
@@ -35,15 +30,7 @@ export const register = createAsyncThunk<TRegisterResponse, TRegisterData, { rej
     }
 );
 
-type TGetUserDataResponse = {
-    success: boolean;
-    user: {
-        email: string;
-        name: string;
-    }
-};
-
-export const getUserData = createAsyncThunk<TGetUserDataResponse, undefined, { rejectValue: string }>(
+export const getUserData = createAsyncThunk<IUserResponse, undefined, { rejectValue: string }>(
     'userSlice/getUserData',
     async (_, { rejectWithValue }) => {
         try {
@@ -55,15 +42,7 @@ export const getUserData = createAsyncThunk<TGetUserDataResponse, undefined, { r
     }
 );
 
-type TUpdateUserResponse = {
-    success: boolean;
-    user: {
-        email: string;
-        name: string;
-    }
-};
-
-export const updateUser = createAsyncThunk<TUpdateUserResponse, TUpdateUserData, { rejectValue: string }>(
+export const updateUser = createAsyncThunk<IUserResponse, TUpdateUserData, { rejectValue: string }>(
     'userSlice/updateUser',
     async (userData, { rejectWithValue }) => {
         try {
@@ -75,17 +54,7 @@ export const updateUser = createAsyncThunk<TUpdateUserResponse, TUpdateUserData,
     }
 );
 
-type TLoginResponse = {
-    success: boolean;
-    user: {
-        email: string;
-        name: string;
-    };
-    accessToken: string;
-    refreshToken: string;
-};
-
-export const login = createAsyncThunk<TLoginResponse, TLoginData, { rejectValue: string }>(
+export const login = createAsyncThunk<IAuthResponse, TLoginData, { rejectValue: string }>(
     'userSlice/login',
     async (userData, { rejectWithValue }) => {
         try {

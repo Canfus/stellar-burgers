@@ -1,18 +1,23 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import styles from './BurgerIngredientsItemList.module.css';
-
-import PropTypes from 'prop-types';
 
 import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
 
-import IngredientItem from '../../../utils/types.js';
+import { TIngredientItem } from '../../../utils/types';
 
-const BurgerIngredientsItemList = (props) => {
+interface BurgerIngredientsItemListProps {
+    title: string;
+    data: TIngredientItem[];
+    refs: React.RefObject<HTMLParagraphElement[]>;
+    index: number;
+}
+
+const BurgerIngredientsItemList: FC<BurgerIngredientsItemListProps> = (props) => {
     const { title, data, refs, index } = props;
 
     return (
         <div className={`${styles.BurgerIngredientsItemList}`}>
-            <p id={index} ref={(item) => {refs.current[index] = item}} className='text text_type_main-medium mb-6'>
+            <p id={index.toString()} ref={(item) => {refs.current![index] = item!}} className='text text_type_main-medium mb-6'>
                 {title}
             </p>
             <section className={`${styles.IngredientsContainer} ml-4`}>
@@ -23,12 +28,5 @@ const BurgerIngredientsItemList = (props) => {
         </div>
     );
 };
-
-BurgerIngredientsItemList.propTypes = {
-    title: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(IngredientItem.isRequired).isRequired,
-    refs: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired
-}
 
 export default memo(BurgerIngredientsItemList);

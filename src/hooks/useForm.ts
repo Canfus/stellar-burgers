@@ -1,13 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, ChangeEvent } from 'react';
 
-export const useForm = (inputValues, handleDisablerForm = null) => {
+export const useForm = (inputValues: any, handleDisablerForm?: (value: boolean) => void) => {
     const [values, setValues] = useState(inputValues);
 
     const resetForm = useCallback((newValues = {}) => {
         setValues(newValues);
     }, [setValues]);
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = event.target;
         setValues({ ...values, [name]: value });
         if (typeof handleDisablerForm === 'function') {

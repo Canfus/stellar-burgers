@@ -1,15 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { postIngredients  } from '../../utils/burger-api';
+import { postIngredients } from '../../utils/burger-api';
+import { IOrderResponse } from '../../utils/types';
 
-type TOrderResponse = {
-    success: boolean;
-    name: string;
-    order: {
-        number: number;
-    }
-};
-
-export const postOrder = createAsyncThunk<TOrderResponse, string[], { rejectValue: string }>(
+export const postOrder = createAsyncThunk<IOrderResponse, string[], { rejectValue: string }>(
     'orderSlice/postOrder',
     async (ingredientsId, { rejectWithValue }) => {
         try {

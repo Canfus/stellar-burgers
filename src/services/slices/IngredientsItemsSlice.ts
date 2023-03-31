@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getIngredientData } from '../../utils/burger-api';
-import TIngredientItem from '../../utils/types';
+import { TIngredientItem } from '../../utils/types';
 
 export const fetchIngredientsData = createAsyncThunk<TIngredientItem[], undefined, { rejectValue: string }>(
     'ingredientsItems/fetchData',

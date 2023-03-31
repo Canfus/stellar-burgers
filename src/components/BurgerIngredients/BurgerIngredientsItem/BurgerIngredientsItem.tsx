@@ -1,17 +1,27 @@
-import { memo, useMemo, useCallback } from 'react';
+import {
+    FC,
+    memo,
+    useMemo,
+    useCallback
+} from 'react';
+
 import styles from './BurgerIngredientsItem.module.css';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
 import { showIngredientInfo } from '../../../services/slices/IngredientSlice';
 
 import { useDrag } from 'react-dnd';
 
-import IngredientItem from '../../../utils/types.js';
+import { TIngredientItem } from '../../../utils/types';
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';
 
-const BurgerIngredientsItem = ({ item }) => {
+interface BurgerIngredientsItemProps {
+    item: TIngredientItem;
+}
+
+const BurgerIngredientsItem: FC<BurgerIngredientsItemProps> = ({ item }) => {
     const location = useLocation();
 
     const [, dragRef] = useDrag({
@@ -19,11 +29,11 @@ const BurgerIngredientsItem = ({ item }) => {
         item: { ...item }
     });
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const constructorItems = useSelector((store) => store.constructorItems.items);
+    const constructorItems = useAppSelector((store) => store.constructorItems.items);
 
-    const count = useMemo(() => {
+    const count = useMemo<number>(() => {
         return constructorItems.filter(i => i._id === item._id).length;
     }, [constructorItems, item._id]);
 
@@ -55,9 +65,5 @@ const BurgerIngredientsItem = ({ item }) => {
         </Link>
     );
 };
-
-BurgerIngredientsItem.propTypes = {
-    item: IngredientItem.isRequired
-}
 
 export default memo(BurgerIngredientsItem);

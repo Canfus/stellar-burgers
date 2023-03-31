@@ -1,13 +1,21 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { 
+    FC,
+    memo,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
+
 import styles from './BurgerIngredients.module.css';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 
 import BurgerIngredientsItemList from './BurgerIngredientsItemList/BurgerIngredientsItemList';
 import BurgerIngredientsTab from './BurgerIngredientsTab/BurgerIngredientsTab';
 
-const BurgerIngredients = () => {
-    const data = useSelector((store) => store.ingredientsItems.items);
+const BurgerIngredients: FC = () => {
+    const data = useAppSelector((store) => store.ingredientsItems.items);
 
     const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
     const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
@@ -16,15 +24,15 @@ const BurgerIngredients = () => {
     const [currentCategory, setCurrentCategory] = useState(0);
 
     const scrollArea = useRef(null);
-    const refs = useRef([]);
+    const refs = useRef<HTMLParagraphElement[]>([]);
 
-    const setCategory = (index) => {
+    const setCategory = (index: number) => {
         refs.current[index].scrollIntoView({ block: 'start', behavior: 'smooth' });
-        setCurrentCategory(Number(index));
+        setCurrentCategory(index);
     }
 
     useEffect(() => {
-        const headers = {};
+        const headers: any = {};
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -32,7 +40,7 @@ const BurgerIngredients = () => {
             });
             for (const header in headers) {
                 if (headers[header]) {
-                    setCategory(header);
+                    setCategory(Number(header));
                     break;
                 }
             }

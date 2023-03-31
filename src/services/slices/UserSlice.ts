@@ -1,58 +1,97 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
     getUserRequest,
     loginRequest,
     logoutRequest,
     registerRequest,
     requestWithToken,
+    TLoginData,
+    TRegisterData,
+    TUpdateUserData,
     updateUserRequest
 } from '../../utils/burger-api';
 
 import { deleteItemLocalStorage, setItemLocalStorage } from '../../utils/localStorage';
 
-export const register = createAsyncThunk(
+type TRegisterResponse = {
+    success: boolean;
+    user: {
+        name: string;
+        email: string;
+    };
+    accessToken: string;
+    refreshToken: string;
+};
+
+export const register = createAsyncThunk<TRegisterResponse, TRegisterData, { rejectValue: string }>(
     'userSlice/register',
     async (userData, { rejectWithValue }) => {
         try {
             return registerRequest(userData)
                 .then(data => data);
-        } catch (error) {
+        } catch (error: any) {
             return rejectWithValue(error.message);
         }
     }
 );
 
-export const getUserData = createAsyncThunk(
+type TGetUserDataResponse = {
+    success: boolean;
+    user: {
+        email: string;
+        name: string;
+    }
+};
+
+export const getUserData = createAsyncThunk<TGetUserDataResponse, undefined, { rejectValue: string }>(
     'userSlice/getUserData',
     async (_, { rejectWithValue }) => {
         try {
             return requestWithToken(getUserRequest)
                 .then(data => data);
-        } catch (error) {
+        } catch (error: any) {
             return rejectWithValue(error.message);
         }
     }
 );
 
-export const updateUser = createAsyncThunk(
+type TUpdateUserResponse = {
+    success: boolean;
+    user: {
+        email: string;
+        name: string;
+    }
+};
+
+export const updateUser = createAsyncThunk<TUpdateUserResponse, TUpdateUserData, { rejectValue: string }>(
     'userSlice/updateUser',
     async (userData, { rejectWithValue }) => {
         try {
             return updateUserRequest(userData)
                 .then(data => data);
-        } catch (error) {
+        } catch (error: any) {
             return rejectWithValue(error.message);
         }
     }
 );
 
-export const login = createAsyncThunk(
+type TLoginResponse = {
+    success: boolean;
+    user: {
+        email: string;
+        name: string;
+    };
+    accessToken: string;
+    refreshToken: string;
+};
+
+export const login = createAsyncThunk<TLoginResponse, TLoginData, { rejectValue: string }>(
     'userSlice/login',
     async (userData, { rejectWithValue }) => {
         try {
             return loginRequest(userData)
                 .then(data => data);
-        } catch (error) {
+        } catch (error: any) {
             return rejectWithValue(error.message);
         }
     }
@@ -63,23 +102,36 @@ export const logout = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             return logoutRequest();
-        } catch (error) {
+        } catch (error: any) {
             return rejectWithValue(error.message);
         }
     }
 );
 
+type TInitialState = {
+    user: {
+        name: string | null;
+        email: string | null;
+    };
+    isLoggedIn: boolean;
+    status: string | null;
+    error: string | null;
+};
+
+const initialState: TInitialState = {
+    user: {
+        name: null,
+        email: null
+    },
+    isLoggedIn: false,
+    status: null,
+    error: null
+};
+
 export const UserSlice = createSlice({
     name: 'userSlice',
-    initialState: {
-        user: {
-            name: null,
-            email: null
-        },
-        isLoggedIn: false,
-        status: null,
-        error: null
-    },
+    initialState,
+    reducers: {},
     extraReducers: (builder) => {
         // Register reducers
         builder
@@ -100,7 +152,9 @@ export const UserSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.error.message;
+                if (action.error.message) {
+                    state.error = action.error.message;
+                }
             });
         // Login reducers
         builder
@@ -121,7 +175,9 @@ export const UserSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.error.message;
+                if (action.error.message) {
+                    state.error = action.error.message;
+                }
             });
         // Logout reducers
         builder
@@ -136,7 +192,9 @@ export const UserSlice = createSlice({
             })
             .addCase(logout.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.error.message;
+                if (action.error.message) {
+                    state.error = action.error.message;
+                }
             });
         // Get userData reducer
         builder
@@ -153,7 +211,9 @@ export const UserSlice = createSlice({
             })
             .addCase(getUserData.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.error.message;
+                if (action.error.message) {
+                    state.error = action.error.message;
+                }
             });
         // Update user reducer
         builder
@@ -168,7 +228,9 @@ export const UserSlice = createSlice({
             })
             .addCase(updateUser.rejected, (state, action) => {
                 state.status = 'error';
-                state.error = action.error.message;
+                if (action.error.message) {
+                    state.error = action.error.message;
+                }
             });
     }
 });

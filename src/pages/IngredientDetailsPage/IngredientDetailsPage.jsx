@@ -1,16 +1,11 @@
-import { memo, useLayoutEffect, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import styles from './IngredientDetailsPage.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
+import { useSelector } from 'react-redux';
 
 import { useParams } from 'react-router-dom';
 
-import AppHeader from '../../components/AppHeader/AppHeader';
-
 const IngredientDetailsPage = () => {
-    const dispatch = useDispatch();
-
     const { ingredientId } = useParams();
     const ingredientsItems = useSelector((store) => store.ingredientsItems.items);
 

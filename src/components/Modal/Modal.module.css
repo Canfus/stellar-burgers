@@ -1,5 +1,5 @@
 .Modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     display: flex;
     justify-content: center;
@@ -16,6 +16,7 @@
     flex-direction: column;
     width: 720px;
     background-color: #1c1c21;
+    border: 1px solid rgba(76, 76, 255, .4);
     border-radius: 40px;
     z-index: 1;
 }

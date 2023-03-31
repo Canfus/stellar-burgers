@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type TInitialState = {
+    status: string;
+}
+
+const initialState: TInitialState = {
+    status: 'hidden'
+};
+
 export const IngredientSlice = createSlice({
     name: 'ingredientSlice',
-    initialState: {
-        status: 'hidden'
-    },
+    initialState,
     reducers: {
         showIngredientInfo: (state) => {
             state.status = 'visible';

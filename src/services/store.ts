@@ -5,7 +5,7 @@ import IngredientSlice from './slices/IngredientSlice';
 import OrderSlice from './slices/OrderSlice';
 import UserSlice from './slices/UserSlice';
 
-export const store = configureStore({
+const store = configureStore({
     reducer: {
         constructorItems: ConstructorItemsSlice,
         ingredientsItems: IngredientsItemsSlice,
@@ -14,3 +14,8 @@ export const store = configureStore({
         userSlice: UserSlice
     }
 });
+
+export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -1,5 +1,7 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import styles from './AppHeader.module.css';
+
+import { useAppSelector } from '../../hooks/hooks';
 
 import { NavLink } from 'react-router-dom';
 
@@ -10,10 +12,8 @@ import {
     Logo
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useSelector } from 'react-redux';
-
-const AppHeader = () => {
-    const userData = useSelector((store) => store.userSlice);
+const AppHeader: FC = () => {
+    const userData = useAppSelector((store: any) => store.userSlice);
 
     return (
         <header className={styles.AppHeader}>

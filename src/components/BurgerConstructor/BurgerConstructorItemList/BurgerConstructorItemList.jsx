@@ -6,7 +6,7 @@ import { updateConstructorItems } from '../../../services/slices/ConstructorItem
 import { Reorder } from 'framer-motion';
 
 import PropTypes from 'prop-types';
-import IngredientItem from '../../../utils/types';
+import IngredientItem from '../../../utils/types.js';
 
 import BurgerConstructorItem from '../BurgerConstructorItem/BurgerConstructorItem';
 

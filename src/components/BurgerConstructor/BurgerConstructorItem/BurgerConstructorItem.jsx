@@ -2,7 +2,7 @@ import styles from './BurgerConstructorItem.module.css';
 
 import { Reorder } from 'framer-motion';
 
-import IngredientItem from '../../../utils/types';
+import IngredientItem from '../../../utils/types.js';
 
 import { useDispatch } from 'react-redux';
 import { deleteConstructorItem } from '../../../services/slices/ConstructorItemsSlice';

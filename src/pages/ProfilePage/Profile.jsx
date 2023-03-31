@@ -14,8 +14,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, updateUser } from '../../services/slices/UserSlice';
 
-import AppHeader from '../../components/AppHeader/AppHeader';
-
 import {
     Input,
     EmailInput,
@@ -51,7 +49,7 @@ const Profile = () => {
                 email: userData.user.email
             });
         }
-    }, [userData]);
+    }, [userData, setValues]);
 
     const handleLogout = useCallback(() => {
         dispatch(logout());

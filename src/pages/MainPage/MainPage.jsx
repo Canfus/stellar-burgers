@@ -7,7 +7,6 @@ import { closeOrderModal } from '../../services/slices/OrderSlice';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import AppHeader from '../../components/AppHeader/AppHeader';
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
 

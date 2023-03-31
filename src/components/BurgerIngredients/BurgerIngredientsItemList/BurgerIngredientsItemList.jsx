@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import BurgerIngredientsItem from '../BurgerIngredientsItem/BurgerIngredientsItem';
 
-import IngredientItem from '../../../utils/types';
+import IngredientItem from '../../../utils/types.js';
 
 const BurgerIngredientsItemList = (props) => {
     const { title, data, refs, index } = props;

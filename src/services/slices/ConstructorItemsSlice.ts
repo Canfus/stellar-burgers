@@ -1,19 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import TIngredientItem from '../../utils/types';
+
+type TInitialState = {
+    items: TIngredientItem[]
+};
+
+const initialState: TInitialState = {
+    items: []
+};
 
 export const ConstructorItemsSlice = createSlice({
     name: 'constructorItems',
-    initialState: {
-        items: []
-    },
+    initialState,
     reducers: {
-        addConstructorItem: (state, action) => {
+        addConstructorItem: (state, action: PayloadAction<TIngredientItem>) => {
             if (action.payload.type !== 'bun' && state.items.length) state.items = [...state.items, action.payload];
             if (action.payload.type === 'bun') state.items = [action.payload, ...state.items.slice(1)];
         },
-        deleteConstructorItem: (state, action) => {
+        deleteConstructorItem: (state, action: PayloadAction<TIngredientItem>) => {
             state.items = state.items.filter((item) => item.dragId !== action.payload.dragId);
         },
-        updateConstructorItems: (state, action) => {
+        updateConstructorItems: (state, action: PayloadAction<TIngredientItem[]>) => {
             state.items = [state.items[0], ...action.payload];
         },
         clearConstructorItems: (state) => {

@@ -9,7 +9,7 @@ const NotFound404 = () => {
     return (
         <section className={styles.NotFound}>
             <section className={styles.Container}>
-                <img src={notFoundImage} alt="not-found" />
+                <img src={notFoundImage} draggable={false} alt="not-found" />
                 <Link to='/' className={`text text_type_main-default text_color_inactive ${styles.Link} mt-10`}>Вернуться на орбитную станцию</Link>
             </section>
         </section>

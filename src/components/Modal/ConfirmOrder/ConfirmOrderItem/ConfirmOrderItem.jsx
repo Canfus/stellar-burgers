@@ -1,10 +1,20 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import styles from './ConfirmOrderItem.module.css';
 
-import IngredientItem from '../../../../utils/types';
+import { useSelector } from 'react-redux';
+
+import IngredientItem from '../../../../utils/types.js';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ConfirmOrderItem = ({ item }) => {
+    const constructorItems = useSelector((store) => store.constructorItems.items);
+
+    const count = useMemo(() => {
+        return item.type === 'bun'
+            ? constructorItems.filter(i => i._id === item._id).length + 1
+            : constructorItems.filter(i => i._id === item._id).length;
+    }, [constructorItems]);
+
     return (
         <section className={`${styles.ConfirmOrderItem}`}>
             <section className={styles.ConfirmOrderItemBody}>
@@ -19,7 +29,7 @@ const ConfirmOrderItem = ({ item }) => {
             </section>
             <section className={`${styles.ConfirmOrderItemPrice} mr-25`}>
                 <span className='text text_type_digits-default'>
-                    {item.type === 'bun' ? item.price * 2 : item.price}
+                    {`${count > 1 ? `x${count}` : ''} ${item.price}`}
                 </span>
                 <CurrencyIcon type='primary' />
             </section>

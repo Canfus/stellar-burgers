@@ -1,7 +1,7 @@
 import { memo, useEffect } from 'react';
 import styles from './App.module.css';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
 import { getUserData } from '../../services/slices/UserSlice';
 
@@ -21,10 +21,10 @@ import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
 
 const App = () => {
-    const state = useSelector((store) => store.ingredientsItems);
-    const userData = useSelector((store) => store.userSlice);
+    const state = useAppSelector((store) => store.ingredientsItems);
+    const userData = useAppSelector((store) => store.userSlice);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(fetchIngredientsData());

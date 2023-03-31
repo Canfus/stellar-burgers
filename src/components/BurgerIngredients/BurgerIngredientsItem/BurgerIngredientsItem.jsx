@@ -6,7 +6,7 @@ import { showIngredientInfo } from '../../../services/slices/IngredientSlice';
 
 import { useDrag } from 'react-dnd';
 
-import IngredientItem from '../../../utils/types';
+import IngredientItem from '../../../utils/types.js';
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';

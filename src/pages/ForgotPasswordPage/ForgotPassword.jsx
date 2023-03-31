@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback } from 'react';
 import styles from './ForgotPassword.module.css';
 
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';

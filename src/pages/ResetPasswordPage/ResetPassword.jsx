@@ -1,11 +1,10 @@
-import { memo, useCallback, useState, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import styles from './ResetPassword.module.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import AppHeader from '../../components/AppHeader/AppHeader';
 
 import {
     Input,
@@ -45,7 +44,7 @@ const ResetPassword = () => {
             deleteItemLocalStorage('isCodeSent');
             navigate('/login');
         }
-    }, [navigate, values.password, values.code]);
+    }, [navigate, values]);
     return (
         <section className={styles.ResetPassword}>
             <form

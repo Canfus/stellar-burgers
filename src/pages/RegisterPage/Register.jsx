@@ -12,8 +12,6 @@ import { register } from '../../services/slices/UserSlice';
 
 import { Link } from 'react-router-dom';
 
-import AppHeader from '../../components/AppHeader/AppHeader';
-
 import {
     Input,
     EmailInput,

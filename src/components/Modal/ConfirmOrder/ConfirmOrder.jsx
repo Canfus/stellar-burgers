@@ -22,6 +22,11 @@ const ConfirmOrder = () => {
 
     const constructorItems = useSelector((store) => store.constructorItems.items);
 
+    const table = {};
+    const uniqueConstructorItems = useMemo(() => {
+        return constructorItems.filter(({ _id }) => (!table[_id] && (table[_id] = 1)));
+    }, [constructorItems, table]);
+
     const bun = useMemo(() => {
         try {
             return constructorItems.find(item => item.type === 'bun');
@@ -36,7 +41,7 @@ const ConfirmOrder = () => {
         } catch {
             return 0;
         }
-    });
+    }, [constructorItems]);
 
     const handlePostOrder = useCallback(() => {
         const ingredientsId = constructorItems.map(item => item._id);
@@ -57,7 +62,7 @@ const ConfirmOrder = () => {
                 </span>
             </header>
             <section className={`${styles.ConfirmOrderBody} mt-10 ml-15 mb-5`}>
-                {constructorItems.map((item, index) => (
+                {uniqueConstructorItems.map((item, index) => (
                     <ConfirmOrderItem key={index} item={item} />
                 ))}
             </section>

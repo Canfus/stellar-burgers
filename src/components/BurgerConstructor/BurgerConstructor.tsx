@@ -1,7 +1,14 @@
-import { memo, useMemo, useCallback } from 'react';
+import {
+    FC,
+    memo,
+    useMemo,
+    useCallback
+} from 'react';
 import styles from './BurgerConstructor.module.css';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { TIngredientItem } from '../../utils/types';
+
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { addConstructorItem, clearConstructorItems } from '../../services/slices/ConstructorItemsSlice';
 import { openOrderModal, postOrder } from '../../services/slices/OrderSlice';
 
@@ -19,35 +26,32 @@ import BurgerConstructorItemList from './BurgerConstructorItemList/BurgerConstru
 import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
 
     const [, dropTargetRef] = useDrop({
         accept: 'ingredient',
-        drop: (item) => {
+        drop: (item: TIngredientItem) => {
             dispatch(addConstructorItem({ ...item, dragId: uuid() }));
         }
     });
 
-    const constructorItems = useSelector((store) => store.constructorItems.items);
-    const order = useSelector((store) => store.order);
-    const userData = useSelector((store) => store.userSlice);
+    const constructorItems = useAppSelector((store) => store.constructorItems.items);
+    const order = useAppSelector((store) => store.order.status);
+    const userData = useAppSelector((store) => store.userSlice);
 
     const bun = useMemo(() => {
-        try {
-            return constructorItems.find(item => item.type === 'bun');
-        } catch {
-            return null;
+        if (constructorItems) {
+            return constructorItems.find(item => item.type === 'bun')!;
         }
     }, [constructorItems]);
-    
-    const totalPrice = useMemo(() => {
-        try {
+
+    const totalPrice = useMemo<number>(() => {
+        if (bun) {
             return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
-        } catch {
-            return 0;
         }
+        return 0;
     }, [constructorItems, bun]);
 
     const handlePostOrder = useCallback(() => {
@@ -73,26 +77,33 @@ const BurgerConstructor = () => {
                 (
                     <>
                         <section className={styles.BurgerSection}>
-                            <ConstructorElement
-                                type="top"
-                                isLocked={true}
-                                text={`${bun.name} (верх)`}
-                                price={bun.price}
-                                thumbnail={bun.image_mobile}
-                                extraClass='ml-6'
-                            />
+                            {bun && (
+                                <>
+                                    <ConstructorElement
+                                        type="top"
+                                        isLocked={true}
+                                        text={`${bun.name} (верх)`}
+                                        price={bun.price}
+                                        thumbnail={bun.image_mobile}
+                                        extraClass='ml-6'
+                                    />
+                                </>
+                            )}
                             {constructorItems.length > 1 && (
                                 <BurgerConstructorItemList constructorItems={constructorItems} />
                             )}
-                            
-                            <ConstructorElement
-                                type="bottom"
-                                isLocked={true}
-                                text={`${bun.name} (низ)`}
-                                price={bun.price}
-                                thumbnail={bun.image_mobile}
-                                extraClass='ml-6'
-                            />
+                            {bun && (
+                                <>
+                                    <ConstructorElement
+                                        type="bottom"
+                                        isLocked={true}
+                                        text={`${bun.name} (низ)`}
+                                        price={bun.price}
+                                        thumbnail={bun.image_mobile}
+                                        extraClass='ml-6'
+                                    />
+                                </>
+                            )}
                         </section>
                         <section className={`${styles.Total} mt-10`}>
                             <section className={`${styles.Price} mr-10`}>
@@ -108,7 +119,7 @@ const BurgerConstructor = () => {
                                 extraClass='mr-4'
                                 onClick={handleCheckOrder}
                             >
-                                {order === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ` }
+                                {order === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ`}
                             </Button>
                         </section>
                     </>
@@ -118,7 +129,7 @@ const BurgerConstructor = () => {
                     </span>
                 )
             }
-            
+
         </div>
     );
 };

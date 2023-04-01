@@ -1,5 +1,5 @@
 export type TIngredientItem = {
-    dragId?: number;
+    dragId?: string;
     _id: string;
     name: string;
     type: string;

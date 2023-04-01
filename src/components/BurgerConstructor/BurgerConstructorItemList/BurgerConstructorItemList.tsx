@@ -1,19 +1,23 @@
+import { FC, memo } from 'react';
 import styles from './BurgerConstructorItemList.module.css';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../hooks/hooks';
 import { updateConstructorItems } from '../../../services/slices/ConstructorItemsSlice';
 
 import { Reorder } from 'framer-motion';
 
-import PropTypes from 'prop-types';
-import IngredientItem from '../../../utils/types.js';
+import { TIngredientItem } from '../../../utils/types';
 
 import BurgerConstructorItem from '../BurgerConstructorItem/BurgerConstructorItem';
 
-const BurgerConstructorItemList = ({ constructorItems }) => {
-    const dispatch = useDispatch();
+interface BurgerConstructorItemListProps {
+    constructorItems: TIngredientItem[];
+}
 
-    const update = (newList) => {
+const BurgerConstructorItemList: FC<BurgerConstructorItemListProps> = ({ constructorItems }) => {
+    const dispatch = useAppDispatch();
+
+    const update = (newList: TIngredientItem[]) => {
         dispatch(updateConstructorItems(newList));
     }
 
@@ -34,8 +38,4 @@ const BurgerConstructorItemList = ({ constructorItems }) => {
     );
 };
 
-BurgerConstructorItemList.propTypes = {
-    constructorItems: PropTypes.arrayOf(IngredientItem.isRequired).isRequired
-};
-
-export default BurgerConstructorItemList;
+export default memo(BurgerConstructorItemList);

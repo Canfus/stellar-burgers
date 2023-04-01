@@ -1,18 +1,23 @@
+import { FC, memo } from 'react';
 import styles from './BurgerConstructorItem.module.css';
 
 import { Reorder } from 'framer-motion';
 
-import IngredientItem from '../../../utils/types.js';
+import { TIngredientItem } from '../../../utils/types';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../hooks/hooks';
 import { deleteConstructorItem } from '../../../services/slices/ConstructorItemsSlice';
 
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerConstructorItem = ({ item }) => {
-    const dispatch = useDispatch();
+interface BurgerConstructorItemProps {
+    item: TIngredientItem;
+}
 
-    const deleteItem = (item) => {
+const BurgerConstructorItem: FC<BurgerConstructorItemProps> = ({ item }) => {
+    const dispatch = useAppDispatch();
+
+    const deleteItem = (item: TIngredientItem) => {
         dispatch(deleteConstructorItem(item));
     }
 
@@ -30,8 +35,4 @@ const BurgerConstructorItem = ({ item }) => {
     );
 };
 
-BurgerConstructorItem.propTypes = {
-    item: IngredientItem.isRequired
-};
-
-export default BurgerConstructorItem;
+export default memo(BurgerConstructorItem);

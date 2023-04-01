@@ -11,11 +11,11 @@ import {
 
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
-const checkResponse = (res: any) => {
+const checkResponse = (res: Response) => {
     return res.ok ? res.json() : res.json().then((error: any) => Promise.reject(error));
 }
 
-const request = async (url: string, options?: any) => {
+const request = async (url: string, options?: RequestInit) => {
     return fetch(BURGER_API_URL + url, options)
         .then(checkResponse);
 }

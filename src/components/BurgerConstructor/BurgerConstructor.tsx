@@ -25,7 +25,7 @@ import BurgerConstructorItemList from './BurgerConstructorItemList/BurgerConstru
 
 import { useNavigate } from 'react-router-dom';
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();

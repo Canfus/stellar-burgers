@@ -1,4 +1,6 @@
 import {
+    FC,
+    FormEvent,
     memo,
     useCallback
 } from 'react';
@@ -7,7 +9,7 @@ import { useForm } from '../../hooks/useForm';
 
 import styles from './Register.module.css';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/hooks';
 import { register } from '../../services/slices/UserSlice';
 
 import { Link } from 'react-router-dom';
@@ -19,17 +21,19 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const Register = () => {
-    const dispatch = useDispatch();
+import { TRegisterData } from '../../utils/types';
 
-    const initialFormState = {
+const Register: FC = () => {
+    const dispatch = useAppDispatch();
+
+    const initialFormState: TRegisterData = {
         name: '',
         email: '',
         password: ''
     };
     const { values, handleChange } = useForm(initialFormState);
 
-    const handlePostRegisterForm = useCallback((e) => {
+    const handlePostRegisterForm = useCallback((e: FormEvent) => {
         e.preventDefault();
         dispatch(register(values));
     }, [dispatch, values]);

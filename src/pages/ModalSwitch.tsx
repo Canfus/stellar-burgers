@@ -1,8 +1,6 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 
-import PropTypes from 'prop-types';
-
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks/hooks';
 import { closeIngredientInfo } from '../services/slices/IngredientSlice';
 
 import { Route, useNavigate, Routes } from 'react-router-dom';
@@ -10,13 +8,17 @@ import { Route, useNavigate, Routes } from 'react-router-dom';
 import IngredientDetails from '../components/Modal/IngredientDetails/IngredientDetails';
 import Modal from '../components/Modal/Modal';
 
+interface ModalSwitchProps {
+    background: boolean;
+}
 
-const ModalSwitch = ({ background }) => {
+
+const ModalSwitch: FC<ModalSwitchProps> = ({ background }) => {
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (): void => {
         dispatch(closeIngredientInfo());
         navigate(-1);
     }
@@ -37,10 +39,6 @@ const ModalSwitch = ({ background }) => {
             )}
         </>
     );
-};
-
-ModalSwitch.propTypes = {
-    background: PropTypes.bool.isRequired
 };
 
 export default memo(ModalSwitch);

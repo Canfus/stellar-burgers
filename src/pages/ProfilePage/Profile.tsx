@@ -1,8 +1,10 @@
 import {
+    FC,
     memo,
     useState,
     useEffect,
-    useCallback
+    useCallback,
+    FormEvent
 } from 'react';
 
 import { useForm } from '../../hooks/useForm';
@@ -11,7 +13,7 @@ import styles from './Profile.module.css';
 
 import { Link } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { logout, updateUser } from '../../services/slices/UserSlice';
 
 import {
@@ -21,15 +23,17 @@ import {
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { TRegisterData } from '../../utils/types';
 
-const Profile = () => {
-    const dispatch = useDispatch();
 
-    const userData = useSelector((store) => store.userSlice);
+const Profile: FC = () => {
+    const dispatch = useAppDispatch();
 
-    const [disabledButtonState, setDisabledButtonState] = useState(true);
+    const userData = useAppSelector((store) => store.userSlice);
 
-    const initialFormState = {
+    const [disabledButtonState, setDisabledButtonState] = useState<boolean>(true);
+
+    const initialFormState: TRegisterData = {
         name: '',
         email: '',
         password: ''
@@ -55,7 +59,7 @@ const Profile = () => {
         dispatch(logout());
     }, [dispatch]);
 
-    const handleSubmitForm = useCallback((e) => {
+    const handleSubmitForm = useCallback((e: FormEvent) => {
         e.preventDefault();
 
         dispatch(updateUser(values));

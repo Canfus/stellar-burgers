@@ -1,9 +1,9 @@
-import { memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import styles from './ForgotPassword.module.css';
 
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -11,14 +11,16 @@ import { postResetCode } from '../../utils/burger-api';
 import { setItemLocalStorage } from '../../utils/localStorage';
 import { useForm } from '../../hooks/useForm';
 
-const ForgotPassword = () => {
+import { TPostResetCodeData } from '../../utils/types';
+
+const ForgotPassword: FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from || '/';
 
-    const isLoggedIn = useSelector((store) => store.userSlice.isLoggedIn);
+    const isLoggedIn = useAppSelector((store) => store.userSlice.isLoggedIn);
 
-    const initialFormState = {
+    const initialFormState: TPostResetCodeData = {
         email: ''
     };
 
@@ -27,8 +29,8 @@ const ForgotPassword = () => {
     const handlePostResetCode = useCallback(async () => {
         const res = await postResetCode(values.email);
         if (res.success) {
-            setItemLocalStorage('isCodeSent', true);
-            navigate('/reset-password', { from: location });
+            setItemLocalStorage('isCodeSent', 'true');
+            navigate('/reset-password', { state: { from: location } });
         }
     }, [values, navigate]);
 

@@ -1,4 +1,6 @@
 import {
+    FC,
+    FormEvent,
     memo,
     useCallback
 } from 'react';
@@ -7,7 +9,7 @@ import { useForm } from '../../hooks/useForm';
 
 import styles from './Login.module.css';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/hooks';
 import { login } from '../../services/slices/UserSlice';
 
 import { Link } from 'react-router-dom';
@@ -17,17 +19,18 @@ import {
     PasswordInput,
     Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { TLoginData } from '../../utils/types';
 
-const Login = () => {
-    const dispatch = useDispatch();
+const Login: FC = () => {
+    const dispatch = useAppDispatch();
 
-    const initialFormState = {
+    const initialFormState: TLoginData = {
         email: '',
         password: ''
     };
     const { values, handleChange } = useForm(initialFormState);
 
-    const handlePostLoginForm = useCallback((e) => {
+    const handlePostLoginForm = useCallback((e: FormEvent) => {
         e.preventDefault();
 
         dispatch(login(values));

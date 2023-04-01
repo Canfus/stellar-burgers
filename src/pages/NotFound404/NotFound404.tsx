@@ -1,11 +1,11 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import styles from './NotFound404.module.css';
 
 import notFoundImage from '../../images/404.png';
 
 import { Link } from 'react-router-dom';
 
-const NotFound404 = () => {
+const NotFound404: FC = () => {
     return (
         <section className={styles.NotFound}>
             <section className={styles.Container}>

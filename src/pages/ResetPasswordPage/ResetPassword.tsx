@@ -1,9 +1,15 @@
-import { memo, useCallback, useEffect } from 'react';
+import {
+    FC,
+    memo,
+    useCallback,
+    useEffect
+} from 'react';
+
 import styles from './ResetPassword.module.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 
 
 import {
@@ -16,10 +22,12 @@ import { postResetPassword } from '../../utils/burger-api';
 import { deleteItemLocalStorage, getItemLocalStorage } from '../../utils/localStorage';
 import { useForm } from '../../hooks/useForm';
 
-const ResetPassword = () => {
+import { TPostResetPasswordData } from '../../utils/types';
+
+const ResetPassword: FC = () => {
     const navigate = useNavigate();
 
-    const isLoggedIn = useSelector((store) => store.userSlice.isLoggedIn);
+    const isLoggedIn = useAppSelector((store) => store.userSlice.isLoggedIn);
 
     useEffect(() => {
         if (getItemLocalStorage('isCodeSent') !== 'true') {
@@ -30,7 +38,7 @@ const ResetPassword = () => {
         }
     }, [isLoggedIn, navigate]);
 
-    const initialFormState = {
+    const initialFormState :TPostResetPasswordData = {
         code: '',
         password: ''
     };

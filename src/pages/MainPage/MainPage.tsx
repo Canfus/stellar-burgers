@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import styles from './MainPage.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { closeOrderModal } from '../../services/slices/OrderSlice';
 
 import { DndProvider } from 'react-dnd';
@@ -17,11 +17,11 @@ import OrderPending from '../../components/Modal/OrderPending/OrderPending';
 import ConfirmOrder from '../../components/Modal/ConfirmOrder/ConfirmOrder';
 
 
-const MainPage = () => {
-    const state = useSelector((store) => store.ingredientsItems);
-    const orderInfo = useSelector((store) => store.order);
+const MainPage: FC = () => {
+    const state = useAppSelector((store) => store.ingredientsItems);
+    const orderInfo = useAppSelector((store) => store.order);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const handleCloseOrderModal = useCallback(() => {
         dispatch(closeOrderModal());
@@ -55,12 +55,12 @@ const MainPage = () => {
             )}
             {orderInfo.status === 'error' && (
                 <Modal onClose={handleCloseOrderModal}>
-                    <OrderError message={orderInfo.error} />
+                    {orderInfo.error && <OrderError message={orderInfo.error} />}
                 </Modal>
             )}
             {state.status === 'error' && (
                 <Modal onClose={handleCloseOrderModal}>
-                    <OrderError message={state.error} />
+                    {state.error && <OrderError message={state.error} />}
                 </Modal>
             )}
         </div>

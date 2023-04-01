@@ -1,14 +1,14 @@
-import { memo, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 
 import styles from './IngredientDetails.module.css';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../hooks/hooks';
 
 import { useParams } from 'react-router-dom';
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
     const { ingredientId } = useParams();
-    const ingredientsItems = useSelector((store) => store.ingredientsItems.items);
+    const ingredientsItems = useAppSelector((store) => store.ingredientsItems.items);
 
     const ingredientItem = useMemo(() => {
         return ingredientsItems.find(item => item._id === ingredientId);

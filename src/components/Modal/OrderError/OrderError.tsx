@@ -1,9 +1,11 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import styles from './OrderError.module.css';
 
-import PropTypes from 'prop-types';
+interface OrderErrorProps {
+    message: string;
+}
 
-const OrderError = ({ message }) => {
+const OrderError: FC<OrderErrorProps> = ({ message }) => {
 
     return (
         <div className={`${styles.OrderError} pt-30 pb-30`}>
@@ -16,9 +18,5 @@ const OrderError = ({ message }) => {
         </div>
     );
 };
-
-OrderError.propTypes = {
-    message: PropTypes.string.isRequired
-}
 
 export default memo(OrderError);

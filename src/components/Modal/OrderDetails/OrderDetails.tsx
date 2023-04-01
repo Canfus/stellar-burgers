@@ -1,10 +1,10 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import styles from './OrderDetails.module.css';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../hooks/hooks';
 
-const OrderDetails = () => {
-    const orderNumber = useSelector((store) => store.order.orderNumber);
+const OrderDetails: FC = () => {
+    const orderNumber = useAppSelector((store) => store.order.orderNumber);
 
     return (
         <div className={`${styles.OrderDetails} pt-30 pb-30`}>

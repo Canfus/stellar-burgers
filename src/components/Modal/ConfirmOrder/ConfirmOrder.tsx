@@ -1,11 +1,12 @@
 import {
+    FC,
     memo,
     useMemo,
     useCallback
 } from 'react';
 import styles from './ConfirmOrder.module.css';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { closeOrderModal, postOrder } from '../../../services/slices/OrderSlice';
 import { clearConstructorItems } from '../../../services/slices/ConstructorItemsSlice';
 
@@ -18,30 +19,27 @@ import {
 import ConfirmOrderItem from './ConfirmOrderItem/ConfirmOrderItem';
 
 const ConfirmOrder = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const constructorItems = useSelector((store) => store.constructorItems.items);
+    const constructorItems = useAppSelector((store) => store.constructorItems.items);
 
-    const table = {};
+    const table: any = {};
     const uniqueConstructorItems = useMemo(() => {
         return constructorItems.filter(({ _id }) => (!table[_id] && (table[_id] = 1)));
     }, [constructorItems, table]);
 
     const bun = useMemo(() => {
-        try {
+        if (constructorItems) {
             return constructorItems.find(item => item.type === 'bun');
-        } catch {
-            return null;
         }
     }, [constructorItems]);
 
-    const totalPrice = useMemo(() => {
-        try {
+    const totalPrice = useMemo<number>(() => {
+        if (bun) {
             return constructorItems.reduce((acc, item) => acc + item.price, 0) + bun.price;
-        } catch {
-            return 0;
         }
-    }, [constructorItems]);
+        return 0;
+    }, [constructorItems, bun]);
 
     const handlePostOrder = useCallback(() => {
         const ingredientsId = constructorItems.map(item => item._id);

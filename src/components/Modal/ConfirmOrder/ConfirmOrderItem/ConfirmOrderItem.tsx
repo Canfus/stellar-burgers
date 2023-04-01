@@ -1,13 +1,18 @@
-import { memo, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import styles from './ConfirmOrderItem.module.css';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../../../hooks/hooks';
 
-import IngredientItem from '../../../../utils/types.js';
+import { TIngredientItem } from '../../../../utils/types';
+
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const ConfirmOrderItem = ({ item }) => {
-    const constructorItems = useSelector((store) => store.constructorItems.items);
+interface ConfirmOrderItemProps {
+    item: TIngredientItem;
+}
+
+const ConfirmOrderItem: FC<ConfirmOrderItemProps> = ({ item }) => {
+    const constructorItems = useAppSelector((store) => store.constructorItems.items);
 
     const count = useMemo(() => {
         return item.type === 'bun'
@@ -35,10 +40,6 @@ const ConfirmOrderItem = ({ item }) => {
             </section>
         </section>
     );
-};
-
-ConfirmOrderItem.propTypes = {
-    item: IngredientItem.isRequired
 };
 
 export default memo(ConfirmOrderItem);

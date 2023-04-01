@@ -1,7 +1,7 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import styles from './OrderPending.module.css';
 
-const OrderPending = () => {
+const OrderPending: FC = () => {
     return (
         <div className={`${styles.OrderPending} pt-30 pb-30`}>
             <section className={styles.Loading}>

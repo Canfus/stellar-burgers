@@ -13,7 +13,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const AppHeader: FC = () => {
-    const userData = useAppSelector((store: any) => store.userSlice);
+    const userData = useAppSelector((store) => store.userSlice);
 
     return (
         <header className={styles.AppHeader}>

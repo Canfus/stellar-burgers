@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { FC, memo, useEffect } from 'react';
 import styles from './App.module.css';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
@@ -20,7 +20,7 @@ import NotFound404 from '../../pages/NotFound404/NotFound404';
 import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
 
-const App = () => {
+const App: FC = () => {
     const state = useAppSelector((store) => store.ingredientsItems);
     const userData = useAppSelector((store) => store.userSlice);
 
@@ -36,7 +36,7 @@ const App = () => {
     }, []);
 
     const location = useLocation();
-    let background = location.state && location.state.background ? true : false;
+    let background = location.state && location.state.background;
 
     return (
         <div className={styles.App}>

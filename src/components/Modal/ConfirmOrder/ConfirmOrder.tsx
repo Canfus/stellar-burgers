@@ -18,15 +18,15 @@ import {
 
 import ConfirmOrderItem from './ConfirmOrderItem/ConfirmOrderItem';
 
-const ConfirmOrder = () => {
+const ConfirmOrder: FC = () => {
     const dispatch = useAppDispatch();
 
     const constructorItems = useAppSelector((store) => store.constructorItems.items);
 
-    const table: any = {};
     const uniqueConstructorItems = useMemo(() => {
+        const table: any = {};
         return constructorItems.filter(({ _id }) => (!table[_id] && (table[_id] = 1)));
-    }, [constructorItems, table]);
+    }, [constructorItems]);
 
     const bun = useMemo(() => {
         if (constructorItems) {

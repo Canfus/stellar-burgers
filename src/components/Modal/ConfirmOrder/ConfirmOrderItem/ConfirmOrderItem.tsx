@@ -18,7 +18,7 @@ const ConfirmOrderItem: FC<ConfirmOrderItemProps> = ({ item }) => {
         return item.type === 'bun'
             ? constructorItems.filter(i => i._id === item._id).length + 1
             : constructorItems.filter(i => i._id === item._id).length;
-    }, [constructorItems]);
+    }, [constructorItems, item.type, item._id]);
 
     return (
         <section className={`${styles.ConfirmOrderItem}`}>

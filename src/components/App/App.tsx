@@ -19,6 +19,7 @@ import Profile from '../../pages/ProfilePage/Profile';
 import NotFound404 from '../../pages/NotFound404/NotFound404';
 import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
+import Feed from '../../pages/Feed/Feed';
 
 const App: FC = () => {
     const state = useAppSelector((store) => store.ingredientsItems);
@@ -55,6 +56,7 @@ const App: FC = () => {
                         <Routes location={background || location}>
                             <Route path='/' element={<MainPage />} />
                             <Route path='/profile' element={<ProtectedRoute element={<Profile />} />} />
+                            <Route path='/feed' element={<Feed />} />
                             <Route
                                 path='/ingredients/:ingredientId'
                                 element={<IngredientDetailsPage />}

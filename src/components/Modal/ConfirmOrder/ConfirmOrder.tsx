@@ -44,7 +44,7 @@ const ConfirmOrder: FC = () => {
     const handlePostOrder = useCallback(() => {
         const ingredientsId = constructorItems.map(item => item._id);
         dispatch(postOrder(ingredientsId));
-        dispatch(clearConstructorItems());
+        // dispatch(clearConstructorItems());
     }, [constructorItems, dispatch]);
 
     const handleCloseModal = () => {

@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type TInitialState = {
-    status: string;
+type TIngredientItemState = {
+    status: 'hidden' | 'visible';
 }
 
-const initialState: TInitialState = {
+const initialState: TIngredientItemState = {
     status: 'hidden'
 };
 

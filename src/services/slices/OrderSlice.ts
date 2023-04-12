@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { postIngredients } from '../../utils/burger-api';
-import { IOrderResponse } from '../../utils/types';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getOrderListRequest, postIngredients } from '../../utils/burger-api';
+import { IOrderListResponse, IOrderResponse, TOrder } from '../../utils/types';
 
 export const postOrder = createAsyncThunk<IOrderResponse, string[], { rejectValue: string }>(
     'orderSlice/postOrder',
@@ -14,20 +14,35 @@ export const postOrder = createAsyncThunk<IOrderResponse, string[], { rejectValu
     }
 );
 
-type TInitialState = {
-    status: string;
-    confirmStatus: string;
+export const getOrderList = createAsyncThunk<IOrderListResponse, undefined, { rejectValue: string }>(
+    'orderSlice/getOrderList',
+    async (_, { rejectWithValue }) => {
+        try {
+            return getOrderListRequest().then(data => data);
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+type TOrderState = {
+    status: 'hidden' | 'pending' | 'visible' | 'error';
+    confirmStatus: 'hidden' | 'visible';
     error: string | null;
-    name: string | null;
     orderNumber: number | null;
+    orders: TOrder[];
+    total: number | null;
+    totalToday: number | null;
 };
 
-const initialState: TInitialState = {
+const initialState: TOrderState = {
     status: 'hidden',
     confirmStatus: 'hidden',
     error: null,
-    name: null,
-    orderNumber: null
+    orderNumber: null,
+    orders: [],
+    total: null,
+    totalToday: null
 };
 
 const OrderSlice = createSlice({
@@ -37,24 +52,20 @@ const OrderSlice = createSlice({
         closeOrderModal: (state) => {
             state.status = 'hidden';
             state.confirmStatus = 'hidden';
-            state.error = null;
-            state.name = null;
-            state.orderNumber = null;
         },
         openOrderModal: (state) => {
             state.confirmStatus = 'visible';
         }
     },
     extraReducers: (builder) => {
+        // postOrder request
         builder
             .addCase(postOrder.pending, (state) => {
                 state.status = 'pending';
                 state.error = null;
-                state.name = null;
                 state.orderNumber = null;
             })
-            .addCase(postOrder.fulfilled, (state, action) => {
-                state.name = action.payload.name;
+            .addCase(postOrder.fulfilled, (state, action: PayloadAction<IOrderResponse>) => {
                 state.orderNumber = action.payload.order.number;
                 state.status = 'visible';
             })
@@ -64,6 +75,25 @@ const OrderSlice = createSlice({
                     state.error = action.error.message;
                 }
             });
+        // getOrderList request
+        builder
+            .addCase(getOrderList.pending, (state) => {
+                state.error = null;
+                state.orders = [];
+                state.total = null;
+                state.totalToday = null;
+            })
+            .addCase(getOrderList.fulfilled, (state, action: PayloadAction<IOrderListResponse>) => {
+                state.orders = action.payload.orders;
+                state.total = action.payload.total;
+                state.totalToday = action.payload.totalToday;
+            })
+            .addCase(getOrderList.rejected, (state, action) => {
+                state.status = 'error';
+                if (action.error.message) {
+                    state.error = action.error.message;
+                }
+            })
     }
 });
 

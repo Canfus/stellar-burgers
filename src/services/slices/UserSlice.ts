@@ -66,7 +66,7 @@ export const login = createAsyncThunk<IAuthResponse, TLoginData, { rejectValue: 
     }
 );
 
-export const logout = createAsyncThunk(
+export const logout = createAsyncThunk<undefined, undefined, { rejectValue: string }>(
     'userSlice/logout',
     async (_, { rejectWithValue }) => {
         try {
@@ -77,17 +77,17 @@ export const logout = createAsyncThunk(
     }
 );
 
-type TInitialState = {
+type TUserState = {
     user: {
         name: string | null;
         email: string | null;
     };
     isLoggedIn: boolean;
-    status: string | null;
+    status: 'pending' | 'ok' | 'error' | null;
     error: string | null;
 };
 
-const initialState: TInitialState = {
+const initialState: TUserState = {
     user: {
         name: null,
         email: null

@@ -12,11 +12,21 @@ export type TIngredientItem = {
     image_mobile: string;
     image_large: string;
     __v: number;
-}
+};
+
+export type TOrder = {
+    ingredients: string[];
+    _id: string;
+    status: string;
+    number: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+};
 
 interface IResponse {
     success: boolean;
-};
+}
 
 export interface IAuthResponse extends IResponse {
     user: {
@@ -39,7 +49,13 @@ export interface IOrderResponse extends IResponse {
     order: {
         number: number;
     }
-};
+}
+
+export interface IOrderListResponse extends IResponse {
+    orders: TOrder[];
+    total: number;
+    totalToday: number;
+}
 
 export type TPostIngredientsData = {
     ingredients: string[];

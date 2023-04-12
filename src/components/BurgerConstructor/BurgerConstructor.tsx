@@ -54,12 +54,6 @@ const BurgerConstructor: FC = () => {
         return 0;
     }, [constructorItems, bun]);
 
-    const handlePostOrder = useCallback(() => {
-        const ingredientsId = constructorItems.map(item => item._id);
-        dispatch(postOrder(ingredientsId));
-        dispatch(clearConstructorItems());
-    }, [constructorItems, dispatch]);
-
     const handleCheckOrder = useCallback(() => {
         if (!userData.isLoggedIn) {
             navigate('/login', { replace: true });

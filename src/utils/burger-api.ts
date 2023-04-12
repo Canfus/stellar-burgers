@@ -6,7 +6,7 @@ import {
     TLoginData,
     TUpdateUserData,
     TPostResetCodeData,
-    TPostResetPasswordData
+    TPostResetPasswordData,
 } from './types';
 
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
@@ -130,5 +130,14 @@ export const postResetPassword = async (form: TPostResetPasswordData) => {
             password: form.password,
             token: form.code
          })
+    });
+}
+
+export const getOrderListRequest = async () => {
+    return await request('/orders/all', {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json'
+        }
     });
 }

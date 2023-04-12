@@ -13,13 +13,13 @@ export const fetchIngredientsData = createAsyncThunk<TIngredientItem[], undefine
     }
 );
 
-type TInitialState = {
-    status: string | null;
+type TIngredientsItemsState = {
+    status: 'loading' | 'ok' | 'error' | null;
     error: string | null;
     items: TIngredientItem[];
 };
 
-const initialState: TInitialState = {
+const initialState: TIngredientsItemsState = {
     status: null,
     error: null,
     items: []

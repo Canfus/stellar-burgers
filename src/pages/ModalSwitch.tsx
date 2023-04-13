@@ -7,9 +7,11 @@ import { Route, useNavigate, Routes } from 'react-router-dom';
 
 import IngredientDetails from '../components/Modal/IngredientDetails/IngredientDetails';
 import Modal from '../components/Modal/Modal';
+import { closeOrderDetails } from '../services/slices/OrderSlice';
+import OrderDetails from '../components/Modal/OrderDetails/OrderDetails';
 
 interface ModalSwitchProps {
-    background: boolean;
+    background: any;
 }
 
 
@@ -23,6 +25,11 @@ const ModalSwitch: FC<ModalSwitchProps> = ({ background }) => {
         navigate(-1);
     }
 
+    const handleCloseOrderDetails = (): void => {
+        dispatch(closeOrderDetails());
+        navigate(-1);
+    }
+
     return (
         <>
             {background && (
@@ -32,6 +39,22 @@ const ModalSwitch: FC<ModalSwitchProps> = ({ background }) => {
                         element={
                             <Modal onClose={handleCloseModal}>
                                 <IngredientDetails />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/feed/:orderId'
+                        element={
+                            <Modal onClose={handleCloseOrderDetails}>
+                                <OrderDetails />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/profile/orders/:orderId'
+                        element={
+                            <Modal onClose={handleCloseOrderDetails}>
+                                <OrderDetails />
                             </Modal>
                         }
                     />

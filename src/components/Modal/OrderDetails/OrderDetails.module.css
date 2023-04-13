@@ -1,17 +1,69 @@
 .OrderDetails {
-    position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
-    min-width: 720px;
-}
-
-.OrderNumber {
-    text-shadow: 0 0 20px #4C4CFF;
+    text-align: left;
+    width: 640px;
 }
 
 .Done {
-    width: 120px;
-    height: 120px;
+    color: #00cccc;
+}
+
+.IngredientImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 68px;
+    height: 68px;
+    background: linear-gradient(45deg, #801AB2, #4C4CFF);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.IngredientImageOverlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.IngredientImageOverlay>img {
+    height: 56px;
+}
+
+.Ingredients {
+    width: 100%;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.IngredientInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 608px;
+}
+
+.IngredientItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.TimeTotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
 }

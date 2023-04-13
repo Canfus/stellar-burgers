@@ -9,8 +9,8 @@ import styles from './BurgerConstructor.module.css';
 import { TIngredientItem } from '../../utils/types';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { addConstructorItem, clearConstructorItems } from '../../services/slices/ConstructorItemsSlice';
-import { openOrderModal, postOrder } from '../../services/slices/OrderSlice';
+import { addConstructorItem } from '../../services/slices/ConstructorItemsSlice';
+import { openOrderModal } from '../../services/slices/OrderSlice';
 
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';

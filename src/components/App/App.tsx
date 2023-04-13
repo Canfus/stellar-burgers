@@ -1,11 +1,11 @@
-import { FC, memo, useEffect } from 'react';
+import { FC, memo, useEffect, useCallback } from 'react';
 import styles from './App.module.css';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
 import { getUserData } from '../../services/slices/UserSlice';
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRouteElement';
 
 import AppHeader from '../AppHeader/AppHeader';
@@ -20,6 +20,10 @@ import NotFound404 from '../../pages/NotFound404/NotFound404';
 import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
 import Feed from '../../pages/Feed/Feed';
+import OrderDetailsPage from '../../pages/OrderDetailsPage/OrderDetailsPage';
+import { getOrderList } from '../../services/slices/OrderSlice';
+import Modal from '../Modal/Modal';
+import ProfileOrders from '../../pages/ProfileOrdersPage/ProfileOrders';
 
 const App: FC = () => {
     const state = useAppSelector((store) => store.ingredientsItems);
@@ -56,11 +60,10 @@ const App: FC = () => {
                         <Routes location={background || location}>
                             <Route path='/' element={<MainPage />} />
                             <Route path='/profile' element={<ProtectedRoute element={<Profile />} />} />
+                            <Route path='/profile/orders' element={<ProtectedRoute element={<ProfileOrders />} />} />
                             <Route path='/feed' element={<Feed />} />
-                            <Route
-                                path='/ingredients/:ingredientId'
-                                element={<IngredientDetailsPage />}
-                            />
+                            <Route path='/feed/:orderId' element={<OrderDetailsPage />} />
+                            <Route path='/ingredients/:ingredientId' element={<IngredientDetailsPage />} />
                             <Route path='/login' element={<ProtectedRoute anonymous element={<Login />} />} />
                             <Route path='/register' element={<ProtectedRoute anonymous element={<Register />} />} />
                             <Route path='/forgot-password' element={<ProtectedRoute anonymous element={<ForgotPassword />} />} />

@@ -6,6 +6,8 @@
     text-align: left;
     width: 536px;
     border-radius: 40px;
+    text-decoration: none;
+    color: #fff;
     background-color: #1c1c21;
 }
 
@@ -71,4 +73,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.Done {
+    color: #00cccc;
 }

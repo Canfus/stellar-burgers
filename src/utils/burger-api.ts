@@ -141,3 +141,12 @@ export const getOrderListRequest = async () => {
         }
     });
 }
+
+export const getProfileOrderListRequest = async (token: string) => {
+    return await request(`/orders?token=${token}`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json'
+        }
+    });
+}

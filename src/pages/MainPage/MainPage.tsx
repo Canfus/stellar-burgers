@@ -11,7 +11,7 @@ import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredie
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
 
 import Modal from '../../components/Modal/Modal';
-import OrderDetails from '../../components/Modal/OrderDetails/OrderDetails';
+import OrderDetails from '../../components/Modal/OrderConfirmed/OrderConfirmed';
 import OrderError from '../../components/Modal/OrderError/OrderError';
 import OrderPending from '../../components/Modal/OrderPending/OrderPending';
 import ConfirmOrder from '../../components/Modal/ConfirmOrder/ConfirmOrder';

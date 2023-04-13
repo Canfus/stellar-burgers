@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getOrderListRequest, postIngredients } from '../../utils/burger-api';
+import { getOrderListRequest, getProfileOrderListRequest, postIngredients, requestWithToken } from '../../utils/burger-api';
 import { IOrderListResponse, IOrderResponse, TOrder } from '../../utils/types';
 
 export const postOrder = createAsyncThunk<IOrderResponse, string[], { rejectValue: string }>(
@@ -33,6 +33,10 @@ type TOrderState = {
     orders: TOrder[];
     total: number | null;
     totalToday: number | null;
+    currentOrder: {
+        order: TOrder | null;
+        status: 'hidden' | 'visible';
+    }
 };
 
 const initialState: TOrderState = {
@@ -42,7 +46,11 @@ const initialState: TOrderState = {
     orderNumber: null,
     orders: [],
     total: null,
-    totalToday: null
+    totalToday: null,
+    currentOrder: {
+        order: null,
+        status: 'hidden'
+    }
 };
 
 const OrderSlice = createSlice({
@@ -55,6 +63,13 @@ const OrderSlice = createSlice({
         },
         openOrderModal: (state) => {
             state.confirmStatus = 'visible';
+        },
+        openOrderDetails: (state, action: PayloadAction<TOrder>) => {
+            state.currentOrder.order = action.payload;
+            state.currentOrder.status = 'visible';
+        },
+        closeOrderDetails: (state) => {
+            state.currentOrder.status = 'hidden';
         }
     },
     extraReducers: (builder) => {
@@ -71,8 +86,8 @@ const OrderSlice = createSlice({
             })
             .addCase(postOrder.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
             });
         // getOrderList request
@@ -90,13 +105,18 @@ const OrderSlice = createSlice({
             })
             .addCase(getOrderList.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
-            })
+            });
     }
 });
 
-export const { closeOrderModal, openOrderModal } = OrderSlice.actions;
+export const {
+    closeOrderModal,
+    openOrderModal,
+    openOrderDetails,
+    closeOrderDetails
+} = OrderSlice.actions;
 
 export default OrderSlice.reducer;

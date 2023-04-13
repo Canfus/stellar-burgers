@@ -1,0 +1,35 @@
+.ProfileOrders {
+    text-align: center;
+}
+
+.ProfileOrdersContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.Navigation {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 320px;
+    text-align: left;
+}
+
+.Link {
+    text-decoration: none;
+}
+
+.text_color_active {
+    color: #fff
+}
+
+.OrderList {
+    height: 83vh;
+    overflow-y: auto;
+}
+
+.OrderItem {
+    width: 844px;
+}

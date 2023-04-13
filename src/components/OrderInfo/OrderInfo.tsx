@@ -29,8 +29,8 @@ const OrderInfo: FC = () => {
                         Готовы:
                     </p>
                     <section className={`${styles.OrderNumbers} ${styles.Ready}`}>
-                        {ordersReady && ordersReady.slice(0, 10).map(orderNumber => (
-                            <p className='text text_type_digits-default '>
+                        {ordersReady && ordersReady.slice(0, 10).map((orderNumber, index) => (
+                            <p key={index} className='text text_type_digits-default '>
                                 {orderNumber}
                             </p>
                         ))}
@@ -41,8 +41,8 @@ const OrderInfo: FC = () => {
                         В работе:
                     </p>
                     <section className={`${styles.OrderNumbers}`}>
-                        {ordersInWork && ordersInWork.slice(0, 10).map(orderNumber => (
-                            <p className='text text_type_digits-default '>
+                        {ordersInWork && ordersInWork.map((orderNumber, index) => (
+                            <p key={index} className='text text_type_digits-default '>
                                 {orderNumber}
                             </p>
                         ))}
@@ -57,7 +57,7 @@ const OrderInfo: FC = () => {
                     {order.total}
                 </p>
             </section>
-            <section className={`${styles.Total} mb-15`}>
+            <section className={styles.Total}>
                 <p className='text text_type_main-medium'>
                     Выполнено за сегодня:
                 </p>

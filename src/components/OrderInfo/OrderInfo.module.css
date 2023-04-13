@@ -34,7 +34,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 272px;
-    height: 140px;
+    max-height: 140px;
 }
 
 .Ready {

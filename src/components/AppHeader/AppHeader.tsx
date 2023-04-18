@@ -3,7 +3,7 @@ import styles from './AppHeader.module.css';
 
 import { useAppSelector } from '../../hooks/hooks';
 
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import {
     BurgerIcon,
@@ -55,9 +55,9 @@ const AppHeader: FC = () => {
                     )}
                 </NavLink>
             </section>
-            <section className={styles.Logo}>
+            <Link to='/' className={styles.Logo}>
                 <Logo />
-            </section>
+            </Link>
         </header>
     );
 };

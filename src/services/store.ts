@@ -5,8 +5,24 @@ import IngredientSlice from './slices/IngredientSlice';
 import OrderSlice from './slices/OrderSlice';
 import UserSlice from './slices/UserSlice';
 
-import { socketMiddleware } from './middlewares/socketMiddleware';
+import { createSocketMiddleware } from './middlewares/socketMiddleware';
 import socketSlice from './slices/socketSlice';
+import { TwsActions } from '../utils/types';
+import {
+    websocketStartConnecting,
+    websocketConnecting,
+    websocketDisconnecting,
+    webSocketError
+} from './slices/socketSlice';
+
+const wsActions: TwsActions = {
+    websocketStartConnecting,
+    websocketConnecting,
+    websocketDisconnecting,
+    webSocketError
+}
+
+const socketMiddleware = createSocketMiddleware(wsActions);
 
 const store = configureStore({
     reducer: {

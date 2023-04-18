@@ -9,6 +9,7 @@ import IngredientDetails from '../components/Modal/IngredientDetails/IngredientD
 import Modal from '../components/Modal/Modal';
 import { closeOrderDetails } from '../services/slices/OrderSlice';
 import OrderDetails from '../components/Modal/OrderDetails/OrderDetails';
+import { ProtectedRoute } from '../components/ProtectedRouteElement';
 
 interface ModalSwitchProps {
     background: Location;
@@ -53,9 +54,11 @@ const ModalSwitch: FC<ModalSwitchProps> = ({ background }) => {
                     <Route
                         path='/profile/orders/:orderId'
                         element={
-                            <Modal onClose={handleCloseOrderDetails}>
-                                <OrderDetails />
-                            </Modal>
+                            <ProtectedRoute element={
+                                <Modal onClose={handleCloseOrderDetails}>
+                                    <OrderDetails />
+                                </Modal>
+                            } />
                         }
                     />
                 </Routes>

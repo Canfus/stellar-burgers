@@ -1,3 +1,11 @@
+import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
+import {
+    webSocketError,
+    websocketConnecting,
+    websocketDisconnecting,
+    websocketStartConnecting
+} from "../services/slices/socketSlice";
+
 export type TIngredientItem = {
     dragId?: string;
     _id: string;
@@ -92,3 +100,10 @@ export type TPostResetPasswordData = {
     password: string;
     code: string;
 };
+
+export type TwsActions = {
+    websocketStartConnecting: ActionCreatorWithPayload<string, "socketSlice/websocketStartConnecting">;
+    websocketConnecting: ActionCreatorWithoutPayload<'socketSlice/websocketConnecting'>;
+    websocketDisconnecting: ActionCreatorWithoutPayload<'socketSlice/websocketDisconnecting'>;
+    webSocketError: ActionCreatorWithPayload<any, 'socketSlice/webSocketError'>;
+}

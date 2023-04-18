@@ -22,13 +22,21 @@ const OrderDetails: FC = () => {
 
     const ingredientsStore = useAppSelector(store => store.ingredientsItems.items);
 
-    const ingredients = useMemo(() => {
+    const ingredients = useMemo<TIngredientItem[]>(() => {
         const ingredients: TIngredientItem[] = [];
         order?.ingredients.forEach((ingredientId: string) => {
-            ingredients.push(ingredientsStore.find(ingredient => ingredient._id === ingredientId) as TIngredientItem);
+            if (ingredientId !== null || ingredientId !== undefined) {
+                const ingredientItem = ingredientsStore
+                    .find(ingredient => ingredient._id === ingredientId);
+                if (ingredientItem !== undefined) {
+                    ingredients.push(ingredientItem);
+                }
+            }
         });
         return ingredients;
     }, [order, ingredientsStore]);
+
+    console.log(ingredients);
 
     const uniqueIngredients = useMemo(() => {
         const table: any = {};

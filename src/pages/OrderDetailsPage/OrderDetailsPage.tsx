@@ -28,6 +28,7 @@ const OrderDetailsPage: FC = () => {
     }, [pathname]);
 
     useEffect(() => {
+        console.log('я подключился')
         dispatch(websocketStartConnecting(`${WS_BURGER_API_URL}${endpoint}`));
         
         return () => {

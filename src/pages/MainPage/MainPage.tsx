@@ -18,15 +18,14 @@ import ConfirmOrder from '../../components/Modal/ConfirmOrder/ConfirmOrder';
 
 
 const MainPage: FC = () => {
+    const dispatch = useAppDispatch();
+
     const state = useAppSelector((store) => store.ingredientsItems);
     const orderInfo = useAppSelector((store) => store.order);
-
-    const dispatch = useAppDispatch();
 
     const handleCloseOrderModal = useCallback(() => {
         dispatch(closeOrderModal());
     }, [dispatch]);
-
 
     return (
         <div className={styles.MainPage}>

@@ -11,7 +11,7 @@ import { closeOrderDetails } from '../services/slices/OrderSlice';
 import OrderDetails from '../components/Modal/OrderDetails/OrderDetails';
 
 interface ModalSwitchProps {
-    background: any;
+    background: Location;
 }
 
 

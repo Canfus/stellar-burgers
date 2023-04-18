@@ -28,6 +28,11 @@ interface IResponse {
     success: boolean;
 }
 
+export interface ITokenResponse extends IResponse {
+    accessToken: string;
+    refreshToken: string;
+}
+
 export interface IAuthResponse extends IResponse {
     user: {
         email: string;
@@ -55,6 +60,7 @@ export interface IOrderListResponse extends IResponse {
     orders: TOrder[];
     total: number;
     totalToday: number;
+    message?: string;
 }
 
 export type TPostIngredientsData = {

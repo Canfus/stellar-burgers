@@ -24,28 +24,32 @@ const OrderInfo: FC = () => {
     return (
         <div className={`${styles.OrderInfo} ml-15`}>
             <section className={`${styles.OrdersState} mb-15`}>
-                <section className={styles.OrdersReady}>
+                <section className={`${styles.OrdersReady} mr-4`}>
                     <p className='text text_type_main-medium'>
                         Готовы:
                     </p>
-                    <section className={`${styles.OrderNumbers} ${styles.Ready}`}>
-                        {ordersReady && ordersReady.slice(0, 10).map((orderNumber, index) => (
-                            <p key={index} className='text text_type_digits-default '>
-                                {orderNumber}
-                            </p>
-                        ))}
+                    <section className={styles.OrderNumbersContainer}>
+                        <section className={`${styles.OrderNumbers} ${styles.Ready}`}>
+                            {ordersReady && ordersReady.map((orderNumber, index) => (
+                                <p key={index} className='text text_type_digits-default '>
+                                    {orderNumber}
+                                </p>
+                            ))}
+                        </section>
                     </section>
                 </section>
                 <section className={styles.OrdersInWork}>
                     <p className='text text_type_main-medium'>
                         В работе:
                     </p>
-                    <section className={`${styles.OrderNumbers}`}>
-                        {ordersInWork && ordersInWork.map((orderNumber, index) => (
-                            <p key={index} className='text text_type_digits-default '>
-                                {orderNumber}
-                            </p>
-                        ))}
+                    <section className={styles.OrderNumbersContainer}>
+                        <section className={`${styles.OrderNumbers}`}>
+                            {ordersInWork && ordersInWork.map((orderNumber, index) => (
+                                <p key={index} className='text text_type_digits-default '>
+                                    {orderNumber}
+                                </p>
+                            ))}
+                        </section>
                     </section>
                 </section>
             </section>

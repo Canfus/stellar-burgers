@@ -1,16 +1,17 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
-    getProfileOrderListRequest,
     getUserRequest,
     loginRequest,
     logoutRequest,
     registerRequest,
     requestWithToken,
+    updateAccessTokenRequest,
     updateUserRequest
 } from '../../utils/burger-api';
 
 import {
     IOrderListResponse,
+    ITokenResponse,
     TLoginData,
     TOrder,
     TRegisterData,
@@ -80,28 +81,11 @@ export const logout = createAsyncThunk<undefined, undefined, { rejectValue: stri
     }
 );
 
-export const getProfileOrderList = createAsyncThunk<IOrderListResponse, string, { rejectValue: string }>(
-    'orderSlice/getProfileOrderList',
-    async (token, { rejectWithValue }) => {
-        try {
-            return requestWithToken(await getProfileOrderListRequest(token))
-                .then(data => data);
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
-
 type TUserState = {
     user: {
         name: string | null;
         email: string | null;
     };
-    order: {
-        orders: TOrder[];
-        total: number | null;
-        totalToday: number | null;
-    }
     isLoggedIn: boolean;
     status: 'pending' | 'ok' | 'error' | null;
     error: string | null;
@@ -111,11 +95,6 @@ const initialState: TUserState = {
     user: {
         name: null,
         email: null
-    },
-    order: {
-        orders: [],
-        total: null,
-        totalToday: null
     },
     isLoggedIn: false,
     status: null,
@@ -221,25 +200,6 @@ export const UserSlice = createSlice({
                 state.user.email = action.payload.user.email;
             })
             .addCase(updateUser.rejected, (state, action) => {
-                state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
-                }
-            });
-        //getProfileOrderList
-        builder
-            .addCase(getProfileOrderList.pending, (state) => {
-                state.error = null;
-                state.order.orders = [];
-                state.order.total = null;
-                state.order.totalToday = null;
-            })
-            .addCase(getProfileOrderList.fulfilled, (state, action: PayloadAction<IOrderListResponse>) => {
-                state.order.orders = action.payload.orders;
-                state.order.total = action.payload.total;
-                state.order.totalToday = action.payload.totalToday;
-            })
-            .addCase(getProfileOrderList.rejected, (state, action) => {
                 state.status = 'error';
                 if (action.payload) {
                     state.error = action.payload;

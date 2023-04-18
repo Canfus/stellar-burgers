@@ -1,14 +1,15 @@
-import { FC, memo, useEffect, useCallback } from 'react';
+import { FC, memo, useEffect } from 'react';
 import styles from './App.module.css';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
 import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
 import { getUserData } from '../../services/slices/UserSlice';
 
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRouteElement';
 
 import AppHeader from '../AppHeader/AppHeader';
+import Loader from '../Loader/Loader';
 
 import MainPage from '../../pages/MainPage/MainPage';
 import Login from '../../pages/LoginPage/Login';
@@ -21,14 +22,9 @@ import ModalSwitch from '../../pages/ModalSwitch';
 import IngredientDetailsPage from '../../pages/IngredientDetailsPage/IngredientDetailsPage';
 import Feed from '../../pages/Feed/Feed';
 import OrderDetailsPage from '../../pages/OrderDetailsPage/OrderDetailsPage';
-import { getOrderList } from '../../services/slices/OrderSlice';
-import Modal from '../Modal/Modal';
 import ProfileOrders from '../../pages/ProfileOrdersPage/ProfileOrders';
 
 const App: FC = () => {
-    const state = useAppSelector((store) => store.ingredientsItems);
-    const userData = useAppSelector((store) => store.userSlice);
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -40,19 +36,19 @@ const App: FC = () => {
         // eslint-disable-next-line
     }, []);
 
+    const state = useAppSelector((store) => store.ingredientsItems);
+    const userData = useAppSelector((store) => store.userSlice);
+
+
     const location = useLocation();
     let background = location.state && location.state.background;
+    console.log(background);
 
     return (
         <div className={styles.App}>
             {state.status === 'loading'
                 ? (
-                    <section className={styles.Loading}>
-                        <div className={styles.Loader}>
-                            <span></span>
-                        </div>
-                        <p className='text text_type_main-medium mt-4'>Ловим связь с соседней галактики</p>
-                    </section>
+                    <Loader />
                 )
                 : (
                     <>
@@ -61,6 +57,7 @@ const App: FC = () => {
                             <Route path='/' element={<MainPage />} />
                             <Route path='/profile' element={<ProtectedRoute element={<Profile />} />} />
                             <Route path='/profile/orders' element={<ProtectedRoute element={<ProfileOrders />} />} />
+                            <Route path='/profile/orders/:orderId' element={<ProtectedRoute background={background} element={<OrderDetailsPage />} />} />
                             <Route path='/feed' element={<Feed />} />
                             <Route path='/feed/:orderId' element={<OrderDetailsPage />} />
                             <Route path='/ingredients/:ingredientId' element={<IngredientDetailsPage />} />

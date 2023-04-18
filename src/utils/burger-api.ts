@@ -1,4 +1,4 @@
-import { getItemLocalStorage } from './localStorage';
+import { deleteItemLocalStorage, getItemLocalStorage, setItemLocalStorage } from './localStorage';
 
 import {
     TPostIngredientsData,
@@ -7,9 +7,12 @@ import {
     TUpdateUserData,
     TPostResetCodeData,
     TPostResetPasswordData,
+    ITokenResponse,
 } from './types';
 
 export const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
+
+export const WS_BURGER_API_URL = 'wss://norma.nomoreparties.space';
 
 const checkResponse = (res: Response) => {
     return res.ok ? res.json() : res.json().then((error: any) => Promise.reject(error));
@@ -21,11 +24,16 @@ const request = async (url: string, options?: RequestInit) => {
 }
 
 export const requestWithToken = async (req: (data?: any) => Promise<any>, data?: any) => {
-    let res = await req(data);
-    if (!res.success) {
-        await updateAccessTokenRequest();
-        res = await req(data);
-    }
+    let res = await req(data)
+        if (!res.success) {
+            deleteItemLocalStorage('accessToken');
+            await updateAccessTokenRequest()
+                .then((data: ITokenResponse) => {
+                    setItemLocalStorage('accessToken', data.accessToken.split('Bearer ')[1]);
+                    setItemLocalStorage('refreshToken', data.refreshToken);
+                });
+            res = await req(data);
+        }
     return res;
 }
 
@@ -37,7 +45,8 @@ export const postIngredients = async (orderData: TPostIngredientsData) => {
     return await request('/orders', {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${getItemLocalStorage('accessToken')}`
         },
         body: JSON.stringify(orderData)
     });
@@ -123,27 +132,18 @@ export const postResetCode = async (email: TPostResetCodeData) => {
 export const postResetPassword = async (form: TPostResetPasswordData) => {
     return await request('/password-reset/reset', {
         method: 'POST',
-         headers: {
-            'Content-type': 'application/json'
-         },
-         body: JSON.stringify({
-            password: form.password,
-            token: form.code
-         })
-    });
-}
-
-export const getOrderListRequest = async () => {
-    return await request('/orders/all', {
-        method: 'GET',
         headers: {
             'Content-type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+            password: form.password,
+            token: form.code
+        })
     });
 }
 
-export const getProfileOrderListRequest = async (token: string) => {
-    return await request(`/orders?token=${token}`, {
+export const getOrderRequest = async (orderId: string) => {
+    return await request(`/orders/${orderId}`,{
         method: 'GET',
         headers: {
             'Content-type': 'application/json'

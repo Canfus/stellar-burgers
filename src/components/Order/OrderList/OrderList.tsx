@@ -1,7 +1,6 @@
-import { FC, memo, useEffect } from 'react';
+import { FC, memo } from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
-import { getOrderList } from '../../../services/slices/OrderSlice';
+import { useAppSelector } from '../../../hooks/hooks';
 
 import OrderItem from '../OrderItem/OrderItem';
 
@@ -10,12 +9,6 @@ import styles from './OrderList.module.css';
 import { TOrder } from '../../../utils/types';
 
 const OrderList: FC = () => {
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(getOrderList())
-    }, [dispatch]);
-
     const orders = useAppSelector(store => store.order.orders);
 
     return (

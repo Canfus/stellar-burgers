@@ -27,14 +27,19 @@
     flex-direction: column;
 }
 
+.OrderNumbersContainer {
+    width: 272px;
+    height: 240px;
+    overflow-y: auto;
+}
+
 .OrderNumbers {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 272px;
-    max-height: 140px;
+    max-height: 500px;
 }
 
 .Ready {

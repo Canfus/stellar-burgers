@@ -18,14 +18,18 @@ interface OrderItemProps {
 
 const OrderItem: FC<OrderItemProps> = ({ order, withStatus = false, extraClass = undefined }) => {
     const location = useLocation();
+    console.log(location);
 
     const ingredientsStore = useAppSelector(store => store.ingredientsItems.items);
 
     const ingredients = useMemo<TIngredientItem[]>(() => {
         const ingredients: TIngredientItem[] = [];
         order.ingredients.forEach((ingredientId: string) => {
-            if (ingredientId !== null) {
-                ingredients.push(ingredientsStore.find(ingredient => (ingredient._id === ingredientId) && ingredient !== undefined) as TIngredientItem);
+            if (ingredientId !== null || ingredientId !== undefined) {
+                const ingredientItem = ingredientsStore.find(ingredient => (ingredient._id === ingredientId) && (ingredient !== undefined));
+                if (ingredientItem) {
+                    ingredients.push(ingredientItem);
+                }
             }
         });
         return ingredients;

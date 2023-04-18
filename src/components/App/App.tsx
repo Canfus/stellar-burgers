@@ -42,7 +42,6 @@ const App: FC = () => {
 
     const location = useLocation();
     let background = location.state && location.state.background;
-    console.log(background);
 
     return (
         <div className={styles.App}>

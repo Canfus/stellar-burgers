@@ -23,16 +23,19 @@ const BurgerIngredients: FC = () => {
 
     const [currentCategory, setCurrentCategory] = useState(0);
 
-    const scrollArea = useRef(null);
+    const scrollArea = useRef<HTMLElement>(null);
     const refs = useRef<HTMLParagraphElement[]>([]);
 
-    const setCategory = (index: number) => {
+    const scrollCategory = (index: number) => {
         refs.current[index].scrollIntoView({ block: 'start', behavior: 'smooth' });
-        setCurrentCategory(index);
     }
 
+    interface Headers {
+        [key: string]: boolean;
+    }
+    
     useEffect(() => {
-        const headers: any = {};
+        const headers: Headers = {};
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -40,7 +43,7 @@ const BurgerIngredients: FC = () => {
             });
             for (const header in headers) {
                 if (headers[header]) {
-                    setCategory(Number(header));
+                    setCurrentCategory(Number(header));
                     break;
                 }
             }
@@ -49,7 +52,6 @@ const BurgerIngredients: FC = () => {
         refs.current.forEach(element => {
             observer.observe(element);
         });
-
         return () => observer.disconnect();
     }, [refs]);
 
@@ -58,7 +60,7 @@ const BurgerIngredients: FC = () => {
             <p className='text text_type_main-large mb-5'>
                 Соберите бургер
             </p>
-            <BurgerIngredientsTab currentCategory={currentCategory} setCategory={setCategory} />
+            <BurgerIngredientsTab currentCategory={currentCategory} scrollCategory={scrollCategory} />
             <section ref={scrollArea} className={styles.BurgerIngredientsContainer}>
                 <BurgerIngredientsItemList index={0} refs={refs} title='Булки' data={buns} />
                 <BurgerIngredientsItemList index={1} refs={refs} title='Соусы' data={sauces} />

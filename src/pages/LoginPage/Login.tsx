@@ -70,8 +70,15 @@ const Login: FC = () => {
                     onChange={handleChange}
                     value={values.password}
                     name={'password'}
-                    extraClass='mt-6 mb-6'
+                    extraClass='mt-6 mb-3'
                 />
+                {user.status === 'error' && (
+                    <section className={`${styles.Error} mb-3`}>
+                        <span className='text text_type_main-default'>
+                            {user.error}
+                        </span>
+                    </section>
+                )}
                 <Button
                     htmlType='submit'
                     type='primary'

@@ -1,19 +1,15 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
     getUserRequest,
     loginRequest,
     logoutRequest,
     registerRequest,
     requestWithToken,
-    updateAccessTokenRequest,
     updateUserRequest
 } from '../../utils/burger-api';
 
 import {
-    IOrderListResponse,
-    ITokenResponse,
     TLoginData,
-    TOrder,
     TRegisterData,
     TUpdateUserData,
 } from '../../utils/types';
@@ -148,8 +144,8 @@ export const UserSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
+                if (action.error.message) {
+                    state.error = action.error.message;
                 }
             });
         // Logout reducers

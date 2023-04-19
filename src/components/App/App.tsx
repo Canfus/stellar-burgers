@@ -30,7 +30,7 @@ const App: FC = () => {
     useEffect(() => {
         dispatch(fetchIngredientsData());
 
-        if (!userData.isLoggedIn) {
+        if (!userData.isLoggedIn && localStorage?.accessToken) {
             dispatch(getUserData());
         }
         // eslint-disable-next-line

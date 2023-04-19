@@ -24,16 +24,21 @@ const request = async (url: string, options?: RequestInit) => {
 }
 
 export const requestWithToken = async (req: (data?: any) => Promise<any>, data?: any) => {
-    let res = await req(data)
-        if (!res.success) {
-            deleteItemLocalStorage('accessToken');
+    let res: any = null;
+    try {
+        res = await req(data);
+        console.log('token passed');
+    } catch (error: any) {
+        if (error.message === 'jwt expired') {
+            console.log('token is expired');
             await updateAccessTokenRequest()
                 .then((data: ITokenResponse) => {
                     setItemLocalStorage('accessToken', data.accessToken.split('Bearer ')[1]);
                     setItemLocalStorage('refreshToken', data.refreshToken);
-                });
+            });
             res = await req(data);
         }
+    }
     return res;
 }
 

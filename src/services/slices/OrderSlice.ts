@@ -49,6 +49,7 @@ const OrderSlice = createSlice({
         closeOrderModal: (state) => {
             state.status = 'hidden';
             state.confirmStatus = 'hidden';
+            state.orderNumber = null;
         },
         openOrderModal: (state) => {
             state.confirmStatus = 'visible';
@@ -84,8 +85,8 @@ const OrderSlice = createSlice({
             })
             .addCase(postOrder.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
+                if (action.error.message) {
+                    state.error = action.error.message;
                 }
             });
     }

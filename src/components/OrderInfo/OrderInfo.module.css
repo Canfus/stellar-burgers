@@ -1,0 +1,58 @@
+.OrderInfo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 590px;
+    margin-top: 60px;
+}
+
+.OrdersState {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.OrdersReady {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.OrdersInWork {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.OrderNumbersContainer {
+    width: 272px;
+    height: 240px;
+    overflow-y: auto;
+}
+
+.OrderNumbers {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 500px;
+}
+
+.Ready {
+    color: #00cccc;
+}
+
+.Total {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.TotalOrders {
+    text-shadow: 0 0 20px #4C4CFF;
+}

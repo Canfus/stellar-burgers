@@ -1,15 +1,19 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
     getUserRequest,
     loginRequest,
     logoutRequest,
     registerRequest,
     requestWithToken,
+    updateAccessTokenRequest,
     updateUserRequest
 } from '../../utils/burger-api';
 
 import {
+    IOrderListResponse,
+    ITokenResponse,
     TLoginData,
+    TOrder,
     TRegisterData,
     TUpdateUserData,
 } from '../../utils/types';
@@ -66,7 +70,7 @@ export const login = createAsyncThunk<IAuthResponse, TLoginData, { rejectValue: 
     }
 );
 
-export const logout = createAsyncThunk(
+export const logout = createAsyncThunk<undefined, undefined, { rejectValue: string }>(
     'userSlice/logout',
     async (_, { rejectWithValue }) => {
         try {
@@ -77,17 +81,17 @@ export const logout = createAsyncThunk(
     }
 );
 
-type TInitialState = {
+type TUserState = {
     user: {
         name: string | null;
         email: string | null;
     };
     isLoggedIn: boolean;
-    status: string | null;
+    status: 'pending' | 'ok' | 'error' | null;
     error: string | null;
 };
 
-const initialState: TInitialState = {
+const initialState: TUserState = {
     user: {
         name: null,
         email: null
@@ -121,8 +125,8 @@ export const UserSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
             });
         // Login reducers
@@ -144,8 +148,8 @@ export const UserSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
             });
         // Logout reducers
@@ -161,8 +165,8 @@ export const UserSlice = createSlice({
             })
             .addCase(logout.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
             });
         // Get userData reducer
@@ -180,8 +184,8 @@ export const UserSlice = createSlice({
             })
             .addCase(getUserData.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
             });
         // Update user reducer
@@ -197,8 +201,8 @@ export const UserSlice = createSlice({
             })
             .addCase(updateUser.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.error.message) {
-                    state.error = action.error.message;
+                if (action.payload) {
+                    state.error = action.payload;
                 }
             });
     }

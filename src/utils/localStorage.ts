@@ -1,5 +1,5 @@
-export const getItemLocalStorage = (key: string): string | null => {
-    return localStorage.getItem(key);
+export const getItemLocalStorage = (key: string): string => {
+    return localStorage.getItem(key) as string;
 }
 
 export const setItemLocalStorage = (key: string, value: string): void => {

@@ -1,9 +1,28 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import ConstructorItemsSlice from './slices/ConstructorItemsSlice';
 import IngredientsItemsSlice from './slices/IngredientsItemsSlice';
 import IngredientSlice from './slices/IngredientSlice';
 import OrderSlice from './slices/OrderSlice';
 import UserSlice from './slices/UserSlice';
+
+import { createSocketMiddleware } from './middlewares/socketMiddleware';
+import socketSlice from './slices/socketSlice';
+import { TwsActions } from '../utils/types';
+import {
+    websocketStartConnecting,
+    websocketConnecting,
+    websocketDisconnecting,
+    webSocketError
+} from './slices/socketSlice';
+
+const wsActions: TwsActions = {
+    websocketStartConnecting,
+    websocketConnecting,
+    websocketDisconnecting,
+    webSocketError
+}
+
+const socketMiddleware = createSocketMiddleware(wsActions);
 
 const store = configureStore({
     reducer: {
@@ -11,8 +30,10 @@ const store = configureStore({
         ingredientsItems: IngredientsItemsSlice,
         order: OrderSlice,
         ingredientInfo: IngredientSlice,
-        userSlice: UserSlice
-    }
+        userSlice: UserSlice,
+        socket: socketSlice
+    },
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(socketMiddleware)
 });
 
 export default store;

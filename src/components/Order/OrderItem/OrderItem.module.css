@@ -1,0 +1,80 @@
+.OrderItem {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    text-align: left;
+    width: 536px;
+    border-radius: 40px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #1c1c21;
+}
+
+.OrderInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.OrderIngredients {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.IngredientsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.IngredientImage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 68px;
+    height: 68px;
+    background: linear-gradient(45deg, #801AB2, #4C4CFF);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.IngredientImageOverlay {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.IngredientsCount {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.IngredientImageOverlay>img {
+    height: 56px;
+}
+
+.TotalPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Done {
+    color: #00cccc;
+}

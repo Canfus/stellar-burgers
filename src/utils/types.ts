@@ -1,3 +1,11 @@
+import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
+import {
+    webSocketError,
+    websocketConnecting,
+    websocketDisconnecting,
+    websocketStartConnecting
+} from "../services/slices/socketSlice";
+
 export type TIngredientItem = {
     dragId?: string;
     _id: string;
@@ -12,11 +20,26 @@ export type TIngredientItem = {
     image_mobile: string;
     image_large: string;
     __v: number;
-}
+};
+
+export type TOrder = {
+    ingredients: string[];
+    _id: string;
+    status: 'created' | 'pending' | 'done';
+    number: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+};
 
 interface IResponse {
     success: boolean;
-};
+}
+
+export interface ITokenResponse extends IResponse {
+    accessToken: string;
+    refreshToken: string;
+}
 
 export interface IAuthResponse extends IResponse {
     user: {
@@ -39,7 +62,14 @@ export interface IOrderResponse extends IResponse {
     order: {
         number: number;
     }
-};
+}
+
+export interface IOrderListResponse extends IResponse {
+    orders: TOrder[];
+    total: number;
+    totalToday: number;
+    message?: string;
+}
 
 export type TPostIngredientsData = {
     ingredients: string[];
@@ -70,3 +100,10 @@ export type TPostResetPasswordData = {
     password: string;
     code: string;
 };
+
+export type TwsActions = {
+    websocketStartConnecting: ActionCreatorWithPayload<string, "socketSlice/websocketStartConnecting">;
+    websocketConnecting: ActionCreatorWithoutPayload<'socketSlice/websocketConnecting'>;
+    websocketDisconnecting: ActionCreatorWithoutPayload<'socketSlice/websocketDisconnecting'>;
+    webSocketError: ActionCreatorWithPayload<any, 'socketSlice/webSocketError'>;
+}

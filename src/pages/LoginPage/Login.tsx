@@ -2,17 +2,18 @@ import {
     FC,
     FormEvent,
     memo,
-    useCallback
+    useCallback,
+    useEffect
 } from 'react';
 
 import { useForm } from '../../hooks/useForm';
 
 import styles from './Login.module.css';
 
-import { useAppDispatch } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { login } from '../../services/slices/UserSlice';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import {
     EmailInput,
@@ -23,6 +24,11 @@ import { TLoginData } from '../../utils/types';
 
 const Login: FC = () => {
     const dispatch = useAppDispatch();
+
+    const user = useAppSelector(store => store.userSlice);
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const initialFormState: TLoginData = {
         email: '',
@@ -35,6 +41,15 @@ const Login: FC = () => {
 
         dispatch(login(values));
     }, [dispatch, values]);
+
+    useEffect(() => {
+        if (user.isLoggedIn) {
+            if (location.state) {
+                const { from } = location.state;
+                navigate(`${from.pathname}${from.search}`);
+            }
+        }
+    }, [navigate, user, location]);
 
     return (
         <section className={styles.Login}>

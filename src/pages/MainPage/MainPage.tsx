@@ -11,22 +11,21 @@ import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredie
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
 
 import Modal from '../../components/Modal/Modal';
-import OrderDetails from '../../components/Modal/OrderDetails/OrderDetails';
+import OrderDetails from '../../components/Modal/OrderConfirmed/OrderConfirmed';
 import OrderError from '../../components/Modal/OrderError/OrderError';
 import OrderPending from '../../components/Modal/OrderPending/OrderPending';
 import ConfirmOrder from '../../components/Modal/ConfirmOrder/ConfirmOrder';
 
 
 const MainPage: FC = () => {
+    const dispatch = useAppDispatch();
+
     const state = useAppSelector((store) => store.ingredientsItems);
     const orderInfo = useAppSelector((store) => store.order);
-
-    const dispatch = useAppDispatch();
 
     const handleCloseOrderModal = useCallback(() => {
         dispatch(closeOrderModal());
     }, [dispatch]);
-
 
     return (
         <div className={styles.MainPage}>

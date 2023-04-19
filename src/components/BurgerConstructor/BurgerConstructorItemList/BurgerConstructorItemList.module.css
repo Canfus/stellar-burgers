@@ -1,7 +1,5 @@
 .BurgerConstructorItemList {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     gap: 10px;
     max-height: 440px;

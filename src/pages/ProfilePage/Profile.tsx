@@ -11,7 +11,7 @@ import { useForm } from '../../hooks/useForm';
 
 import styles from './Profile.module.css';
 
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { logout, updateUser } from '../../services/slices/UserSlice';
@@ -79,15 +79,37 @@ const Profile: FC = () => {
         <section className={styles.Profile}>
             <section className={styles.ProfileContainer}>
                 <nav className={`${styles.Navigation} mt-3 mr-15`}>
-                    <Link to='/profile' className={`text text_type_main-medium ${styles.Link} ${styles.text_color_active}`}>Профиль</Link>
-                    <Link to='/' className={`text text_type_main-medium text_color_inactive ${styles.Link}`}>История заказов</Link>
-                    <Link
+                <NavLink
+                        to='/profile'
+                        className={`text text_type_main-medium ${styles.Link}`}
+                        >
+                            {({ isActive }) => (
+                                <p className={isActive ? styles.text_color_active : 'text_color_inactive'}>
+                                    Профиль
+                                </p>
+                            )}
+                    </NavLink>
+                    <NavLink
+                        to='/profile/orders'
+                        className={`text text_type_main-medium ${styles.Link}`}
+                        >
+                            {({ isActive }) => (
+                                <p className={isActive ? styles.text_color_active : 'text_color_inactive'}>
+                                    История заказов
+                                </p>
+                            )}
+                    </NavLink>
+                    <NavLink
                         to='/login'
-                        className={`text text_type_main-medium text_color_inactive ${styles.Link}`}
+                        className={`text text_type_main-medium ${styles.Link}`}
                         onClick={handleLogout}
                     >
-                        Выход
-                    </Link>
+                        {({ isActive }) => (
+                            <p className={isActive ? styles.text_color_active : 'text_color_inactive'}>
+                                Выход
+                            </p>
+                        )}
+                    </NavLink>
                     <span className='text text_type_main-default text_color_inactive mt-20'>В этом разделе вы можете изменить свои персональные данные</span>
                 </nav>
                 <form

@@ -1,4 +1,4 @@
-import { deleteItemLocalStorage, getItemLocalStorage, setItemLocalStorage } from './localStorage';
+import { getItemLocalStorage, setItemLocalStorage } from './localStorage';
 
 import {
     TPostIngredientsData,

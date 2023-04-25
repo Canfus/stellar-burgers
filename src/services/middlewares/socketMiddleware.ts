@@ -45,7 +45,7 @@ export const createSocketMiddleware = (wsActions: TwsActions): Middleware => {
                         console.log(`Server closed with code ${event.code}.\n${event.reason}`);
                         dispatch(wsActions.webSocketError(event.reason));
                     }
-    
+                    
                     if (isConnected) {
                         console.log('Автопереподключение');
                         dispatch(wsActions.websocketConnecting());

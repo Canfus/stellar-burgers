@@ -110,7 +110,7 @@ const BurgerConstructor: FC = () => {
                                 htmlType='button'
                                 type='primary'
                                 size='medium'
-                                extraClass='mr-4'
+                                extraClass='mr-4 mb-5'
                                 onClick={handleCheckOrder}
                             >
                                 {order === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ`}

@@ -73,7 +73,6 @@ const ProfileOrders: FC = () => {
                             >
                                 Выход
                             </Link>
-                            <span className='text text_type_main-default text_color_inactive mt-20'>В этом разделе вы можете изменить свои персональные данные</span>
                         </nav>
                         <section className={styles.OrderList}>
                             {orders && orders.map(order => (

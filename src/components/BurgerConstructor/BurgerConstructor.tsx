@@ -119,7 +119,7 @@ const BurgerConstructor: FC = () => {
                     </>
                 ) : (
                     <span className={`text text_type_main-large ${styles.BurgerConstructorEmpty} ml-10`}>
-                        Добавьте булку и полетели
+                        Перетяните булку и полетели
                     </span>
                 )
             }

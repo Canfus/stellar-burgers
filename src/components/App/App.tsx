@@ -41,7 +41,7 @@ const App: FC = () => {
 
 
     const location = useLocation();
-    let background = location.state && location.state.background;
+    let background: Location = location.state && location.state.background;
 
     return (
         <div className={styles.App}>

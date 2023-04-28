@@ -1,10 +1,4 @@
-import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
-import {
-    webSocketError,
-    websocketConnecting,
-    websocketDisconnecting,
-    websocketStartConnecting
-} from "../services/slices/socketSlice";
+import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 
 export type TIngredientItem = {
     dragId?: string;

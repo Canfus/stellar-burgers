@@ -6,17 +6,17 @@ import {
     registerRequest,
     requestWithToken,
     updateUserRequest
-} from '../../utils/burger-api';
+} from '../../../utils/burger-api';
 
 import {
     TLoginData,
     TRegisterData,
     TUpdateUserData,
-} from '../../utils/types';
+} from '../../../utils/types';
 
-import { IAuthResponse, IUserResponse } from '../../utils/types';
+import { IAuthResponse, IUserResponse } from '../../../utils/types';
 
-import { deleteItemLocalStorage, setItemLocalStorage } from '../../utils/localStorage';
+import { deleteItemLocalStorage, setItemLocalStorage } from '../../../utils/localStorage';
 
 export const register = createAsyncThunk<IAuthResponse, TRegisterData, { rejectValue: string }>(
     'userSlice/register',
@@ -121,8 +121,8 @@ export const UserSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
+                if (action.error.message) {
+                    state.error = action.error.message;
                 }
             });
         // Login reducers

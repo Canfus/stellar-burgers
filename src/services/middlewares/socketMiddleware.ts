@@ -1,6 +1,6 @@
 import { Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 
-import { setOrders } from '../slices/OrderSlice';
+import { setOrders } from '../slices/order/OrderSlice';
 import { IOrderListResponse, TwsActions } from '../../utils/types';
 import { updateAccessTokenRequest } from '../../utils/burger-api';
 import { AppDispatch, RootState } from '../store';

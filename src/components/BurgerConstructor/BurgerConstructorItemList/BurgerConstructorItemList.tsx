@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import styles from './BurgerConstructorItemList.module.css';
 
 import { useAppDispatch } from '../../../hooks/hooks';
-import { updateConstructorItems } from '../../../services/slices/ConstructorItemsSlice';
+import { updateConstructorItems } from '../../../services/slices/constructor/ConstructorItemsSlice';
 
 import { Reorder } from 'framer-motion';
 

@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { postIngredients } from '../../utils/burger-api';
-import { IOrderListResponse, IOrderResponse, TOrder } from '../../utils/types';
+import { postIngredients } from '../../../utils/burger-api';
+import { IOrderListResponse, IOrderResponse, TOrder } from '../../../utils/types';
 
 export const postOrder = createAsyncThunk<IOrderResponse, string[], { rejectValue: string }>(
     'orderSlice/postOrder',
@@ -28,7 +28,7 @@ type TOrderState = {
     }
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
     status: 'hidden',
     confirmStatus: 'hidden',
     error: null,

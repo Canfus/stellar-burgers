@@ -11,7 +11,7 @@ import { useForm } from '../../hooks/useForm';
 import styles from './Login.module.css';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { login } from '../../services/slices/UserSlice';
+import { login } from '../../services/slices/user/UserSlice';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 

@@ -51,6 +51,8 @@
     ]
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.3",
+    "cypress": "^12.11.0",
     "gh-pages": "^5.0.0"
   },
   "homepage": "./"

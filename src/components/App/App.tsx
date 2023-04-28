@@ -2,8 +2,8 @@ import { FC, memo, useEffect } from 'react';
 import styles from './App.module.css';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
-import { getUserData } from '../../services/slices/UserSlice';
+import { fetchIngredientsData } from '../../services/slices/ingredients/IngredientsItemsSlice';
+import { getUserData } from '../../services/slices/user/UserSlice';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRouteElement';

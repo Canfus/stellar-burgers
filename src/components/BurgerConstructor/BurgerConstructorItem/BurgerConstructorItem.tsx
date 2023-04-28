@@ -6,7 +6,7 @@ import { Reorder } from 'framer-motion';
 import { TIngredientItem } from '../../../utils/types';
 
 import { useAppDispatch } from '../../../hooks/hooks';
-import { deleteConstructorItem } from '../../../services/slices/ConstructorItemsSlice';
+import { deleteConstructorItem } from '../../../services/slices/constructor/ConstructorItemsSlice';
 
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -22,7 +22,7 @@ const BurgerConstructorItem: FC<BurgerConstructorItemProps> = ({ item }) => {
     }
 
     return (
-        <Reorder.Item value={item} as='section' transition={{ type: 'tween', duration: 0.3 }}>
+        <Reorder.Item value={item} as='section' transition={{ type: 'tween', duration: 0.3 }} test-id={'constructor-item'}>
             <DragIcon type='primary' />
             <ConstructorElement
                 text={item.name}

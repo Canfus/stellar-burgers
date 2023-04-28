@@ -32,7 +32,7 @@ const Modal: FC<ModalProps> = (props) => {
 
     return createPortal(
         (
-            <div className={styles.Modal}>
+            <div className={styles.Modal} test-id={'close-modal'}>
                 <ModalOverlay onClose={onClose} />
                 <section className={styles.ModalContent}>
                     <section className={`${styles.Close} mt-15 mr-10`}>

@@ -48,7 +48,10 @@ const AppHeader: FC = () => {
                     {({ isActive }) => (
                         <>
                             <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
-                            <span className={`text text_type_main-default ${isActive ? styles.text_color_active : 'text_color_inactive'} ml-2`}>
+                            <span
+                                className={`text text_type_main-default ${isActive ? styles.text_color_active : 'text_color_inactive'} ml-2`}
+                                test-id={'username'}
+                            >
                                 {userData.isLoggedIn ? userData.user.name : 'Личный кабинет'}
                             </span>
                         </>

@@ -9,8 +9,8 @@ import { useForm } from '../../hooks/useForm';
 
 import styles from './Register.module.css';
 
-import { useAppDispatch } from '../../hooks/hooks';
-import { register } from '../../services/slices/UserSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { register } from '../../services/slices/user/UserSlice';
 
 import { Link } from 'react-router-dom';
 
@@ -25,6 +25,8 @@ import { TRegisterData } from '../../utils/types';
 
 const Register: FC = () => {
     const dispatch = useAppDispatch();
+
+    const userError = useAppSelector(store => store.userSlice);
 
     const initialFormState: TRegisterData = {
         name: '',
@@ -65,8 +67,15 @@ const Register: FC = () => {
                     onChange={handleChange}
                     value={values.password}
                     name={'password'}
-                    extraClass='mt-6 mb-6'
+                    extraClass='mt-6 mb-3'
                 />
+                {userError.status === 'error' && (
+                    <section className={`${styles.Error} mb-3`}>
+                        <span className='text text_type_main-default'>
+                            {userError.error}
+                        </span>
+                    </section>
+                )}
                 <Button
                     htmlType='submit'
                     type='primary'

@@ -1,9 +1,9 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import ConstructorItemsSlice from './slices/ConstructorItemsSlice';
-import IngredientsItemsSlice from './slices/IngredientsItemsSlice';
-import IngredientSlice from './slices/IngredientSlice';
-import OrderSlice from './slices/OrderSlice';
-import UserSlice from './slices/UserSlice';
+import ConstructorItemsSlice from './slices/constructor/ConstructorItemsSlice';
+import IngredientsItemsSlice from './slices/ingredients/IngredientsItemsSlice';
+import IngredientSlice from './slices/ingredient/IngredientSlice';
+import OrderSlice from './slices/order/OrderSlice';
+import UserSlice from './slices/user/UserSlice';
 
 import { createSocketMiddleware } from './middlewares/socketMiddleware';
 import socketSlice from './slices/socketSlice';

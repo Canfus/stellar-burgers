@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import ConstructorItemsSlice from './slices/constructor/ConstructorItemsSlice';
 import IngredientsItemsSlice from './slices/ingredients/IngredientsItemsSlice';
 import IngredientSlice from './slices/ingredient/IngredientSlice';

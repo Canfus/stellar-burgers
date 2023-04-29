@@ -8,7 +8,7 @@ const initialState: TIngredientItemState = {
     status: 'hidden'
 };
 
-export const IngredientSlice = createSlice({
+const IngredientSlice = createSlice({
     name: 'ingredientSlice',
     initialState,
     reducers: {

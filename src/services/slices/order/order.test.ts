@@ -1,5 +1,10 @@
 import {
     initialState,
+    closeOrderModal,
+    openOrderModal,
+    openOrderDetails,
+    closeOrderDetails,
+    clearOrders,
     setOrders
 } from './OrderSlice';
 
@@ -41,5 +46,90 @@ describe('Order slice', () => {
             total: order.total,
             totalToday: order.totalToday
         });
+    });
+
+    it('Should open confirm order modal', () => {
+        store.dispatch(openOrderModal());
+
+        expect({
+            ...initialState,
+            confirmStatus: 'visible'
+        })
+        .toEqual({
+            ...initialState,
+            confirmStatus: 'visible'
+        })
+    });
+
+    it('Should close confirm and order modals', () => {
+        store.dispatch(closeOrderModal());
+
+        expect({
+            ...initialState,
+            status: 'hidden',
+            confirmStatus: 'hidden',
+            orderNumber: null
+        })
+        .toEqual({
+            ...initialState,
+            status: 'hidden',
+            confirmStatus: 'hidden',
+            orderNumber: null
+        })
+    });
+
+    it('Should open order details modal', () => {
+        store.dispatch(openOrderDetails());
+
+        expect({
+            ...initialState,
+            currentOrder: {
+                ...initialState.currentOrder,
+                status: 'visible'
+            }
+        })
+        .toEqual({
+            ...initialState,
+            currentOrder: {
+                ...initialState.currentOrder,
+                status: 'visible'
+            }
+        });
+    });
+
+    it('Should close order details modal', () => {
+        store.dispatch(closeOrderDetails());
+
+        expect({
+            ...initialState,
+            currentOrder: {
+                ...initialState.currentOrder,
+                status: 'hidden'
+            }
+        })
+        .toEqual({
+            ...initialState,
+            currentOrder: {
+                ...initialState.currentOrder,
+                status: 'hidden'
+            }
+        });
+    });
+
+    it('Should clear orders', () => {
+        store.dispatch(clearOrders());
+
+        expect({
+            ...initialState,
+            orders: [],
+            total: null,
+            totalToday: null
+        })
+        .toEqual({
+            ...initialState,
+            orders: [],
+            total: null,
+            totalToday: null
+        })
     });
 });

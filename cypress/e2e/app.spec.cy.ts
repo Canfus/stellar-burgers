@@ -11,9 +11,11 @@ describe('App is available', () => {
     });
 
     it('Should show ingredient details modal', () => {
+        cy.get('[id="modals"]').as('modal');
+
         cy.get('[test-id="ingredient-item"]').first().click();
-        cy.get('[id="modals"]').contains('Детали ингредиента');
-        cy.get('[id="modals"]').find('[test-id="close-modal"]').click();
+        cy.get('@modal').contains('Детали ингредиента');
+        cy.get('@modal').find('[test-id="close-modal"]').click();
     });
 
     it('Should add new ingredient to constructor with drag&drop', () => {
@@ -25,7 +27,9 @@ describe('App is available', () => {
     });
 
     it('Should log in', () => {
-        cy.visit('/login');
+        cy.get('[test-id="username"]').as('username');
+
+        cy.get('@username').contains('Личный кабинет').click();
 
         cy.get('[name="email"]').type('canfus69@gmail.com');
         cy.get('[name="password"]').type('Cerfgthljkb123');
@@ -35,19 +39,21 @@ describe('App is available', () => {
     });
 
     it('Should log out', () => {
-        cy.visit('/login');
+        cy.get('[test-id="username"]').as('username');
+
+        cy.get('@username').contains('Личный кабинет').click();
 
         cy.get('[name="email"]').type('canfus69@gmail.com');
         cy.get('[name="password"]').type('Cerfgthljkb123');
         cy.get('button').contains('Войти').click();
 
-        cy.get('[test-id="username"]').contains('Никита');
+        cy.get('@username').contains('Никита');
 
-        cy.visit('/profile');
+        cy.get('@username').contains('Никита').click();
 
         cy.get('p').contains('Выход').click();
 
-        cy.get('[test-id="username"]').contains('Личный кабинет');
+        cy.get('@username').contains('Личный кабинет');
     });
 
     it('Should post new order', () => {

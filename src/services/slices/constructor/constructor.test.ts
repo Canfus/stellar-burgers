@@ -3,7 +3,8 @@ import {
     initialState,
     addConstructorItem,
     deleteConstructorItem,
-    clearConstructorItems
+    clearConstructorItems,
+    updateConstructorItems
 } from './ConstructorItemsSlice';
 
 import store from '../../store';
@@ -46,5 +47,12 @@ describe('Constructor Slice', () => {
         store.dispatch(clearConstructorItems());
         expect({ items: [] })
         .toEqual(initialState);
+    });
+
+    it('Should update ingredients', () => {
+        const expectedValue = store.dispatch(updateConstructorItems([ingredient]));
+
+        expect({ items: expectedValue.payload })
+        .toEqual({ items: [ingredient] });
     });
 });

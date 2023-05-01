@@ -18,14 +18,14 @@ import {
 
 describe('User slice', () => {
     const alpha = Array.from(Array(26)).map((_, index) => index + 65);
-    const letters = alpha.map(index => String.fromCharCode(index).toLowerCase());
+    const letters = alpha.map(index => String.fromCharCode(index));
 
     const getRnd = () => {
         const rnd: string[] = [];
         for (let i = 0; i < 10; i++) {
             rnd.push(letters[Math.floor(Math.random() * letters.length)]);
         }
-        return rnd.join('');
+        return rnd.join('').toLowerCase();
     }
 
     it('Should register', async () => {
@@ -123,13 +123,3 @@ describe('User slice', () => {
         expect(localStorage.getItem('refreshToken')).toBeNull();
     });
 });
-
-/*
-    state.status = null;
-    state.user.name = null;
-    state.user.email = null;
-    state.error = null;
-    state.isLoggedIn = false;
-    deleteItemLocalStorage('accessToken');
-    deleteItemLocalStorage('refreshToken');
-*/

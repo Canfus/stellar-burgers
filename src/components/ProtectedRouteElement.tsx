@@ -17,7 +17,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({ element, anonymous = f
     const from = location.state?.from || '/';
 
     if (background && !isLoggedIn) {
-        return <h1>Loading...</h1>;
+        return null;
     }
 
     if (anonymous && isLoggedIn) {

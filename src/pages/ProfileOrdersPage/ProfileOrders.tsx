@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { logout } from '../../services/slices/UserSlice';
+import { logout } from '../../services/slices/user/UserSlice';
 
 import { Link, useLocation } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ import OrderItem from '../../components/Order/OrderItem/OrderItem';
 import { getItemLocalStorage } from '../../utils/localStorage';
 import { websocketDisconnecting, websocketStartConnecting } from '../../services/slices/socketSlice';
 import { WS_BURGER_API_URL } from '../../utils/burger-api';
-import { clearOrders } from '../../services/slices/OrderSlice';
+import { clearOrders } from '../../services/slices/order/OrderSlice';
 import Loader from '../../components/Loader/Loader';
 
 const ProfileOrders: FC = () => {
@@ -73,7 +73,6 @@ const ProfileOrders: FC = () => {
                             >
                                 Выход
                             </Link>
-                            <span className='text text_type_main-default text_color_inactive mt-20'>В этом разделе вы можете изменить свои персональные данные</span>
                         </nav>
                         <section className={styles.OrderList}>
                             {orders && orders.map(order => (

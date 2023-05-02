@@ -25,3 +25,7 @@
     color: #4c4cff;
     margin-left: .5em;
 }
+
+.Error {
+    color: red;
+}

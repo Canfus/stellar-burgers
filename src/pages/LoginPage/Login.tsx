@@ -11,7 +11,7 @@ import { useForm } from '../../hooks/useForm';
 import styles from './Login.module.css';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { login } from '../../services/slices/UserSlice';
+import { login } from '../../services/slices/user/UserSlice';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -70,8 +70,15 @@ const Login: FC = () => {
                     onChange={handleChange}
                     value={values.password}
                     name={'password'}
-                    extraClass='mt-6 mb-6'
+                    extraClass='mt-6 mb-3'
                 />
+                {user.status === 'error' && (
+                    <section className={`${styles.Error} mb-3`}>
+                        <span className='text text_type_main-default'>
+                            {user.error}
+                        </span>
+                    </section>
+                )}
                 <Button
                     htmlType='submit'
                     type='primary'

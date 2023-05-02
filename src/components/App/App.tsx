@@ -2,8 +2,8 @@ import { FC, memo, useEffect } from 'react';
 import styles from './App.module.css';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { fetchIngredientsData } from '../../services/slices/IngredientsItemsSlice';
-import { getUserData } from '../../services/slices/UserSlice';
+import { fetchIngredientsData } from '../../services/slices/ingredients/IngredientsItemsSlice';
+import { getUserData } from '../../services/slices/user/UserSlice';
 
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRouteElement';
@@ -30,7 +30,7 @@ const App: FC = () => {
     useEffect(() => {
         dispatch(fetchIngredientsData());
 
-        if (!userData.isLoggedIn) {
+        if (!userData.isLoggedIn && localStorage?.accessToken) {
             dispatch(getUserData());
         }
         // eslint-disable-next-line
@@ -41,7 +41,7 @@ const App: FC = () => {
 
 
     const location = useLocation();
-    let background = location.state && location.state.background;
+    let background: Location = location.state && location.state.background;
 
     return (
         <div className={styles.App}>

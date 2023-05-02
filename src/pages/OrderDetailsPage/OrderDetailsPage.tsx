@@ -8,7 +8,7 @@ import styles from './OrderDetailsPage.module.css';
 import OrderDetails from '../../components/Modal/OrderDetails/OrderDetails';
 import { websocketDisconnecting, websocketStartConnecting } from '../../services/slices/socketSlice';
 import { WS_BURGER_API_URL } from '../../utils/burger-api';
-import { clearOrders } from '../../services/slices/OrderSlice';
+import { clearOrders } from '../../services/slices/order/OrderSlice';
 import { getItemLocalStorage } from '../../utils/localStorage';
 import Loader from '../../components/Loader/Loader';
 

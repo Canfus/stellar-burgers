@@ -1,6 +1,6 @@
 import { Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 
-import { setOrders } from '../slices/OrderSlice';
+import { setOrders } from '../slices/order/OrderSlice';
 import { IOrderListResponse, TwsActions } from '../../utils/types';
 import { updateAccessTokenRequest } from '../../utils/burger-api';
 import { AppDispatch, RootState } from '../store';
@@ -45,7 +45,7 @@ export const createSocketMiddleware = (wsActions: TwsActions): Middleware => {
                         console.log(`Server closed with code ${event.code}.\n${event.reason}`);
                         dispatch(wsActions.webSocketError(event.reason));
                     }
-    
+                    
                     if (isConnected) {
                         console.log('Автопереподключение');
                         dispatch(wsActions.websocketConnecting());

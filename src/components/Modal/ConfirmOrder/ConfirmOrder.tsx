@@ -7,8 +7,8 @@ import {
 import styles from './ConfirmOrder.module.css';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { closeOrderModal, postOrder } from '../../../services/slices/OrderSlice';
-import { clearConstructorItems } from '../../../services/slices/ConstructorItemsSlice';
+import { closeOrderModal, postOrder } from '../../../services/slices/order/OrderSlice';
+import { clearConstructorItems } from '../../../services/slices/constructor/ConstructorItemsSlice';
 
 import {
     Button,
@@ -52,7 +52,7 @@ const ConfirmOrder: FC = () => {
     }
 
     return (
-        <div className={styles.ConfirmOrder}>
+        <div className={styles.ConfirmOrder} test-id={'confirm-order'}>
             <header className={`${styles.ConfirmOrderHeader} ml-10 mt-15 mr-10`}>
                 <InfoIcon type='primary' />
                 <span className='text text_type_main-large ml-2'>

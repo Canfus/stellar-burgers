@@ -1,4 +1,4 @@
-import { FC, memo, useCallback } from 'react';
+import { FC, memo, FormEvent } from 'react';
 import styles from './ForgotPassword.module.css';
 
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { useAppSelector } from '../../hooks/hooks';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { postResetCode } from '../../utils/burger-api';
-import { setItemLocalStorage } from '../../utils/localStorage';
+
 import { useForm } from '../../hooks/useForm';
 
 import { TPostResetCodeData } from '../../utils/types';
@@ -26,16 +26,16 @@ const ForgotPassword: FC = () => {
 
     const { values, handleChange } = useForm(initialFormState);
 
-    const handlePostResetCode = useCallback(async () => {
+    const handlePostResetCode = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         const res = await postResetCode(values.email);
         if (res.success) {
-            setItemLocalStorage('isCodeSent', 'true');
-            navigate('/reset-password', { state: { from: location } });
+            navigate('/reset-password', { state: { codeSent: true } });
         }
-    }, [values, navigate]);
+    };
 
     if (isLoggedIn) {
-        return <Navigate to={ from } />
+        return <Navigate to={from} />
     }
 
     return (
@@ -53,15 +53,13 @@ const ForgotPassword: FC = () => {
                     isIcon={false}
                     extraClass='mt-6 mb-6'
                 />
-                <Link to='/reset-password'>
-                    <Button
-                        htmlType='submit'
-                        type='primary'
-                        size='medium'
-                    >
-                        Восстановить
-                    </Button>
-                </Link>
+                <Button
+                    htmlType='submit'
+                    type='primary'
+                    size='medium'
+                >
+                    Восстановить
+                </Button>
                 <section className={`${styles.Support} mt-20`}>
                     <span className='text text_type_main-default text_color_inactive'>Вспомнили пароль?</span>
                     <Link to='/login' className={`text text_type_main-default text_color_inactive ${styles.Link}`}>Войти</Link>

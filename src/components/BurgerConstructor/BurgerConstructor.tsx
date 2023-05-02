@@ -9,8 +9,8 @@ import styles from './BurgerConstructor.module.css';
 import { TIngredientItem } from '../../utils/types';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { addConstructorItem } from '../../services/slices/ConstructorItemsSlice';
-import { openOrderModal } from '../../services/slices/OrderSlice';
+import { addConstructorItem } from '../../services/slices/constructor/ConstructorItemsSlice';
+import { openOrderModal } from '../../services/slices/order/OrderSlice';
 
 import { useDrop } from 'react-dnd';
 import uuid from 'react-uuid';
@@ -66,6 +66,7 @@ const BurgerConstructor: FC = () => {
         <div
             ref={dropTargetRef}
             className={`${styles.BurgerConstructor} ml-10 mt-25`}
+            test-id={'constructor'}
         >
             {constructorItems.length ?
                 (
@@ -110,7 +111,7 @@ const BurgerConstructor: FC = () => {
                                 htmlType='button'
                                 type='primary'
                                 size='medium'
-                                extraClass='mr-4'
+                                extraClass='mr-4 mb-5'
                                 onClick={handleCheckOrder}
                             >
                                 {order === 'pending' ? `Оформляем Ваш заказ...` : `Оформить заказ`}
@@ -118,8 +119,8 @@ const BurgerConstructor: FC = () => {
                         </section>
                     </>
                 ) : (
-                    <span className={`text text_type_main-large ${styles.BurgerConstructorEmpty} ml-10`}>
-                        Добавьте булку и полетели
+                    <span className={`text text_type_main-large ${styles.BurgerConstructorEmpty} ml-10`} test-id={'constructor-empty'}>
+                        Перетяните булку и полетели
                     </span>
                 )
             }

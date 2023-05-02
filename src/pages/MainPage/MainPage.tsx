@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import styles from './MainPage.module.css';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { closeOrderModal } from '../../services/slices/OrderSlice';
+import { closeOrderModal } from '../../services/slices/order/OrderSlice';
 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';

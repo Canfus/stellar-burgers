@@ -1,26 +1,22 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
     getUserRequest,
     loginRequest,
     logoutRequest,
     registerRequest,
     requestWithToken,
-    updateAccessTokenRequest,
     updateUserRequest
-} from '../../utils/burger-api';
+} from '../../../utils/burger-api';
 
 import {
-    IOrderListResponse,
-    ITokenResponse,
     TLoginData,
-    TOrder,
     TRegisterData,
     TUpdateUserData,
-} from '../../utils/types';
+} from '../../../utils/types';
 
-import { IAuthResponse, IUserResponse } from '../../utils/types';
+import { IAuthResponse, IUserResponse } from '../../../utils/types';
 
-import { deleteItemLocalStorage, setItemLocalStorage } from '../../utils/localStorage';
+import { deleteItemLocalStorage, setItemLocalStorage } from '../../../utils/localStorage';
 
 export const register = createAsyncThunk<IAuthResponse, TRegisterData, { rejectValue: string }>(
     'userSlice/register',
@@ -91,7 +87,7 @@ type TUserState = {
     error: string | null;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
     user: {
         name: null,
         email: null
@@ -125,8 +121,8 @@ export const UserSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
+                if (action.error.message) {
+                    state.error = action.error.message;
                 }
             });
         // Login reducers
@@ -148,8 +144,8 @@ export const UserSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
+                if (action.error.message) {
+                    state.error = action.error.message;
                 }
             });
         // Logout reducers

@@ -14,7 +14,7 @@ import styles from './Profile.module.css';
 import { NavLink } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { logout, updateUser } from '../../services/slices/UserSlice';
+import { logout, updateUser } from '../../services/slices/user/UserSlice';
 
 import {
     Input,

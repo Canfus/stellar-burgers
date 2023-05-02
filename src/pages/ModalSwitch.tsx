@@ -1,13 +1,13 @@
 import { FC, memo } from 'react';
 
 import { useAppDispatch } from '../hooks/hooks';
-import { closeIngredientInfo } from '../services/slices/IngredientSlice';
+import { closeIngredientInfo } from '../services/slices/ingredient/IngredientSlice';
 
 import { Route, useNavigate, Routes } from 'react-router-dom';
 
 import IngredientDetails from '../components/Modal/IngredientDetails/IngredientDetails';
 import Modal from '../components/Modal/Modal';
-import { closeOrderDetails } from '../services/slices/OrderSlice';
+import { closeOrderDetails } from '../services/slices/order/OrderSlice';
 import OrderDetails from '../components/Modal/OrderDetails/OrderDetails';
 import { ProtectedRoute } from '../components/ProtectedRouteElement';
 

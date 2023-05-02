@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { postIngredients } from '../../utils/burger-api';
-import { IOrderListResponse, IOrderResponse, TOrder } from '../../utils/types';
+import { postIngredients } from '../../../utils/burger-api';
+import { IOrderListResponse, IOrderResponse, TOrder } from '../../../utils/types';
 
 export const postOrder = createAsyncThunk<IOrderResponse, string[], { rejectValue: string }>(
     'orderSlice/postOrder',
@@ -28,7 +28,7 @@ type TOrderState = {
     }
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
     status: 'hidden',
     confirmStatus: 'hidden',
     error: null,
@@ -49,6 +49,7 @@ const OrderSlice = createSlice({
         closeOrderModal: (state) => {
             state.status = 'hidden';
             state.confirmStatus = 'hidden';
+            state.orderNumber = null;
         },
         openOrderModal: (state) => {
             state.confirmStatus = 'visible';
@@ -84,8 +85,8 @@ const OrderSlice = createSlice({
             })
             .addCase(postOrder.rejected, (state, action) => {
                 state.status = 'error';
-                if (action.payload) {
-                    state.error = action.payload;
+                if (action.error.message) {
+                    state.error = action.error.message;
                 }
             });
     }

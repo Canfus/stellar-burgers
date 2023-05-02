@@ -1,13 +1,13 @@
 import {
     FC,
     memo,
-    useCallback,
+    FormEvent,
     useEffect
 } from 'react';
 
 import styles from './ResetPassword.module.css';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/hooks';
 
@@ -19,18 +19,18 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { postResetPassword } from '../../utils/burger-api';
-import { deleteItemLocalStorage, getItemLocalStorage } from '../../utils/localStorage';
 import { useForm } from '../../hooks/useForm';
 
 import { TPostResetPasswordData } from '../../utils/types';
 
 const ResetPassword: FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const isLoggedIn = useAppSelector((store) => store.userSlice.isLoggedIn);
 
     useEffect(() => {
-        if (getItemLocalStorage('isCodeSent') !== 'true') {
+        if (!location.state?.codeSent) {
             navigate(-1);
         }
         if (isLoggedIn) {
@@ -45,14 +45,14 @@ const ResetPassword: FC = () => {
 
     const { values, handleChange } = useForm(initialFormState);
 
-    const handleResetPassword = useCallback(async () => {
+    const handleResetPassword = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         const res = await postResetPassword(values);
 
         if (res.success) {
-            deleteItemLocalStorage('isCodeSent');
             navigate('/login');
         }
-    }, [navigate, values]);
+    };
     return (
         <section className={styles.ResetPassword}>
             <form
@@ -76,10 +76,9 @@ const ResetPassword: FC = () => {
                     extraClass='mt-6 mb-6'
                 />
                 <Button
-                    htmlType='button'
+                    htmlType='submit'
                     type='primary'
                     size='medium'
-                    onClick={handleResetPassword}
                     extraClass='mb-20'
                 >
                     Сохранить

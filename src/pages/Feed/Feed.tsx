@@ -8,7 +8,7 @@ import { WS_BURGER_API_URL } from '../../utils/burger-api';
 import OrderList from '../../components/Order/OrderList/OrderList';
 
 import styles from './Feed.module.css';
-import { clearOrders } from '../../services/slices/OrderSlice';
+import { clearOrders } from '../../services/slices/order/OrderSlice';
 import OrderInfo from '../../components/OrderInfo/OrderInfo';
 import Loader from '../../components/Loader/Loader';
 

@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getIngredientData } from '../../utils/burger-api';
-import { TIngredientItem } from '../../utils/types';
+import { getIngredientData } from '../../../utils/burger-api';
+import { TIngredientItem } from '../../../utils/types';
 
 export const fetchIngredientsData = createAsyncThunk<TIngredientItem[], undefined, { rejectValue: string }>(
     'ingredientsItems/fetchData',
@@ -19,7 +19,7 @@ type TIngredientsItemsState = {
     items: TIngredientItem[];
 };
 
-const initialState: TIngredientsItemsState = {
+export const initialState: TIngredientsItemsState = {
     status: null,
     error: null,
     items: []
@@ -57,6 +57,6 @@ export const IngredientsItemsSlice = createSlice({
     }
 });
 
-export const { setIngredientsItems } = IngredientsItemsSlice.actions;
+export const { setIngredientsItems, error } = IngredientsItemsSlice.actions;
 
 export default IngredientsItemsSlice.reducer;

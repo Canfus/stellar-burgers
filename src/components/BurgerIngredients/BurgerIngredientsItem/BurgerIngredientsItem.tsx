@@ -8,7 +8,7 @@ import {
 import styles from './BurgerIngredientsItem.module.css';
 
 import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
-import { showIngredientInfo } from '../../../services/slices/IngredientSlice';
+import { showIngredientInfo } from '../../../services/slices/ingredient/IngredientSlice';
 
 import { useDrag } from 'react-dnd';
 
@@ -46,6 +46,7 @@ const BurgerIngredientsItem: FC<BurgerIngredientsItemProps> = ({ item }) => {
             className={styles.Link}
             to={`/ingredients/${item._id}`}
             state={{ background: location }}
+            test-id={'ingredient-item'}
         >
             <div
                 ref={dragRef}
